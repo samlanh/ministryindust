@@ -1,0 +1,19 @@
+﻿[2017-09-21 16:07:02] user name=>admin module=>departmentcontroller name=>:index action =>index error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'c.parent' inconnu dans field list
+[2017-09-21 16:08:13] user name=>admin module=>departmentcontroller name=>:index action =>index error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'c.parent' inconnu dans field list
+[2017-09-21 16:17:34] user name=>admin module=>departmentcontroller name=>:index action =>index error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'c.parent' inconnu dans field list
+[2017-09-21 17:50:34] user name=>admin module=>departmentcontroller name=>:index action =>edit error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'js' inconnu dans where clause
+[2017-09-21 17:51:14] user name=>admin module=>departmentcontroller name=>:index action =>edit error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'js' inconnu dans where clause
+[2017-09-21 17:51:40] user name=>admin module=>departmentcontroller name=>:index action =>edit error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'js' inconnu dans where clause
+[2017-09-22 10:32:43] [user]:admin [module]:rsvacl [controller]:useraccess [action]:update-status [id]:203
+[2017-09-22 10:33:10] [user]:admin [module]:rsvacl [controller]:useraccess [action]:update-status [id]:204
+[2017-09-22 10:33:10] [user]:admin [module]:rsvacl [controller]:useraccess [action]:update-status [id]:205
+[2017-09-22 17:10:48] user name=>admin module=>documentcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'crate_date' inconnu dans field list
+[2017-09-22 17:12:07] user name=>admin module=>documentcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'crate_date' inconnu dans field list
+[2017-09-22 17:25:03] [user]:admin [module]:rsvacl [controller]:useraccess [action]:update-status [id]:206
+[2017-09-22 17:25:03] [user]:admin [module]:rsvacl [controller]:useraccess [action]:update-status [id]:207
+[2017-09-22 17:25:04] [user]:admin [module]:rsvacl [controller]:useraccess [action]:update-status [id]:208
+[2017-09-25 08:03:37] user name=> module=>menu-managercontroller name=>:menu-items action =>index error name=>SQLSTATE[42000]: Syntax error or access violation: 1064 Erreur de syntaxe près de 'LIMIT 1) AS name,
+			m.`parent`
+			 FROM `mini_menu` AS m WHERE m.`status`>-1 ' à la ligne 2
+[2017-09-28 15:39:30] user name=>admin module=>aboutcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'cd.language_id' inconnu dans where clause
+[2017-09-28 15:41:26] user name=>admin module=>aboutcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Champ 'a.depart_parentid' inconnu dans field list
