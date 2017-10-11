@@ -277,5 +277,36 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		$order = "  ORDER BY act.`id` DESC";
 		return $db->fetchAll($sql.$where.$order);
 	}
+	
+	
+	public function getAllCompanySearch($data){
+		$db=$this->getAdapter();
+		$lang = $this->getCurrentLang();
+		$sql="
+		SELECT c.*,
+		(SELECT cd.title FROM `mini_department_detail` AS cd WHERE cd.department_id = c.`depart_id` AND cd.language_id=$lang LIMIT 1) AS department_name,
+		(SELECT province_kh_name FROM mini_province WHERE  province_id=c.province_id LIMIT 1) as province_name
+		FROM `mini_company` AS c WHERE com_name!='' ";
+		 
+		if(!empty($data['zip_code'])){
+			$s_where = array();
+			$s_search = addslashes(trim($data['zip_code']));
+			$s_where[] = " com_code LIKE '%{$s_search}%'";
+			$sql.=' AND ('.implode(' OR ',$s_where).')';
+		}
+		if ($data['oranization']>0){
+			$sql.=" AND c.`depart_id`=".$data['oranization'];
+		}
+		if ($data['province']>0){
+			$sql.=" AND c.`province_id`=".$data['province'];
+		}
+		if(!empty($data['product'])){
+			$s_where = array();
+			$s_search = addslashes(trim($data['product']));
+			$s_where[] = " product LIKE '%{$s_search}%'";
+			$sql.=' AND ('.implode(' OR ',$s_where).')';
+		}
+		return $db->fetchAll($sql);
+	}
 }
 ?>

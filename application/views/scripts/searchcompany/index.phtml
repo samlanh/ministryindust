@@ -1,23 +1,99 @@
+<?php 
+$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("SEARCH_ORG");?></title>
 <div class="blog-two-area ptb-20">
 			<a href="#"><img src="<?php echo $this->baseUrl()."/template/"?>formheader.jpg" alt=""></a>
-</div>  
+</div> 
 <div class="blog-two-area ptb-20">
 			<div class="container">
                  <div class="row">
 					<div class="col-md-8 col-sm-12 col-xs-12">
-						<form action="" method="POST">
+						<?php if (!empty($this->param['oranization'])){?>
+						<div class="page_title">
+							<h3><?php echo $tr->translate("Result Search");?> <a href="<?php echo $this->baseUrl()."/searchcompany";?>" class="search_again right"><?php echo $tr->translate("Search Again");?></a></h3>
+						</div>
+						<?php if (!empty($this->company)){?>
+						<div class="result-blog ptb-20">
+							<ul class="result-list">
+								<?php foreach ($this->company as $company){?>
+								<li class="pb-20">
+									<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+										<?php 
+										$image = $this->baseUrl()."/images/noimage.jpg";
+										if (!empty($company['logo'])){
+												$image = $this->baseUrl()."/companylogo/".$company['logo'];
+											}
+										?>
+										<img src="<?php echo $image;?>" />
+									</div>
+									<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
+										<div class="result_title">
+											<h4><?php echo $company['com_name'];?></h4>
+										</div>
+										<div class="result_description">
+											<ul>
+												<?php if (!empty($company['address'])){?>
+												<li><?php echo $company['address'];?></li>
+												<li>&#9679;<li>
+												<?php }?>
+												<li><?php echo $company['com_phone'];?></li>
+											</ul>
+										</div>
+									</div>
+									<div class="clearboth"></div>
+								</li>
+								<?php }?>
+							</ul>
+						</div>
+						<?php }?>
+						  <?php 
+	                        if($this->countPages>1){ 
+							 	$statpage = $this->currentPage - 5;
+							 	$endpage = $this->currentPage + 5;
+							 	if ($this->currentPage<=5){
+							 		$statpage = 1;
+							 		$endpage =10;
+							 	}
+	                        }
+	                        if (!empty($this->countPages)){
+							 ?> 
+	                        <div class="col-md-12 col-sm-12 col-xs-12 pagination-wrapper fix">
+	                            <div class="pagination-content">
+	                            <?php if($this->countPages>1){ ?>
+	                                <ul class="pagination">
+		                                 <li class="<?php if($this->currentPage==1){ echo "active";}?>">
+		                               	  	<a href="<?php echo $url."&pages=".$this->previousPage;?>"><i class="fa fa-angle-left"></i></a>
+		                                 </li>
+	                                    <?php  $i=0; for( $i=1; $i<=$this->countPages; $i++){?>
+				           			 	<?php if ($statpage<=$i && $endpage>=$i){?>
+                                   					 <li class="<?php if($i==$this->currentPage){ echo "active";}?>">
+                                   					 	<a href="<?php echo $url."&pages=".$i;?>"><?php echo $i;?></a>
+                                   					 </li>
+                                                 <?php }}?>
+                                                 <li class="<?php if($this->countPages==$this->currentPage){ echo "active"; }?>">
+		                               	  	<a "href="<?php echo $url."&pages=".$this->nextPage;?>"><i class="fa fa-angle-right"></i></a>
+		                                 </li>
+	                                </ul>
+	                           		<?php }?>
+	                            </div>
+	                        </div>
+	                        <?php }?>
+						<?php }else{?>
+						<form action="<?php echo $this->baseUrl()."/searchcompany";?>" method="GET">
 							<div class="form_search_home">
 								<div class="row-form-home">
-									<div class="label_title">លេខកូដ</div>
+									<div class="label_title"><?php echo $tr->translate("Zip Code");?></div>
 									<div class="field_value" >
-										<input type="text" name="name" id="name" placeholder="លេខកូដតាមតំបន់">
+										<input type="text" name="zip_code" id="zip_code" placeholder="<?php echo $tr->translate("Zip Code");?>">
 									</div>
 								</div>
 								<div class="row-form-home">
-									<div class="label_title">ស្ថាប័នក្រោមចំនុះ</div>
+									<div class="label_title"><?php echo $tr->translate("Organize_under");?></div>
 									<div class="field_value" >
 										<select name="oranization" id="oranization" class="js-select2" >
-											<option value="-1">ជ្រើសរើស ស្ថាប័នក្រោមចំនុះ</option>
+											<option value="-1"><?php echo $tr->translate("CHOOSE_Organize_under");?></option>
 											<?php if(!empty($this->rsdepartment)){
 										foreach($this->rsdepartment as $rs){
 									?>	
@@ -27,31 +103,32 @@
 							</div>
 						</div>
 						<div class="row-form-home">
-							<div class="label_title">ផលិតផល</div>
+							<div class="label_title"><?php echo $tr->translate("PRODUCT");?></div>
 							<div class="field_value" >
-								<input type="text" name="product" id="product" placeholder="សូមបញ្ចូលផលិតផលស្ថាប័ន">
+								<input type="text" name="product" id="product" placeholder="<?php echo $tr->translate("PLEASE_ENTER_PRODUCT_OF_OGR");?>">
 							</div>
 						</div>
 						<div class="row-form-home">
-							<div class="label_title">ក្រុង ឬ ខេត្ត</div>
+							<div class="label_title"><?php echo $tr->translate("City_Province");?></div>
 							<div class="field_value" >
 								<select name="province" id="province" class="js-select2" >
-									<option value="-1">ជ្រើសរើស រាជធានី/ខេត្ត</option>
+									<option value="-1"><?php echo $tr->translate("Choose_City_Province");?></option>
 									<?php if(!empty($this->rsprovince)){
 											foreach($this->rsprovince as $rs){
 									?>	
-											<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['province_kh_name'];?></option>
+											<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
 									<?php }}?>
 								</select>
 							</div>
 						</div>
 						<div class="row-form-home">
 							<div class="button_submit" >
-								<input type="submit" value="ស្វែងរកស្ថាប័ន"  class="btu_submit"/>
+								<input type="submit" value="<?php echo $tr->translate("SEARCH_ORG");?>"  class="btu_submit"/>
 							</div>
 						</div>
 					</div>
 				</form>
+				<?php }?>
 			</div>
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<?php if (!empty($this->banner)){?>

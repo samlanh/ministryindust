@@ -159,9 +159,27 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 //    	$session_name = new Zend_Session_Namespace($name_space);
 //    	return $session_name;   	
 //    }
+    static function getCurrentLang(){
+    	$session_lang=new Zend_Session_Namespace('lang');
+    	$lang = $session_lang->lang_id;
+    	if(empty($lang)){
+    		$session_lang->lang_id=2;
+    		return 2;
+    	}else{
+    		if($lang>2){
+    			$lang = 2;
+    		}
+    		return $lang;
+    	}
+    }
    public function getAllProvince(){
    	$this->_name='mini_province';
-   	$sql = " SELECT province_id AS id,province_kh_name, province_en_name FROM $this->_name WHERE status=1 AND province_en_name!='' ORDER BY id DESC";
+   	$lang_id = $this->getCurrentLang();
+   	$province_field = array(
+   			"1"=>"province_en_name",
+   			"2"=>"province_kh_name"
+   	);
+   	$sql = " SELECT province_id AS id,".$province_field[$lang_id]." as name FROM $this->_name WHERE status=1 AND province_en_name!='' ORDER BY ".$province_field[$lang_id]." ASC";
    	$db = $this->getAdapter();
    	return $db->fetchAll($sql);
    }

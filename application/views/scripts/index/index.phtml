@@ -157,49 +157,49 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 				 <div class="col-md-2 col-sm-12 col-xs-12">
 				 </div>
 					<div class="col-md-8 col-sm-12 col-xs-12">
-						<form action="" method="POST">
+						<form action="<?php echo $this->baseUrl()."/searchcompany";?>" method="GET">
 							<div class="form_search_home">
 								<div class="row-form-home">
-									<div class="label_title">លេខកូដ</div>
+									<div class="label_title"><?php echo $tr->translate("Zip Code");?></div>
 									<div class="field_value" >
-										<input type="text" name="name" id="name" placeholder="លេខកូដតាមតំបន់">
+										<input type="text" name="zip_code" id="zip_code" placeholder="<?php echo $tr->translate("Zip Code");?>">
 									</div>
 								</div>
 								<div class="row-form-home">
-									<div class="label_title">ស្ថាប័នក្រោមចំនុះ</div>
+									<div class="label_title"><?php echo $tr->translate("Organize_under");?></div>
 									<div class="field_value" >
 										<select name="oranization" id="oranization" class="js-select2" >
-											<option value="-1">ជ្រើសរើស ស្ថាប័នក្រោមចំនុះ</option>
+											<option value="-1"><?php echo $tr->translate("CHOOSE_Organize_under");?></option>
 											<?php if(!empty($this->rsdepartment)){
-												foreach($this->rsdepartment as $rs){
-											?>	
-												<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+										foreach($this->rsdepartment as $rs){
+									?>	
+										<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
 										<?php }}?>
 										</select>
 									</div>
 								</div>
 								<div class="row-form-home">
-									<div class="label_title">ផលិតផល</div>
+									<div class="label_title"><?php echo $tr->translate("PRODUCT");?></div>
 									<div class="field_value" >
-										<input type="text" name="product" id="product" placeholder="សូមបញ្ចូលផលិតផលស្ថាប័ន">
+										<input type="text" name="product" id="product" placeholder="<?php echo $tr->translate("PLEASE_ENTER_PRODUCT_OF_OGR");?>">
 									</div>
 								</div>
 								<div class="row-form-home">
-									<div class="label_title">ក្រុង ឬ ខេត្ត</div>
+									<div class="label_title"><?php echo $tr->translate("City_Province");?></div>
 									<div class="field_value" >
 										<select name="province" id="province" class="js-select2" >
-											<option value="-1">ជ្រើសរើស រាជធានី/ខេត្ត</option>
+											<option value="-1"><?php echo $tr->translate("Choose_City_Province");?></option>
 											<?php if(!empty($this->rsprovince)){
 													foreach($this->rsprovince as $rs){
 											?>	
-													<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['province_kh_name'];?></option>
+													<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
 											<?php }}?>
 										</select>
 									</div>
 								</div>
 								<div class="row-form-home">
 									<div class="button_submit" >
-										<input type="submit" value="ស្វែងរកស្ថាប័ន"  class="btu_submit"/>
+										<input type="submit" value="<?php echo $tr->translate("SEARCH_ORG");?>"  class="btu_submit"/>
 									</div>
 								</div>
 							</div>
