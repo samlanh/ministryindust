@@ -17,7 +17,10 @@ class SearchcompanyController extends Zend_Controller_Action
     	$dbgb = new Application_Model_DbTable_DbGlobal();
     	$dbvg = new Application_Model_DbTable_DbVdGlobal();
     	$db = new Application_Model_DbTable_DbGlobalselect();
-    	if (!empty($param['oranization'])){
+    	if (!empty($param['company'])){
+    		$com_id =  base64_decode($param['company']);
+    		$this->view->company_info = $db->getCompanyDetailById($com_id);
+    	}else if (!empty($param['oranization'])){
     		$company = $db->getAllCompanySearch($param);
     		
     		$limits = $db->getWebsiteSetting("items_per_page");

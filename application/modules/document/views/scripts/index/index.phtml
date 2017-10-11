@@ -27,7 +27,7 @@ $url_delete ="";//$this->url(array('module'=>'menu-manager','controller'=>'categ
 				<?php if(!empty($this->rsprovince)){
 						foreach($this->rsprovince as $rs){
 				?>	
-						<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['province_kh_name'];?></option>
+						<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
 				<?php }}?>
 			</select>
 		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>

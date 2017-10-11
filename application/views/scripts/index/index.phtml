@@ -1,5 +1,6 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$dbselect = new Application_Model_DbTable_DbGlobalSelect();
 ?>
  <title><?php echo $tr->translate("COMPANY_NAME");?></title>
 		<!-- Slider Three Area Start -->
@@ -63,59 +64,52 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
          </div>
         <!-- Blog Two Area End -->
         <?php }?>
+        <?php if (!empty($this->getAllDepart)){?>
         <!-- Tap Area Start -->
         <div class="tap-area  pb-20">
 		   <div class="tapfeature"><!--menu-->
 				<div class="container">
 					<ul class="menutap">
-						<li class="active">
-							<a href="#news" data-toggle="tab" aria-expanded="true">
-								<span class="middle">អង្គភាពស្វយ័ត</span>
+						<?php foreach ($this->getAllDepart as $key => $dep){?>
+						<li <?php if ($key==0){?>class="active"<?php }?>>
+							<a href="<?php echo "#dept".$key;?>" data-toggle="tab" aria-expanded="true">
+								<span class="middle"><?php echo $dep['title'];?></span>
 							</a>
 						</li>
-						<li>
-							<a href="#events" data-toggle="tab" aria-expanded="false">
-								<span class="middle">អង្គភាពដែគូរ</span>
-							</a>
-						</li>
-						<li>
-							<a href="#events" data-toggle="tab" aria-expanded="false">
-								<span class="middle">អង្គភាព ស្ថាប័ន ឆ្នាំ</span>
-							</a>
-						</li>
-						<li>
-							<a href="#events" data-toggle="tab" aria-expanded="false">
-								<span class="middle">អង្គភាពឯកជន</span>
-							</a>
-						</li>
+						<?php }?>
 					</ul>
 				</div>
 			</div>
 			<div class="container">
 				<div class="nav-tab-content tab-content">
-					<div id="news" class="tab-pane postlist fade list-article active in" data-role="content">
+				<?php foreach ($this->getAllDepart as $key => $dep){?>
+					<div id="<?php echo "dept".$key;?>" class="tab-pane postlist fade list-article <?php if ($key==0){?>active in<?php }?>" data-role="content">
+						<?php $company = $dbselect->getCompanyByDept($dep['id']);?>
 						<div class="content-tap">
-							<ul class="list_compay">
-								<li><a href="#">រដ្ឋករទឹកស្វយ័ត ភ្នំពេញ</a></li>
-								<li><a href="#">រដ្ឋករទឹកស្វយ័ត សៀមរាប</a></li>
-								<li><a href="#">រដ្ឋករទឹកស្វយ័ត កណ្ដាល</a></li>
+						<?php $list=5; $limt=$list; $i=0; foreach ($company as $com){ $i++;?>
+						<?php if ($i==1){?>
+							<ul class="list_compay col-md-4 col-sm-4 col-xs-12">
+							<?php }?>
+								<li><a href="#"><?php echo $com['com_name'];?></a></li>
+							<?php if (count($company)==$i){?>
 							</ul>
+							<?php }else if ($i==$limt){ $limt = $limt+$list;?>
+							</ul>
+							<ul class="list_compay col-md-4 col-sm-4 col-xs-12">
+							<?php }?>
+							
+							
+						<?php }?>
+							
 						</div>
 					
 					</div>
-					<div id="events" class="tab-pane postlist fade list-article" data-role="content">
-						<div class="content-tap">
-							<ul class="list_compay">
-								<li><a href="#">ដៃគូភ្នំពេញ</a></li>
-								<li><a href="#">ដៃគូសៀមរាប</a></li>
-								<li><a href="#">ដៃគូកណ្ដាល</a></li>
-							</ul>
-						</div>
-					</div>
+				<?php }?>
 				</div>
 			</div>
         </div>
         <!-- Tap Area End -->
+        <?php }?>
        <div class="blog-two-area ptb-20">
 			<a href="#"><img src="<?php echo $this->baseUrl()."/template/"?>home.jpg" alt=""></a>
 	   </div>

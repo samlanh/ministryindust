@@ -44,24 +44,10 @@ class IndexController extends Zend_Controller_Action
 				$this->view->slideshow = $image;
 			}
 		}
-		
-// 		$cate = $db->getWebsiteSetting("home_article_bycate");
-// 		$this->view->categoryhomefeature = $db->getCategoryForHomepageArticle($cate['value']);
-		
-// 		$this->view->menuright= $db->getMenuRight();
-
-// 		$article_announcement = $db->getWebsiteSetting("announcement");	
-// 		if(!empty($article_announcement)){
-// 			if(!empty($article_announcement['value'])){
-// 			$this->view->announcement = $db->getAticleByListId($article_announcement['value']);	
-// 			}			
-// 		}
-		
 		$this->view->home_article = $db->getWebsiteSetting("home_article");
-		
+		$this->view->getAllDepart = $db->getAllDepartment();
 		$db = new Application_Model_DbTable_DbGlobal();
 		$this->view->rsprovince = $db->getAllProvince();
-		 
 		$db = new Application_Model_DbTable_DbVdGlobal();
 		$this->view->rsdepartment = $db->getAllDepartment();
     }

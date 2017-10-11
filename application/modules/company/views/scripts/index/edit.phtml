@@ -88,7 +88,7 @@ dojo.require("dijit.form.Textarea");
 										<?php if(!empty($this->rsprovince)){
 												foreach($this->rsprovince as $rs){
 										?>	
-												<option <?php if($rsdata['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['province_kh_name'];?></option>
+												<option <?php if($rsdata['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
 										<?php }}?>
 									</select>
 								</td>

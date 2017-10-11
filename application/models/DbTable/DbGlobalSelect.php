@@ -282,10 +282,14 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 	public function getAllCompanySearch($data){
 		$db=$this->getAdapter();
 		$lang = $this->getCurrentLang();
+		$province_field = array(
+				"1"=>"province_en_name",
+				"2"=>"province_kh_name"
+		);
 		$sql="
 		SELECT c.*,
 		(SELECT cd.title FROM `mini_department_detail` AS cd WHERE cd.department_id = c.`depart_id` AND cd.language_id=$lang LIMIT 1) AS department_name,
-		(SELECT province_kh_name FROM mini_province WHERE  province_id=c.province_id LIMIT 1) as province_name
+		(SELECT ".$province_field[$lang]." FROM mini_province WHERE  province_id=c.province_id LIMIT 1) as province_name
 		FROM `mini_company` AS c WHERE com_name!='' ";
 		 
 		if(!empty($data['zip_code'])){
@@ -307,6 +311,57 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 			$sql.=' AND ('.implode(' OR ',$s_where).')';
 		}
 		return $db->fetchAll($sql);
+	}
+	function getCompanyDetailById($id){
+		$db = $this->getAdapter();
+		$lang_id = $this->getCurrentLang();
+		$province_field = array(
+				"1"=>"province_en_name",
+				"2"=>"province_kh_name"
+		);
+		$sql="SELECT c.*,
+		(SELECT mp.".$province_field[$lang_id]." FROM mini_province AS mp WHERE mp.province_id = c.province_id LIMIT 1) AS province_name
+		 FROM `mini_company` AS c WHERE c.status=1 AND c.id = $id LIMIT 1";
+		return $db->fetchRow($sql);
+	}
+	public function getAllDepartment(){
+		$db = $this->getAdapter();
+		$lang = $this->getCurrentLang();
+		$sql="SELECT dp.*,
+		(SELECT dp_d.title  FROM `mini_department_detail` AS dp_d WHERE dp_d.language_id=$lang AND dp_d.department_id = dp.id) AS title
+		 FROM `mini_department` AS dp WHERE dp.depart_parentid = 0 AND dp.status=1";
+		return $db->fetchAll($sql);
+	}
+	
+	function getCompanyByDept($dep_id){
+		$db = $this->getAdapter();
+		$sql="SELECT * FROM `mini_company` AS c WHERE c.status=1 ";
+		
+		if (!empty($dep_id)){// for get product by category
+			$condiction = $this->getListDeptById($dep_id);
+			if (!empty($condiction)){
+				$sql.=" AND c.depart_id IN ($condiction)";
+			}else{$sql.=" AND c.depart_id=$dep_id";
+			}
+		}
+		$limit=15;
+		$sql.=" ORDER BY c.id ASC LIMIT $limit";
+		return $db->fetchAll($sql);
+	}
+	
+	function getListDeptById($id,$idetity=null){
+		$where='';
+		$db = $this->getAdapter();
+		$sql=" SELECT c.`id` FROM `mini_department` AS c WHERE c.`depart_parentid` = $id AND c.`status`=1 ";
+		$child = $db->fetchAll($sql);
+		foreach ($child as $va) {
+			if (empty($idetity)){
+				$idetity=$id.",".$va['id'];
+			}else{$idetity=$idetity.",".$va['id'];
+			}
+			$idetity = $this->getListDeptById($va['id'],$idetity);
+		}
+		return $idetity;
 	}
 }
 ?>

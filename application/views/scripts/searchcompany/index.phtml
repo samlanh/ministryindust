@@ -10,7 +10,42 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 			<div class="container">
                  <div class="row">
 					<div class="col-md-8 col-sm-12 col-xs-12">
-						<?php if (!empty($this->param['oranization'])){?>
+						<?php if (!empty($this->param['company'])){ 
+							$company = $this->company_info;?>
+						<div class="page_title">
+							<h3><?php echo $tr->translate("More About Organization");?> <a href="<?php echo $this->baseUrl()."/searchcompany";?>" class="search_again right"><?php echo $tr->translate("Search Again");?></a></h3>
+						</div>
+						<div class="result-blog ptb-20">
+							<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+								<?php 
+								$image = $this->baseUrl()."/images/noimage.jpg";
+								if (!empty($company['logo'])){
+										$image = $this->baseUrl()."/companylogo/".$company['logo'];
+									}
+								?>
+								<img src="<?php echo $image;?>" />
+							</div>
+							<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
+								<div class="result_title">
+									<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>"><h4><?php echo $company['com_name'];?></h4></a>
+								</div>
+								<div class="result_description">
+									<ul>
+										<?php if (!empty($company['province_name'])){?>
+										<li><?php echo $company['province_name'];?></li>
+										<li>&#9679;<li>
+										<?php }?>
+										<li><?php echo $company['com_phone'];?></li>
+									</ul>
+								</div>
+							</div>
+							<div class="clearboth"></div>
+							<div>
+								<span><?php echo $tr->translate("ADDRESS");?></span> : <?php echo $company['address'];?>
+								<p class="company_desc"><?php echo $company['note'];?></p>
+							</div>
+						</div>
+						<?php }else if (!empty($this->param['oranization'])){?>
 						<div class="page_title">
 							<h3><?php echo $tr->translate("Result Search");?> <a href="<?php echo $this->baseUrl()."/searchcompany";?>" class="search_again right"><?php echo $tr->translate("Search Again");?></a></h3>
 						</div>
@@ -30,12 +65,12 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 									</div>
 									<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
 										<div class="result_title">
-											<h4><?php echo $company['com_name'];?></h4>
+											<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>"><h4><?php echo $company['com_name'];?></h4></a>
 										</div>
 										<div class="result_description">
 											<ul>
-												<?php if (!empty($company['address'])){?>
-												<li><?php echo $company['address'];?></li>
+												<?php if (!empty($company['province_name'])){?>
+												<li><?php echo $company['province_name'];?></li>
 												<li>&#9679;<li>
 												<?php }?>
 												<li><?php echo $company['com_phone'];?></li>
