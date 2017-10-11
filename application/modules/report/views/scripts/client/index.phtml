@@ -1,0 +1,106 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("REPORT_CLIENT_LIST"));
+$frm = $this->frm_search;
+$frms=$this->frm_client;
+$db = new Application_Model_DbTable_DbGlobalSelect();
+	$row = $db->getWebsiteSetting('logo');
+?>
+<div style=" width:28cm; margin:0 auto; padding:0px 0.5cm">
+<form id="list" name="list" action="<?php echo $this->url(array('module'=>'report','controller'=>'client','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+<table>
+   <tr>  
+      <td><?php echo $frm->getElement("adv_search");?></td>
+       <td><?php echo $frm->getElement('status');?></td>
+       <td><?php echo $frm->getElement('start_date');?></td>
+      <td><?php echo $frm->getElement('end_date');?></td>
+      <td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+	  <td>	<input type="submit" value="show_all" onClick="resetForm();" label="<?php echo $tr->translate('SHOW_ALL');?>" id="show_all" dojoType="dijit.form.Button" name="show_all" />
+	 	 <input type="hidden" name="recordcopy" id="recordcopy" dojoType="dijit.form.TextBox" /></td>
+	  </td>
+   </tr>
+</table>  
+</form> 
+</div>
+<script type="text/javascript">
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dijit.form.DateTextBox");
+</script>
+<div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint">
+<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<tr>
+    	<td align="center">
+    	 
+    	 	<style>
+					//.style{
+						//line-height: 20px;font-size: 11px !important;
+						//font-family: 'Khmer OS Battambang';
+						//}
+						th{padding: 5px;}
+						.hover:hover{background: #ccc;}
+					</style>
+        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl()."/images/lang/".$row['value'];?>" style=" height:85px;"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("COMPANY_NAME");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_CLIENT_LIST");?></h2>
+						<?php if (empty($this->search['show_all'])){?>
+						<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo date("Y-M-d",strtotime($this->search['start_date']))." - ".date("Y-M-d",strtotime($this->search['end_date']));?></h2>
+						<?php }?>
+					</td>
+                    <td width="20%"></td>
+                </tr> 
+            </table>
+			<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">  
+		    	<tr  class="style" align="center" style="floafont-weight:bold; font-size:12px; padding:5px 0px; " >
+		        	<td class="header"><?php echo $tr->translate("NUM");?></td>
+		        	<td class="header"><?php echo $tr->translate("CUSTOMER_CODE");?></td>
+		            <td class="header"><?php echo $tr->translate("USER_NAME");?></td>
+		            <td class="header"><?php echo $tr->translate("EMAIL");?></td>
+		            <td class="header"><?php echo $tr->translate("PHONE");?></td>
+		            <td class="header"><?php echo $tr->translate("ADDRESS");?></td>
+		            <td class="header"><?php echo $tr->translate("CREATE_DATE");?></td>
+		            <td class="header"><?php echo $tr->translate("MODIFY_DATE");?></td>
+		           <!--  <td class="header"><?php //echo $tr->translate("REGISTER_WITH");?></td>
+					<td class="header"><?php //echo $tr->translate("STATUS");?></td> -->
+		         </tr>
+				 <?php //print_r($this->rs_client);?>
+		       <?php if(!empty($this->rs_client))foreach($this->rs_client as $key =>$row){?>
+				   <tr style="font-size: 11px;" align="left">
+				     <td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+				     <td align="center" style="white-space: nowrap;">&nbsp;<?php echo $row['customer_code']?>&nbsp;</td>
+				     <td style="white-space: nowrap;">&nbsp;<?php echo $row['user_name']?>&nbsp;</td>
+				     <td style="white-space: nowrap;">&nbsp;<?php echo $row['email']?>&nbsp;</td>
+					 <td style="white-space: nowrap;">&nbsp;<?php echo $row['phone'];?>&nbsp;</td>
+					 <td style="">&nbsp;<?php echo $row['address'];?>&nbsp;</td>
+					 <td align="center" style="white-space: nowrap;">&nbsp;<?php echo date("d-M-Y",strtotime($row['create_date']));?>&nbsp;</td>
+					 <td align="center" style="white-space: nowrap;">&nbsp;<?php echo date("d-M-Y",strtotime($row['modify_date']));?>&nbsp;</td>
+					 <!-- <td align="center" style="white-space: nowrap;">&nbsp;
+					  	<?php //if (!empty($row['facebook_id'])){echo $tr->translate("FACEBOOK");}else{echo $tr->translate("NORMAL");}?>&nbsp;
+					 </td>
+					<td>&nbsp;<?php //if($row['status']==1){ 
+						//echo $tr->translate("ACTIVE");
+						//}else{ 
+						//echo $tr->translate("DEACTIVE");}?></td>-->
+					</tr>
+				<?php }?>
+				
+		    </table>
+    	</td>
+    </tr>
+</table>
+		<br />
+		   <table align="center" width="100%">
+				   <tr style="font-size: 12px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>
+</div>
+</div>

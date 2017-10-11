@@ -1,0 +1,208 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$this->headTitle($tr->translate('GENERAL_SETTING')); 
+echo $this->headTitle();
+$frm = $this->frm_general;
+$countlang = count($this->lang);
+
+if(!empty($this->logo['value'])){
+	$profile="lang/".$this->logo['value'];
+}else{
+	$profile ="no-image.png";
+}
+$header="";
+if(!empty($this->headerbg['value'])){
+	$header="headerbackground/".$this->headerbg['value'];
+}else{
+	$header ="no-image.png";
+	
+}
+?>
+<style>
+div.cke_contents.cke_reset {
+    height: 200px !important;
+}
+</style>
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require("dijit.form.NumberTextBox");
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.FilteringSelect');
+	dojo.require("dijit.Dialog");
+	require(["dijit/form/CheckBox","dijit/Dialog","dijit/layout/TabContainer"]);
+	dojo.require("dojo.parser");
+	dojo.require("dojo.NodeList-manipulate");
+</script>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+<style>
+
+img.image_view {
+    width: 100%;
+	height: 100px;
+}
+img#image_viewbg {
+    height: 50px;
+}
+.button_browse{
+	margin-top:0 !important;
+}
+.button_browse span {
+    padding: 0 5px;
+}
+</style>
+<form action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data" >
+	<script type="dojo/method" event="onSubmit">	
+			if(this.validate()) {
+				loading();	
+				return true;
+			}
+			return false;
+	</script>
+		
+	<table  style="margin: 0 auto; width: 100%">
+		<tr class="header">
+			<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('GENERAL_SETTING')?></strong></td>
+		</tr>
+		<tr>
+			<td>
+					<table width="100%">
+						<tr>
+							<td align="left" valign="top" width="70%">
+							<fieldset>
+					      			<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="<?php echo $tr->translate("");?>" selected="true">
+										<table cellspacing="5" width="100%" style="padding: 0 5px;">
+											<tr>
+												<td class="bold"><?php echo $tr->translate('PHONE')?></td>
+												<td ><?php echo $frm->getElement('phone')?></td>
+												<td class="bold"><?php echo $tr->translate('EMAIL')?></td>
+												<td ><?php echo $frm->getElement('email')?></td>
+											</tr>
+											<tr>
+												<td class="bold"><?php echo $tr->translate('ADDRESS')?></td>
+												<td colspan="3">
+													<?php echo $frm->getElement('address')?>
+												</td>
+											</tr>
+											<tr>
+												<!-- <td class="bold"><?php //echo $tr->translate('ARTICLE_HOMEPAGE')?></td>
+												<td>
+													<?php //echo $frm->getElement('items_homepage')?>
+												</td> -->
+												<td class="bold"><?php echo $tr->translate('ARTICLE_PER_PAGE')?></td>
+												<td>
+													<?php echo $frm->getElement('items_per_page')?>
+												</td>
+												<td class="bold"><?php echo $tr->translate('HOME_CATEGORY')?></td>
+												<td>
+													<?php echo $frm->getElement('category')?>
+												</td>
+											</tr>
+											<tr>
+												<td style=" border-bottom: solid 2px #243c5f;padding: 10px 5px;background: #000088;color: #fff;" colspan="4" class="bold"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate('SOCIAL')?></td>
+											</tr>
+											<tr>
+												<td class="bold"><?php echo $tr->translate('FACEBOOK')?></td>
+												<td>
+													<?php echo $frm->getElement('facebook')?>
+												</td>
+											</tr>
+											<tr>
+												<td class="bold"><?php echo $tr->translate('YOUTUBE')?></td>
+												<td>
+													<?php echo $frm->getElement('youtube')?>
+												</td>
+											</tr>
+											<tr>
+												<td class="bold"><?php echo $tr->translate('TWITTER')?></td>
+												<td>
+													<?php echo $frm->getElement('twitter')?>
+												</td>
+											</tr>
+											<tr>
+												<td class="bold"><?php echo $tr->translate('GOOGLE_PLUS')?></td>
+												<td>
+													<?php echo $frm->getElement('googleplus')?>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</fieldset>
+							</td>
+							<td width="30%" class="blog-right">
+								<table cellspacing="5" width="100%">
+									<tr>
+										<td><?php //echo $frm->getElement('product_code');?>
+											<table id="table_parent" class="set-style" style="margin: 0 auto; width: 100%;  " >
+												<thead>
+													<tr>
+														<td colspan="8">
+															<img class="image_view" id="image_view" src="<?php echo $this->baseUrl().'/images/'.$profile;?>" alt=""  />
+															<div class="button_browse">
+																<span>Change Logo<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+																<input class="btn_borwse_image"  type="file" id="photo" name="photo" onchange="loadImage()">
+															</div>
+														</td>
+													</tr>
+												</thead>
+											</table>
+										</td>
+									</tr>
+									<!-- <tr>
+										<td>
+											<table id="table_parent" class="set-style" style="margin: 0 auto; width: 100%;  " >
+												<thead>
+													<tr>
+														<td colspan="8">
+															<img class="image_view bd" id="image_viewbg" src="<?php //echo $this->baseUrl().'/images/'.$header;?>" alt=""  />
+															<div class="button_browse">
+																<span>Change Background Header<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+																<input class="btn_borwse_image"  type="file" id="backgroundheader" name="backgroundheader" onchange="loadImage1()">
+															</div>
+														</td>
+													</tr>
+												</thead>
+											</table>
+										</td>
+									</tr> -->
+										<tr>
+										<td><label id="message" style="color: red;"></label>
+										<?php //echo $frm->getElement('title_alias');?></td>
+									</tr>
+								</table>
+							</td>								
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
+								iconClass="dijitIconUndo" onclick="window.history.back();" />
+								<input class="button_success" type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVE');?>" id="save_close" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 	
+							</td>
+						</tr>
+					</table>	
+			</td>			
+		</tr>
+	</table>	
+</form>
+<script>
+dojo.ready(function(){
+	$(window).keydown(function(event){
+		if(event.keyCode == 13) {
+		  event.preventDefault();
+		  return false;
+		}
+	  });
+});
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+function loadImage(){
+	 var output = document.getElementById('image_view');
+  output.src = URL.createObjectURL(event.target.files[0]);
+}
+function loadImage1(){
+	 var output = document.getElementById('image_viewbg');
+  output.src = URL.createObjectURL(event.target.files[0]);
+}
+</script>

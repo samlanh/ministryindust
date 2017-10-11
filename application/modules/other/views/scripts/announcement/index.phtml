@@ -1,0 +1,191 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$this->headTitle($tr->translate('ANNOUNCEMENT')); 
+echo $this->headTitle();
+?>
+<style>
+div.cke_contents.cke_reset {
+    height: 200px !important;
+}
+</style>
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.FilteringSelect');
+	dojo.require("dijit.Dialog");
+	require(["dijit/form/CheckBox","dijit/Dialog","dijit/layout/TabContainer"]);
+	dojo.require("dojo.parser");
+	dojo.require("dojo.NodeList-manipulate");
+</script>
+
+<style>
+
+img.image_view {
+    width: 250px;
+    height: 100px;
+}
+
+</style>
+<form action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				return true;
+			}
+			return false;
+	</script>
+		
+	<table  style="margin: 0 auto; width: 100%">
+		<tr class="header">
+			<td><strong><i class="fa fa-file-image-o" aria-hidden="true"></i><?php echo $tr->translate('ANNOUNCEMENT')?></strong></td>
+		</tr>
+		<tr>
+			<td>
+				<table width="100%">
+					<tr>
+						<td width="50%" class="blog-right">
+							<table cellspacing="5" width="100%">
+								
+								<tr>
+									<td>
+										<table id="table_parent" class="set-style" style="margin: 0 auto; width: 100%;  " >
+											<thead>
+												<tr>
+													<td colspan="8">
+														<table  style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;">
+															<tr id="head-title" class="head-td" align="right"></tr>
+														</table>
+														<table id="table_row" style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;">
+														</table>
+													</td>
+												</tr>
+												<tr>
+													<td align="left">
+														<input type="button" label="<?php echo $tr->translate('ADD_MORE');?>" dojoType="dijit.form.Button" 
+															 	iconClass="dijitIconEditProperty" onclick="addRow();" />
+														<input type="hidden" name="identity" id="identity"  value="" >
+													</td>
+												</tr>
+											</thead>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>								
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+							<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
+							iconClass="dijitIconUndo" onclick="window.history.back();" />
+							<input class="button_success" type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVE');?>" id="save_close" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 	
+						</td>
+					</tr>
+				</table>	
+			</td>			
+		</tr>
+	</table>	
+</form>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'<?php echo $tr->translate("DO_YOU_WANT_TO_DEL")?>'"  id="deleteForm" style="width:350px;" >
+		<div style=" text-align: center;">
+			<h4><?php echo $tr->translate("DO_YOU_WANT_TO_DEL")?></h4>
+			<input type="hidden" name="recorddelete" id="recorddelete" dojoType="dijit.form.TextBox" />
+			<button onclick="closeForm();" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("CANCEL");?></button>
+			<button onclick="deleteRecord('',1);" iconclass="dijitIconDelete" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("DELETE");?></button>
+		</div>
+	</div>
+</div>
+<script>
+require(["dojo/ready"], function(ready){
+	ready(function(){
+		initailize();
+	});
+});
+var col = 0;
+var no = 0;
+var title = 0;
+func='';
+tmp = '';
+var temp='';
+function addRow() {
+		col++;no++;
+		template='';
+		if(title!=1){
+			temp+='<th><?php echo $tr->translate("NUM");?></th>';
+			temp+='<th><?php echo $tr->translate("CATEGORY");?></th>';
+			temp+='<th><?php //echo $tr->translate("DEL");?></th>';
+			dojo.query("#head-title").append(temp);
+			title=1;
+		}
+			template+='<td style="text-align: center;">'+no+'</td>';
+			template+='<td style="text-align: center; "><select  dojoType="dijit.form.FilteringSelect" placeholder="<?php echo $tr->translate('SELECT_CATEGORY')?>" id="article'+col+'" name="article'+col+'">';
+			<?php foreach($this->article as $key){?>
+				template+='<option value="'+<?php echo $key['id']?>+'"><?php echo $key['title'];?></option>';
+			<?php }?>
+			template+='</select></td>';
+			template+='<td width="3%" align="center" style="padding: 10px 25px;"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+		tmp='<tr id="row'+col+'" style="background: #fff; border: solid 1px #bac;">';
+		tmp+="</tr>";
+		dojo.query("#table_row").append(tmp);
+		if($("#identity").val()!='') {
+			var identity = $("#identity").val();
+			$("#identity").val(identity+','+col);
+		} else {$("#identity").val(col);}
+		dojo.html.set(dojo.byId("row"+col),template , {
+		     parseContent: true,
+		});
+ }
+<?php $article = explode(",", $this->announcement_article['value']);
+?>
+function initailize() {
+	<?php if (!empty($article)) foreach ($article as $rs){?>
+	col++;no++;
+	template='';
+	if(title!=1){
+		temp+='<th><?php echo $tr->translate("NUM");?></th>';
+		temp+='<th><?php echo $tr->translate("CATEGORY");?></th>';
+		temp+='<th>&nbsp;<?php echo $tr->translate("DEL");?></th>';
+		dojo.query("#head-title").append(temp);
+		title=1;
+	}
+	template+='<td style="text-align: center;">'+no+'</td>';
+	template+='<td style="text-align: center; "><select  dojoType="dijit.form.FilteringSelect" placeholder="<?php echo $tr->translate('SELECT_CATEGORY')?>" id="article'+col+'" name="article'+col+'" >';
+		<?php foreach($this->article as $key){?>
+			template+='<option value="'+<?php echo $key['id']?>+'" <?php if($key['id']==$rs){echo 'selected="selected"';} ?>><?php echo $key['title'];?></option>';
+		<?php }?>
+	template+='</select></td>';
+	template+='<td width="3%" align="center" style="padding: 10px 25px;"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+	tmp='<tr id="row'+col+'" style="background: #fff; border: solid 1px #bac;"">';
+	tmp+="</tr>";
+	dojo.query("#table_row").append(tmp);
+	if($("#identity").val()!='') {
+		var identity = $("#identity").val();
+		$("#identity").val(identity+','+col);
+	} else {$("#identity").val(col);}
+	dojo.html.set(dojo.byId("row"+col),template , {
+	     parseContent: true,
+	});
+	<?php }?>
+}
+function deleteRecord(index,type=''){
+	 if(type==''){
+		 dijit.byId("recorddelete").attr('value',index);
+		 dijit.byId('deleteForm').show();
+	 }else{
+		index = dijit.byId("recorddelete").get('value');
+		var identity = $('#identity').val();
+		var arrays = identity.split(',');
+		for(var i=0;i<arrays.length;i++) {
+		if(arrays[i] == index) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		$('#identity').val(strings);
+		dojo.query("#row"+index).remove();
+		dijit.byId('deleteForm').hide();
+	 }
+}
+ function loadImage(index){
+	 var output = document.getElementById('image_view'+index);
+    output.src = URL.createObjectURL(event.target.files[0]);
+ }
+ </script>

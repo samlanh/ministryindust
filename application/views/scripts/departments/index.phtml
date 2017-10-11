@@ -1,0 +1,72 @@
+<?php 
+$db = new Application_Model_DbTable_DbGlobalselect();
+$bannerlist = $db->getWebsiteSetting("banner");
+$banner = explode(",", $bannerlist['value']);
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php //echo $menu_info['title_menu'];?></title>
+	<!-- Breadcrumb Area Start-->
+<div class="breadcrumb-area bg-8">	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="breadcrumb-text text-left">
+					<h2>អគ្គនាយកដ្ឋាន</h2>
+					<div class="breadcrumb-bar">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="sigle_article">
+ 	 <div class="container siglearticle" >
+        <!-- Blog Section Area Start -->
+        <div class="blog-section-area ptb-20" >
+            <div class="container">
+                <div class="row">
+					<div class="col-md-8 col-sm-12 col-xs-12">
+                        <div class="single-blog-post blog-details">
+                            <div class="blog-post-text">
+                                <h4>
+                                	<?php 
+                                		echo $this->rsfirst['title'];
+									?>
+                                </h4>
+                               <div class="article_desc">
+                              		 <?php 
+                              		 	echo $this->rsfirst['description'];
+                              		?>
+                               </div>
+                                <div class="social-icons">
+                                    <a href="https://www.facebook.com/devitems/" class="facebook"><i class="fa fa-facebook"></i></a>
+                                    <a href="https://twitter.com/devitemsllc" class="twitter"><i class="fa fa-twitter"></i></a>
+                                    <a href="https://dribbble.com/devitemsllc" class="dribbble"><i class="fa fa-dribbble"></i></a>
+                                    <a href="https://www.pinterest.com/" class="pinterest"><i class="fa fa-pinterest"></i></a>
+                                    <a href="https://www.youtube.com/channel/UC0KLL1Ylo1JrcSUZOeX3tqQ" class="youtube"><i class="fa fa-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<div class="col-md-4 col-sm-12 col-xs-12">
+					<h4>អគ្គាធិការដ្ឋាន</h4>
+						<ul class="department">
+							<?php if(!empty($this->rsdepartment))foreach($this->rsdepartment as $key =>$rs){?>
+							<li <?php if($this->param==$rs['alias'] OR ($this->param=='' AND $key==0)){echo "class='activemenu'";}?>><a href="<?php echo $this->url(array('controller'=>'departments','action'=>'index','dept'=>$rs['alias']));?>"><?php echo $rs['name'];?></a></li>
+							<?php }?>
+						</ul>
+					<?php if (!empty($banner)){?>
+							<div class="blog-advertise" style="margin-top:30px;">
+								<?php foreach ($banner as $rs){?>
+								<div class="row_advertise pb-20"> 
+									<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
+								</div>
+								<?php }?>
+							</div>
+					<?php }?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

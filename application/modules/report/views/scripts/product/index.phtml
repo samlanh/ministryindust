@@ -1,0 +1,93 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->frm_search;
+$frms=$this->frm;
+
+$db = new Application_Model_DbTable_DbGlobalSelect();
+	$row = $db->getWebsiteSetting('logo');
+?>
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<meta charset="utf-8">
+<title><?php echo $tr->translate("REPORT_PRODUCT");?></title>
+<div style=" width:28cm; margin:0 auto; padding:0px 0.5cm">
+<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+<table>
+   <tr>  
+      <td><?php echo $frm->getElement("adv_search");?></td>
+       <td><?php echo $frms->getElement('category');?></td>
+       <td><?php echo $frm->getElement('status');?></td>
+       <td><?php echo $frm->getElement('start_date');?></td>
+      <td><?php echo $frm->getElement('end_date');?></td>
+      <td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+	  <td>	<input type="submit" value="show_all" onClick="resetForm();" label="<?php echo $tr->translate('SHOW_ALL');?>" id="show_all" dojoType="dijit.form.Button" name="show_all" />
+	 	 <input type="hidden" name="recordcopy" id="recordcopy" dojoType="dijit.form.TextBox" /></td>
+	  </td>
+   </tr>
+</table>
+</form>  
+</div>
+<div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint">
+<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<tr>
+    	<td align="center">
+    	 
+    	 	<style>
+					//.style{
+						//line-height: 20px;font-size: 11px !important;
+						//font-family: 'Khmer OS Battambang';
+						//}
+						th{padding: 5px;}
+						.hover:hover{background: #ccc;}
+					</style>
+        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl()."/images/lang/".$row['value'];?>" style=" height:85px;"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("COMPANY_NAME");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_PRODUCT");?></h2></td>
+                    <td width="20%"></td>
+                </tr> 
+            </table>
+			<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">  
+		    	<tr class="style" align="center" style="floafont-weight:bold; font-size:12px; padding:5px 0px; " >
+		        	<td class="header"><?php echo $tr->translate("NUM");?></td>
+		            <td class="header"><?php echo $tr->translate("PRODUCT_CODE");?></td>
+		            <td class="header"><?php echo $tr->translate("PRODUCT_NAMEKH");?></td>
+		            <td class="header"><?php echo $tr->translate("PRODUCT_NAMEEN");?></td>
+		            <td class="header"><?php echo $tr->translate("CATEGORIES");?></td>
+		            <td class="header"><?php echo $tr->translate("STATUS");?></td>
+		         </tr>
+				 <?php //print_r($this->products_list);?>
+		       <?php if(!empty($this->products_list))foreach($this->products_list as $key =>$row){?>
+				   <tr style="font-size: 11px;" align="left">
+				     <td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+				     <td align="center" style="white-space: nowrap;">&nbsp;<?php echo $row['pro_code']?>&nbsp;</td>
+				     <td style="white-space: nowrap;">&nbsp;<?php echo $row['pro_title']?>&nbsp;</td>
+				     <td style="white-space: nowrap;">&nbsp;<?php echo $row['pro_titleen']?>&nbsp;</td>
+					 <td style="white-space: nowrap;">&nbsp;<?php echo $row['cate_title'];?>&nbsp;</td>
+					<td>&nbsp;<?php if($row['status']==1){ 
+						echo $tr->translate("ACTIVE");
+					}else{ 
+						echo $tr->translate("DEACTIVE");}?></td>
+					</tr>
+				<?php }?>
+				
+		    </table>
+    	</td>
+    </tr>
+</table>
+		<br />
+		   <table align="center" width="100%">
+				   <tr style="font-size: 12px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>
+</div>
+</div>

@@ -1,0 +1,193 @@
+<?php 
+	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$request=Zend_Controller_Front::getInstance()->getRequest();
+	$action=$request->getActionName();
+	$controller=$request->getControllerName();
+	$module=$request->getModuleName();
+	
+	$session_user=new Zend_Session_Namespace('auth');
+	$username = $session_user->first_name;
+	$them_style = 'soria'; //$session_user->theme_style;
+	
+	$session_lang=new Zend_Session_Namespace('lang');
+	
+	$lang_id = $session_lang->lang_id;//for creat session
+	
+	if(empty($lang_id)){
+		
+		$session_lang->lang_id=2;
+	}
+?>
+<?php if($module!='default'){
+	?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+<?php if($module!='home'){ 
+	$session_user=new Zend_Session_Namespace('auth');
+	if (empty($session_user->user_id)){
+		Application_Form_FrmMessage::redirectUrl("/");
+	}
+	?>
+	<script src="<?php echo $base_url;?>js/dojo-1.6.1/dojo/dojo.js"  djConfig="isDebug: true,parseOnLoad: true"></script>
+	<script>dojoConfig = {parseOnLoad: true}</script>
+	    <script>
+			require(["dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Button"]);
+      </script>
+<?php }?>
+ <link href="<?php echo $this->baseUrl()?>/assets/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+   <link href="<?php echo $this->baseUrl()?>/assets/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+
+	<link rel="stylesheet" href="<?php echo $base_url;?>css/template.css"/>
+	<link href="<?php echo $base_url;?>cssmenu/template.css" media="screen" rel="stylesheet" type="text/css">
+	<!-- table  -->
+	<?php //if($action=='index'){ ?>
+	<?php if($module!='home'){?>
+	    <link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>js/dojo-1.6.1/dijit/themes/<?php echo $them_style."/".$them_style?>.css" />
+        <script type="text/javascript"  src="<?php echo $this->baseUrl();?>/js/jquery-1.7.2.min.js"></script>
+       <?php //if($action=='index'){?>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/jquery.tablesorter.js"> </script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/jquery.tablesorter.pager.js"> </script>
+       <?php  } ?>
+	<?php //}?>
+	<!-- export library -->
+	<?php if($module=='report'){?>
+	 <script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/tableExport.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jquery.base64.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/html2canvas.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/sprintf.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/jspdf.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/base64.js"></script> 
+
+	<?php } ?>	
+	<!-- end -->
+	<link rel="shortcut icon" href="<?php echo $base_url;?>images/icon.ico" type="image/x-icon"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+	<style type="text/css">
+	*{ padding:0;margin:0;}
+        html, body { width: 100%; height: 100%; margin: 0; }
+		.btn{
+			height: 40px;
+			min-width: 100px;	
+		}
+		.add-link{  
+				    background-color: #000088;
+			  width: 90px;
+			 /* margin-top: 2px;*/
+			 padding: 2px;
+			  color: #fff;
+			  text-align: center;
+			  font-size: 13px;
+			  font-weight: 600;}
+		.fullside{ width:98%; height: 30px;}
+		.full{ width:100%;}
+		body, html {font-size:96%; 
+		font-family: sans-serif,'Times New Roman','khmer os battambang','Kh Battambang','Khmer Battambang',Arial,Helvetica;
+		/*font-family:Arial,serif !important;*/ /*font-family:'Khmer OS Battambang'*/}
+		.normal,.alternate{ font-size:90% !important;}
+        /*body, html { font-family:helvetica,arial,sans-serif; font-size:95%; }*/
+		*{ padding: 0; margin: 0;}
+		fieldset{ font-family: inherit;}
+		.border{ border: 1px solid #ccc; height: 100%; margin: 5px; padding: 5px;}
+        .border1{ border: 1px solid #ccc; height: 100%; margin: 5px; margin-left:0px; padding: 5px;}
+		
+	</style>	
+	
+</head>
+    <body class="<?php echo $them_style;?>" >
+       <!--  <div data-dojo-type="dijit/layout/BorderContainer" style="width: 100%; height: 100%;"> -->
+             <!-- <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'"> -->
+            <table width="100%">
+                <tr>
+                	<td colspan="2" valign="top" style="position: relative;width: 100%; z-index: 1;top: 0;background:rgb(243, 241, 241) none repeat scroll 0% 0%; font-family: sans-serif,'Times New Roman','Kh Battambang','Khmer Battambang';" >
+                		 <?php echo $this->render('header.phtml')?>
+			                <p style="font-size:13px !important;padding: 0;padding-bottom: 5px;margin-bottom: 5px;border-bottom: solid 1px #008;">
+						              <span style="padding-left: 3px;padding-right: 3px;float: left; font-weight:600; color: #000088;"><?php echo $tr->translate("USING_BY");?> <a style="color: #d20317;" href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'changepassword')); ?>"><?php echo $username;?></a></span>  
+							<a style="color: #000088;" href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>"> | <?php echo $tr->translate("SIGN_OUT");?> <i class="fa fa-reply" aria-hidden="true"></i></a>
+			                 <?php if($action=='index' AND $module!='report' AND $module!='home'){?>
+			                 <a class='add-link' style="float:right;" href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>"><?php echo $tr->translate('ADD');?> <span class="add_back"><i class="fa fa-plus-circle" aria-hidden="true"></i></span></a>
+							<?php }elseif($action=='add' OR $action=='edit' OR $module=='report'){?>
+							<a style="float:right;" class='add-link' href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> <?php echo $tr->translate('GO_BACK');?></a>
+							<?php }?>
+							</p>
+                	</td>
+                </tr>
+                <tr>
+                	<td colspan="2" height="0px;"></td>
+                </tr>
+            	<tr>
+            		<td valign="top" <?php if($module!='home') {echo'width="40px"'; }else{ echo 'width:10px'; } ?> >
+            			 <?php if($module!='home'){?>
+            			<?php echo $this->render('menuleft.phtml')?>            			
+					<?php }?>
+            		</td>
+            		<td valign="top" style=" width: 100%; padding: 0 10px;">
+            			<?php if($module=='report' AND $controller!='index'){?>
+            			<div style=" width:28cm; margin:0 auto; padding:0px 0.5cm">
+							<div class="menureport">
+								<ul>
+									<li class="preview"><a title="Preview" href="#" onclick="preview();"></a></li>
+									<li class="print"><a href="#" title="Print" onclick="doPrint();" ></a></li>
+									<li class="excel"><a href="#"  title="Export"  onclick="exportExcel();"></a></li>
+								</ul>
+							</div>
+						</div>
+							<div style="clear:both;"></div>
+							<?php }?>
+            			<?php 
+	            		$db = new Application_Model_DbTable_DbUsers();
+	            			$rs = $db->getAccessUrl($module,$controller,$action);
+	            			//if(!empty($rs) OR $action=='changepassword'){
+	            				echo $this->layout()->content;
+// 	            			}else{
+// 	            				echo $this->render('pagenotfund.phtml');
+// 	            			}
+            			 ?>
+            			<?php
+			               	if($module=='report' AND $action!='rpt-paymentschedules'){
+			            ?>
+		                <?php }?>
+            		</td>
+            	</tr>
+            </table>
+    </body>
+	<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
+<?php }else{
+		echo $this->render('headerfront.phtml');
+		echo $this->layout()->content;
+		echo $this->render('footerfront.phtml');
+}?>
+
+<?php if($module=='report' AND $controller!='index'){?>
+<script type="text/javascript">
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+    hideDialog();
+}
+function hideleft(){
+	(dojo.style("leftmenu","display") == "none") ? 'show':'hide'();
+}
+function preview()
+{ 
+  var disp_setting="toolbar=no,status=no,resizable=no,location=no,directories=yes,menubar=no,"; 
+      disp_setting+="scrollbars=no,width=1100, height=700, left=100, top=25"; 
+  var content_vlue = document.getElementById("divPrint").innerHTML; 
+  var docprint=window.open("","",disp_setting); 
+   docprint.document.open(); 
+   docprint.document.write('<html><head>'); 
+   docprint.document.write('</head><div style=" font-size:16px !important; margin:0px; font-family:Verdana;"><style>table th {font-size:14px !important;} table td{font-size:12px !important;}</style><center>');          
+   docprint.document.write(content_vlue);          
+   docprint.document.write('</center></div></html>'); 
+   docprint.document.close(); 
+   docprint.focus(); 
+}
+function exportExcel(){
+	$('#exportExcel').tableExport({type:'excel',escape:'false'});
+}
+</script>
+<?php }?>
+</html>

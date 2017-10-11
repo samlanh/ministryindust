@@ -1,0 +1,118 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$this->headTitle($tr->translate('EDIT_FAQ')); 
+echo $this->headTitle();
+$frm = $this->frm;
+$db = new MenuManager_Model_DbTable_DbFaq();
+$countlang = count($this->lang);
+
+if(!empty($this->row['image_feature'])){
+	$profile="article/".$this->row['image_feature'];
+}else{
+	$profile ="slide/no-photo.png";
+}
+?>
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.FilteringSelect');
+	dojo.require("dijit.Dialog");
+	require(["dijit/form/CheckBox","dijit/Dialog","dijit/layout/TabContainer"]);
+</script>
+<style>
+	div.cke_contents.cke_reset {
+		height: 600px !important;
+	}
+	img.image_view {
+		width: 273px;
+		height: 182px;
+	}
+	#table_parent thead tr td{
+		background: url(../images/tbheader-bg1.jpg) repeat-x scroll center top #F1F1F1;
+		border: 1px solid #CCC;
+		color: #333;
+		font-size: 14px;
+		font-weight: bold;
+		line-height: 30px;
+		padding: 2px 5px;
+		text-align: center;
+		cursor: pointer;
+	}
+</style>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.js"></script>
+<link href="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.css" rel="stylesheet">
+<form action="<?php echo $this->url(array('module'=>'menu-manager','controller'=>'faq','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				return true;
+			}
+
+			return false;
+	</script>
+		
+	<table style="margin: 0 auto; width: 100%">
+		<tr class="header">
+			<td><strong><i class="fa fa-file-word-o" aria-hidden="true"></i><?php echo $tr->translate('EDIT_FAQ')?></strong></td>
+		</tr>
+		<tr>
+			<td>
+					<table  width="100%">
+						<tr>
+							<td align="left" valign="top" width="70%">
+							<?php if ($countlang>1){?>
+								<div id="mainTabContainer" style=" position:relative; width:750px; display:block; height: 900px;" dojoType="dijit.layout.TabContainer" region="center" >
+					      	<?php }?>		
+					      	<?php $alias=''; foreach($this->lang as $key=> $rs){ if ($key<1){ $alias = str_replace(' ','',$rs['title']);} $lang = $db->getFaqTitleByLang($this->id, $rs['id']);?>
+					      			<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="<?php echo $tr->translate(strtoupper($rs['title']));?>" selected="true">
+										<table cellspacing="5" width="100%">
+											<tr>
+												<td class="bold"><?php echo $tr->translate('TITLE')?></td>
+												<td>
+													<input type="text"  dojoType="dijit.form.TextBox" required="required" name="title<?php echo str_replace(' ','',$rs['title']);?>"  id="title<?php echo str_replace(' ','',$rs['title']);?>" value="<?php echo $lang['title'];?>" class="fullside" placeholder="<?php echo $tr->translate("TITLE_IN_".strtoupper($rs['title']));?>" />
+													<input type="hidden" dojoType="dijit.form.TextBox" name="iddetail<?php echo str_replace(' ','',$rs['title']);?>"  id="iddetail<?php echo str_replace(' ','',$rs['title']);?>" value="<?php echo $lang['id'];?>" class="fullside" />
+												</td>
+											</tr>
+											<tr><td colspan="2" class="bold"><?php echo $tr->translate('CONTENT_'.strtoupper($rs['title']))?></td></tr>
+											<tr>
+												<td colspan="2" style="height: 500px; vertical-align: top;">
+													<textarea class="ckeditor"   style="min-height:400px; height:400px;" id="description<?php echo str_replace(' ','',$rs['title']);?>" name="description<?php echo str_replace(' ','',$rs['title']);?>"><?php echo $lang['description'];?></textarea>
+												</td>
+											</tr>
+										</table>
+									</div>
+								<?php }?>
+							<?php if ($countlang>1){?>
+								</div>
+							<?php }?>
+							</td>
+							<td width="30%" style=" vertical-align: top;">
+								<table cellspacing="5" width="100%">
+									
+									<tr><td class="bold"><?php echo $tr->translate('STATUS')?></td></tr>
+									<tr>
+										<td><?php echo $frm->getElement('status');?></td>
+									</tr>
+								</table>
+							</td>								
+						</tr>
+						<tr>
+							<td>
+					
+						
+						</td>
+						</tr>
+					</table>	
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+			<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
+				iconClass="dijitIconUndo" onclick="window.history.back();"/>
+				<input class="button_success" type="submit" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+			</td>
+		</tr>
+	</table>	
+</form>
+

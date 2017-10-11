@@ -1,0 +1,202 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate('EDIT_INVOICE'));
+?>	
+<?php  $frm = $this->frm;?>
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
+<script>
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.NumberTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.Dialog");
+dojo.require("dijit.layout.TabContainer");
+dojo.require("dijit.form.Textarea");
+</script>
+<style>
+
+</style>
+<form id='add_client' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				return true;
+			} else {
+				return false;
+			}
+</script>
+<table  width="100%" style="margin-top:-5px;">
+	<tr class="header">
+		<td colspan="2"><strong><i class="fa fa-file-excel-o" aria-hidden="true"></i><?php echo $tr->translate('EDIT_INVOICE')?></strong></td>
+	</tr>
+	<tr>
+		<td style="max-width:1100px;border: solid 1px #eee;background: rgba(241, 241, 241, 0.2);">
+		<table style="margin: 0 auto; width: 100%;">
+			<tr>
+				<td align="left" valign="top">
+					<table style="margin: 0 auto; width: 100%;" cellspacing="10">
+						<tr>
+							<td class="bold"><?php echo $tr->translate("ORDER_DATE")?></td>
+							<td><?php echo $frm->getElement('order_date');?></td>
+						</tr>
+						<tr>
+							<td class="bold"><?php echo $tr->translate("INVOICE_NO")?></td>
+							<td><?php echo $frm->getElement('invoice_no');?></td>
+							<td class="bold"><?php echo $tr->translate("CUSTOMER")?></td>
+							<td><?php echo $frm->getElement('client_id');?></td>
+						</tr>
+						<tr>
+							<td class="bold"><?php echo $tr->translate("AMOUNT")?></td>
+							<td><?php echo $frm->getElement('amount');?></td>
+							<td class="bold"><?php echo $tr->translate("BALANCE")?></td>
+							<td><?php echo $frm->getElement('balance');?></td>
+						
+						</tr>
+						<tr>
+							<td class="bold"><?php echo $tr->translate("DELIVERY_INFO")?></td>
+							<td><?php echo $frm->getElement('delivery_info');?></td>
+							<td class="bold"><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('status');?></td>
+						</tr>
+						<tr>
+							<td colspan="4" style="border-bottom: solid 1px #ccc;" class="bold"><?php echo $tr->translate("NOTE")?></td>
+						</tr>
+						<tr>
+							<td colspan="4"><?php  	echo $frm->getElement('note');?></td>
+						</tr>
+						<tr>
+							<td colspan="4" align="center">
+								<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
+								<input type="submit" value="SAVE_CLOSE" tabindex="2" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
+									iconClass="dijitEditorIcon dijitEditorIconSave" /> 
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+			
+		</td>
+	</tr>
+</table>	
+</form>
+<table>
+<tr>
+</tr>
+</table>
+<?php echo $this->client_form;?>
+<script type="text/javascript">
+var district_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));?> );
+var commune_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));?> );
+/*dojo.ready(function(){
+	
+	try{
+		new dijit.form.FilteringSelect({
+		store: district_store,
+		autoComplete: true,
+		required: false,		           
+		name: "district",
+		id: "district",
+		searchAttr: "name",
+		class: 'fullside',
+		missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ ស្រុក/ខ័ណ្ឌ!",	
+			onChange: function() {
+				district = dijit.byId('district').get('value');
+				if(district==-1){
+					showPopupdistrict();
+					}
+					filterCommune();
+			}  
+		}, "district");
+		 
+		new dijit.form.FilteringSelect({
+		store: commune,
+		autoComplete: true,
+		required: false,		           
+		name: "commune",
+		id: "commune",
+		searchAttr: "name",
+		class: 'fullside',
+		missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឃុំ/សង្កាត់",	
+			onChange: function() {
+				commune = dijit.byId('commune').get('value');
+				if(commune==-1){
+					showPopupCommune();
+				}
+				else{
+					filterVillage();
+				}
+			  }
+		}, "commune");		 
+
+	}catch(e){
+		alert(e);
+	}
+});*/
+function setBalance(){
+	ammount = dijit.byId('amount').get('value');
+	dijit.byId('balance').attr('value',ammount);
+}
+function showFormClient(){
+	client_id = dijit.byId('client_id').get('value');
+	if(client_id==-1){
+		dijit.byId('frm_client').show();
+	}
+}
+var client_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->client))?>);
+var url_addclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add-client')); ?>';
+function addCustomer(){
+	if(dijit.byId('form_client').validate()){
+		dojo.xhrPost({
+			url:url_addclient,
+			form: dojo.byId("form_client"),
+			handleAs:"json",
+			load: function(data) {
+				var Itemmake = {					
+						id: data,
+					    name: dijit.byId('customer_name').get('value')
+				};			
+				addDataToSelectbox(dijit.byId('client_id'), client_store, Itemmake, data);
+				dijit.byId('form_client').reset();
+				dijit.byId("frm_client").hide();
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+	}
+}
+var check=1;
+var url_email = '<?php echo $this->baseUrl();?>/index/checkmail';
+function checkMail(){
+	email = $('#email').val();
+	 var message = document.getElementById('error');
+	$.ajax({
+        url: url_email,
+        type: "post",
+        data: {'email':email},
+        success: function(data){
+            val = $.parseJSON(data);
+				if(val==1){
+					 message.innerHTML = "  Email already use !";
+ 					dijit.byId('email').focus();
+ 					check=1;
+				}else{
+					message.innerHTML = "";
+					check=0;
+				}
+
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+}
+</script>
+
+
+
+
+
+
+
+

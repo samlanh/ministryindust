@@ -1,0 +1,231 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+ <title><?php echo $tr->translate("COMPANY_NAME");?></title>
+		<!-- Slider Three Area Start -->
+		<div class="slider-three-area">
+		    <div class="slider-wrapper">
+		    <?php if(!empty($this->slideshow))  foreach($this->slideshow as $key => $ss){?>
+		        <div  data-dot="<?php echo $key+1;?>" class="single-slide" style="background-image: url('<?php echo $this->baseUrl()."/images/slide/".$ss; ?>');">
+                    <div class="banner-content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-10 col-sm-12 col-xs-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+		        </div>
+		         <?php }?> 
+		    </div>
+		</div>
+		<!-- Slider Three Area End -->
+		<?php if (!empty($this->gethomearticle)){?>
+		<!-- Blog Two Area Start -->
+        <div class="blog-two-area newsevent ptb-20">
+            <div class="container">
+                <div class="section-title-light text-center fix">
+                    <h2><?php echo $this->categoryinfo['title'];?></h2>
+                </div>
+                <div class="row">
+                    <div class="blog-carousel">
+                        <?php foreach ($this->gethomearticle as $rs){
+                        	?>
+						<div class="col-xs-12">
+                            <div class="single-blog listnews">
+                                <div class="blog-image">
+                                    <a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"?>">
+                                    	<?php if (!empty($rs['image_feature'])){?>
+                                      	  <img src="<?php echo $this->baseUrl()."/images/article/".$rs['image_feature']?>" alt="">
+                                        <?php }else{?>
+                                       	  <img src="<?php echo $this->baseUrl()."/images/noimage.jpg"?>" alt="">
+                                        <?php }?>
+                                    </a>
+                                </div>
+                                <div class="blog-text">
+                                    <h5><a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"?>"><?php echo mb_substr($rs['title'],0,120, "utf-8");?></a></h5>
+                                    <p><?php
+                                    	echo mb_substr($rs['description_forweb'],0,100, "utf-8")."...";
+                                    ?></p>
+                                    <div class="readmore">
+										<a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"?>" class="default-btn readmore"><span><?php echo $tr->translate("READ_MORE");?></span></a>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php }?>
+                     </div>
+                </div>
+				<div class="section-button text-center pt-20">
+					<a href="<?php echo $this->baseUrl()."/page/index?category=".$this->categoryinfo['alias_category'].".html";?>" class="default-btn showall"><span><?php echo $tr->translate("SHOW_ALL");?></span></a>
+				</div>
+             </div>
+         </div>
+        <!-- Blog Two Area End -->
+        <?php }?>
+        <!-- Tap Area Start -->
+        <div class="tap-area  pb-20">
+		   <div class="tapfeature"><!--menu-->
+				<div class="container">
+					<ul class="menutap">
+						<li class="active">
+							<a href="#news" data-toggle="tab" aria-expanded="true">
+								<span class="middle">អង្គភាពស្វយ័ត</span>
+							</a>
+						</li>
+						<li>
+							<a href="#events" data-toggle="tab" aria-expanded="false">
+								<span class="middle">អង្គភាពដែគូរ</span>
+							</a>
+						</li>
+						<li>
+							<a href="#events" data-toggle="tab" aria-expanded="false">
+								<span class="middle">អង្គភាព ស្ថាប័ន ឆ្នាំ</span>
+							</a>
+						</li>
+						<li>
+							<a href="#events" data-toggle="tab" aria-expanded="false">
+								<span class="middle">អង្គភាពឯកជន</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="container">
+				<div class="nav-tab-content tab-content">
+					<div id="news" class="tab-pane postlist fade list-article active in" data-role="content">
+						<div class="content-tap">
+							<ul class="list_compay">
+								<li><a href="#">រដ្ឋករទឹកស្វយ័ត ភ្នំពេញ</a></li>
+								<li><a href="#">រដ្ឋករទឹកស្វយ័ត សៀមរាប</a></li>
+								<li><a href="#">រដ្ឋករទឹកស្វយ័ត កណ្ដាល</a></li>
+							</ul>
+						</div>
+					
+					</div>
+					<div id="events" class="tab-pane postlist fade list-article" data-role="content">
+						<div class="content-tap">
+							<ul class="list_compay">
+								<li><a href="#">ដៃគូភ្នំពេញ</a></li>
+								<li><a href="#">ដៃគូសៀមរាប</a></li>
+								<li><a href="#">ដៃគូកណ្ដាល</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+        <!-- Tap Area End -->
+       <div class="blog-two-area ptb-20">
+			<a href="#"><img src="<?php echo $this->baseUrl()."/template/"?>home.jpg" alt=""></a>
+	   </div>
+        <!-- Blog Two Area Start -->
+        <div class="file_slide ptb-20">
+            <div class="container">
+                <div class="row">
+                    <div class="blog-file-slide">
+                    <?php for ($i=0; $i<5; $i++){?>
+                        <div class="col-xs-12">
+                            <div class="single-blog">
+								<div class="title_date">
+									ថ្ងៃច័ន្ទ ២១ មេសា ២០១៧
+								</div>
+                                <div class="blog-image">
+                                    <a href="#">
+                                        <img src="<?php echo $this->baseUrl()."/template/"?>file.jpg" alt="">
+                                    </a>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <?php }?>
+                    </div>
+					<div class="section-button text-center pt-20">
+						<a href="blog-details.html" class="default-btn showall"><span>បង្ហាញទាំងអស់</span></a>
+					</div>
+                </div>
+            </div>
+        </div>
+        <!-- Blog Two Area End -->
+		
+		<div class="blog-two-area ptb-20">
+			<a href="#"><img src="<?php echo $this->baseUrl()."/template/"?>formheader.jpg" alt=""></a>
+	   </div>  
+		<div class="blog-two-area ptb-20">
+			<div class="container">
+                 <div class="row">
+				 <div class="col-md-2 col-sm-12 col-xs-12">
+				 </div>
+					<div class="col-md-8 col-sm-12 col-xs-12">
+						<form action="" method="POST">
+							<div class="form_search_home">
+								<div class="row-form-home">
+									<div class="label_title">លេខកូដ</div>
+									<div class="field_value" >
+										<input type="text" name="name" id="name" placeholder="លេខកូដតាមតំបន់">
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="label_title">ស្ថាប័នក្រោមចំនុះ</div>
+									<div class="field_value" >
+										<select name="oranization" id="oranization" class="js-select2" >
+											<option value="-1">ជ្រើសរើស ស្ថាប័នក្រោមចំនុះ</option>
+											<?php if(!empty($this->rsdepartment)){
+												foreach($this->rsdepartment as $rs){
+											?>	
+												<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+										<?php }}?>
+										</select>
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="label_title">ផលិតផល</div>
+									<div class="field_value" >
+										<input type="text" name="product" id="product" placeholder="សូមបញ្ចូលផលិតផលស្ថាប័ន">
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="label_title">ក្រុង ឬ ខេត្ត</div>
+									<div class="field_value" >
+										<select name="province" id="province" class="js-select2" >
+											<option value="-1">ជ្រើសរើស រាជធានី/ខេត្ត</option>
+											<?php if(!empty($this->rsprovince)){
+													foreach($this->rsprovince as $rs){
+											?>	
+													<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['province_kh_name'];?></option>
+											<?php }}?>
+										</select>
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="button_submit" >
+										<input type="submit" value="ស្វែងរកស្ថាប័ន"  class="btu_submit"/>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-md-2 col-sm-12 col-xs-12">
+				 </div>
+				 </div>
+			</div>
+		</div>
+		<?php if (!empty($this->partner)){?>
+		<div class="partner ptb-20">
+			<div class="container">
+				 <div class="section-title-light text-center fix">
+                    <h2><?php echo $tr->translate("PARTNER");?></h2>
+                </div>
+				<div class="row">
+					<div class="partner_list_content">
+						<ul class="partner_list">
+						<?php foreach ($this->partner as $rs){?>
+							<li class="col-md-2 col-sm-3 col-xs-6 partnerlist"><img src="<?php echo $this->baseUrl()."/images/slide/partner/".$rs?>" /><li>
+						<?php }?>
+						</ul>
+					</div>
+				 </div>
+			 </div>
+	   </div>  
+	   <?php }?>
+ 

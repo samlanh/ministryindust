@@ -1,0 +1,69 @@
+<div class="blog-two-area ptb-20">
+			<a href="#"><img src="<?php echo $this->baseUrl()."/template/"?>formheader.jpg" alt=""></a>
+</div>  
+<div class="blog-two-area ptb-20">
+			<div class="container">
+                 <div class="row">
+					<div class="col-md-8 col-sm-12 col-xs-12">
+						<form action="" method="POST">
+							<div class="form_search_home">
+								<div class="row-form-home">
+									<div class="label_title">លេខកូដ</div>
+									<div class="field_value" >
+										<input type="text" name="name" id="name" placeholder="លេខកូដតាមតំបន់">
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="label_title">ស្ថាប័នក្រោមចំនុះ</div>
+									<div class="field_value" >
+										<select name="oranization" id="oranization" class="js-select2" >
+											<option value="-1">ជ្រើសរើស ស្ថាប័នក្រោមចំនុះ</option>
+											<?php if(!empty($this->rsdepartment)){
+										foreach($this->rsdepartment as $rs){
+									?>	
+										<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+								<?php }}?>
+								</select>
+							</div>
+						</div>
+						<div class="row-form-home">
+							<div class="label_title">ផលិតផល</div>
+							<div class="field_value" >
+								<input type="text" name="product" id="product" placeholder="សូមបញ្ចូលផលិតផលស្ថាប័ន">
+							</div>
+						</div>
+						<div class="row-form-home">
+							<div class="label_title">ក្រុង ឬ ខេត្ត</div>
+							<div class="field_value" >
+								<select name="province" id="province" class="js-select2" >
+									<option value="-1">ជ្រើសរើស រាជធានី/ខេត្ត</option>
+									<?php if(!empty($this->rsprovince)){
+											foreach($this->rsprovince as $rs){
+									?>	
+											<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['province_kh_name'];?></option>
+									<?php }}?>
+								</select>
+							</div>
+						</div>
+						<div class="row-form-home">
+							<div class="button_submit" >
+								<input type="submit" value="ស្វែងរកស្ថាប័ន"  class="btu_submit"/>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<?php if (!empty($this->banner)){?>
+						<div class="blog-advertise" style="margin-top:30px;">
+							<?php foreach ($this->banner as $rs){?>
+							<div class="row_advertise pb-20"> 
+								<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
+							</div>
+							<?php }?>
+						</div>
+				<?php }?>
+		 	</div>
+		 </div>
+	</div>
+</div>

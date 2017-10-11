@@ -1,0 +1,1117 @@
+<?php 
+	$product = $this->product;
+	$session_lang=new Zend_Session_Namespace('lang');
+	$currentlang = $session_lang->lang_id;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	//$base_url = Application_Form_FrmMessage::getUrl("/");
+	$menu_info = $this->menu_info; 
+	$db = new Application_Model_DbTable_DbGlobalselect();
+	$articleperpage = $db->getWebsiteSetting("items_per_page");
+	$loadmordata= $articleperpage['value'];
+if(!empty($this->param['param'])){
+?>
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/templates/media/css/gallery.css"/>
+<title><?php echo $menu_info['title_menu'];?></title>
+	 
+				<?php if ($menu_info['menu_type_id']==1){ //category blog
+					if(!empty($menu_info['category_id'])){
+						$aticle = $db->getArcticleByCate($menu_info['category_id']);?>
+								<div class="col-wrapper-main page" >
+									<div class="row">
+										<div class="col-sm-6 cdz-area01 blogmenulef">
+											<div class="widget widget-static-block">
+												<div class="vertical-menu-wrap container-fluid menu-vertical-style02 menu-vertical-right">
+													<div class="row">
+														<ul class="nav nav-tabs verticle">
+															<?php
+															if (!empty($aticle)) foreach ($aticle as $key=>$rs){?>
+															<li class="nav-tab-item <?php if ($key==0){echo "active";}?> "><a class="data switch" href="<?php echo '#'.$rs['alias_article'];?>" data-toggle="tab" aria-expanded="false"><?php 
+															echo mb_substr($rs['title'],0,20,"utf-8");?></a></li>
+															<?php }?>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-18">
+										<div class="nav-tab-content tab-content blog-cate">
+											<?php if (!empty($aticle)) foreach ($aticle as $key=>$rs){?>
+											<div id="<?php echo $rs['alias_article'];?>" class="tab-pane fade <?php if ($key==0){echo "active in";}?>">
+												<div class="content">
+													<div class="content-title">
+														<h3><?php echo $rs['title'];?></h3>
+													</div>
+													<article class="sigle-article">
+													<?php echo $rs['description'];?>
+													</article>
+													<?php
+													$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+													?>
+													<div id="fb-root"></div>
+													<script>(function(d, s, id) {
+													  var js, fjs = d.getElementsByTagName(s)[0];
+													  if (d.getElementById(id)) return;
+													  js = d.createElement(s); js.id = id;
+													  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+													  fjs.parentNode.insertBefore(js, fjs);
+													}(document, 'script', 'facebook-jssdk'));
+													</script>
+													<iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo $url;?>&layout=button_count&size=small&mobile_iframe=true&appId=1196246787117200&width=86&height=20" width="86" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+												
+												</div>
+											</div>
+											<?php }?>
+										</div>
+									</div>
+								</div>							
+							</div>
+					<?php }?>
+				<?php }else if ($menu_info['menu_type_id']==2){//category list
+									$articless = $db->getArcticleByCateForlistAll($menu_info['category_id']);
+									$countarticle = $db->countarticle($menu_info['category_id']);
+								?>
+								<!-- Breadcrumb Area Start-->
+								<div class="breadcrumb-area bg-8">	
+									<div class="container">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="breadcrumb-text text-left">
+													<h2>OUR Blog</h2>
+													<div class="breadcrumb-bar">
+														<ul class="breadcrumb">
+															<li><a href="index.html">Home</a></li>
+															<li>Our Blog</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Breadcrumb Area End -->
+						        <!-- Blog Section Area Start -->
+						        <div class="blog-section-area ptb-150">
+						            <div class="container">
+						                <div class="row">
+						                    <div class="col-lg-9 col-md-8">
+						                        <div class="single-blog-post-wrapper">
+						                        <?php if(!empty($articless)) foreach($articless as $article){ ?>
+						                            <div class="single-blog-post">
+						                                <div class="blog-image">
+						                                    <a href="blog-details.html"><img src="img/blog/l-1.jpg" alt=""></a>
+						                                </div>
+						                                <div class="blog-post-meta">
+						                                    <span><i class="fa fa-pencil-square-o"></i>By <span>Power-boosts</span></span>
+						                                    <span><i class="fa fa-comment-o"></i>By Power-boosts</span>
+						                                </div>
+						                                <div class="blog-post-text">
+						                                    <h4><a href="blog-details.html">Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</a></h4>
+						                                    <p>Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. </p>
+						                                    <a href="blog-details.html" class="default-btn"><span>read more</span></a>
+						                                </div>
+						                            </div>
+						                            <?php }?>
+						                        </div>
+						                        <div class="pagination-wrapper fix">
+						                            <div class="pagination-content">
+						                                <a class="ht-page" href="#"><i class="fa fa-angle-left"></i>Prev</a>
+						                                <ul class="pagination">
+						                                    <li class="active"><a href="#">1</a></li>
+						                                    <li><a href="#">2</a></li>
+						                                    <li><a href="#">3</a></li>
+						                                    <li><a href="#">...</a></li>
+						                                    <li><a href="#">09</a></li>
+						                                </ul>
+						                                <a class="ht-page active" href="#">Next<i class="fa fa-angle-right"></i></a>
+						                            </div>
+						                        </div>
+						                    </div>
+						                    <div class="col-lg-3 col-md-4">
+						                        <div class="ht-single-widget">
+						                            <div class="ht-widget-item">
+						                                <div class="widget-content">
+						                                    <form action="#" method="post" class="serach-box">
+						                                        <input type="text" placeholder="Type and press enter...">
+						                                        <button><i class="fa fa-search"></i></button>
+						                                    </form>
+						                                </div>
+						                            </div>
+						                        </div>
+						                        <div class="ht-single-widget">
+						                            <h4 class="widget-title">categories</h4>
+						                            <div class="ht-widget-item">
+						                                <div class="widget-content">
+						                                    <ul class="post-category">
+						                                        <li><a href="#">Apps <span>(12)</span></a></li>
+						                                        <li><a href="#">Business <span>(06)</span></a></li>
+						                                        <li><a href="#">Coaching <span>(08)</span></a></li>
+						                                        <li><a href="#">Ideas <span>(05)</span></a></li>
+						                                        <li><a href="#">Innovation <span>(02)</span></a></li>
+						                                        <li><a href="#">Mobile <span>(08)</span></a></li>
+						                                        <li><a href="#">Technology <span>(01)</span></a></li>
+						                                        <li><a href="#">Trends <span>(10)</span></a></li>
+						                                    </ul>
+						                                </div>
+						                            </div>
+						                        </div>
+						                        <div class="ht-single-widget">
+						                            <h4 class="widget-title">Popular post </h4>
+						                            <div class="ht-widget-item">
+						                                <div class="widget-content">
+						                                    <div class="popular-post">
+						                                        <a href="blog-details.html"><img src="img/post/s-1.jpg" alt=""></a>
+						                                        <div class="post-text">
+						                                            <span>2 days ago</span>
+						                                            <h6><a href="blog-details.html">Claritas est etiam processus dynamicus.</a></h6>
+						                                            <span>Post by <span>Power-boosts</span></span>
+						                                        </div>
+						                                    </div>
+						                                    <div class="popular-post">
+						                                        <a href="blog-details.html"><img src="img/post/s-2.jpg" alt=""></a>
+						                                        <div class="post-text">
+						                                            <span>2 days ago</span>
+						                                            <h6><a href="blog-details.html">Claritas est etiam processus dynamicus.</a></h6>
+						                                            <span>Post by <span>Power-boosts</span></span>
+						                                        </div>
+						                                    </div>
+						                                    <div class="popular-post">
+						                                        <a href="blog-details.html"><img src="img/post/s-3.jpg" alt=""></a>
+						                                        <div class="post-text">
+						                                            <span>2 days ago</span>
+						                                            <h6><a href="blog-details.html">Claritas est etiam processus dynamicus.</a></h6>
+						                                            <span>Post by <span>Power-boosts</span></span>
+						                                        </div>
+						                                    </div>
+						                                    <div class="popular-post">
+						                                        <a href="blog-details.html"><img src="img/post/s-4.jpg" alt=""></a>
+						                                        <div class="post-text">
+						                                            <span>2 days ago</span>
+						                                            <h6><a href="blog-details.html">Claritas est etiam processus dynamicus.</a></h6>
+						                                            <span>Post by <span>Power-boosts</span></span>
+						                                        </div>
+						                                    </div>
+						                                </div>
+						                            </div>
+						                        </div>
+						                        <div class="ht-single-widget">
+						                            <h4 class="widget-title">Popular tags</h4>
+						                            <div class="ht-widget-item">
+						                                <div class="widget-content">
+						                                    <ul class="tags">
+						                                        <li><a href="#">Services</a></li>
+						                                        <li><a href="#">Car</a></li>
+						                                        <li><a href="#">Business</a></li>
+						                                        <li><a href="#">Repair</a></li>
+						                                        <li><a href="#">Repair</a></li>
+						                                        <li><a href="#">Corporate</a></li>
+						                                        <li><a href="#">Auto</a></li>
+						                                        <li><a href="#">Company</a></li>
+						                                        <li><a href="#">Car</a></li>
+						                                        <li><a href="#">Business</a></li>
+						                                        <li><a href="#">Services</a></li>
+						                                        <li><a href="#">Car</a></li>
+						                                    </ul>
+						                                </div>
+						                            </div>
+						                        </div>
+						                        <div class="ht-single-widget">
+						                            <h4 class="widget-title">archive</h4>
+						                            <div class="ht-widget-item">
+						                                <div class="widget-content">
+						                                    <ul class="post-category">
+						                                        <li><a href="#">February 2016 <span>(12)</span></a></li>
+						                                        <li><a href="#">January 2016 <span>(06)</span></a></li>
+						                                        <li><a href="#">December 2015 <span>(08)</span></a></li>
+						                                        <li><a href="#">November 2015 <span>(05)</span></a></li>
+						                                        <li><a href="#">October 2015 <span>(02)</span></a></li>
+						                                    </ul>
+						                                </div>
+						                            </div>
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						        </div>
+						        <!-- Blog Section Area End -->
+								<div class="col-wrapper-main page" >
+									<div class="row">
+										<div class="col-sm-6 cdz-area01 blogmenulef">
+											<div class="feature-title menu-right">
+												  <span><?php echo $tr->translate("PSIS Information")?></span>
+											</div>
+											<div class="widget widget-static-block">
+												<div class="vertical-menu-wrap container-fluid menu-vertical-style02 menu-vertical-right">
+													<div class="row">
+														<ul class="sidebar-menu">
+														<?php if(!empty($this->menuright)) foreach($this->menuright as $menu){ $checksub = $db->checkSubMenuRight($menu['id']);?>
+															<li>
+																<a href="<?php echo $this->baseUrl()."/page/index?param=".$menu['alias_menu'].".html";?>">
+																  <span><?php echo $menu['title']?></span>
+																  <?php if(!empty($checksub)){?>
+																  <i class="fa fa-angle-left pull-right"></i>
+																  <?php }?>
+																</a>
+																<?php echo $db->getSubMenuRight($this->baseUrl(), $menu['id']); ?>
+															</li>
+														<?php }?>
+														</ul>
+													</div>	
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-18">
+											<div class="row">
+												<div class="col-sm-24">
+													<div class="widget widget-static-block">
+														<div class="">
+															<div class="nav-tab-content tab-content">
+																<div id="listarticle" class=" postlist list-article" data-role="content">
+																	<div class="postlist list-article">
+																	<?php if(!empty($articless)) foreach($articless as $article){ ?>
+																		<div class="list-article article row">
+																			<a href="<?php echo $this->baseUrl()."/page/index?article=".$article['alias_article'].".html"; ?>">
+																				<div class="col-sm-8 article_moblie">
+																					<?php if(!empty($article['image_feature'])){?>
+																						<img src="<?php echo $this->baseUrl()."/images/article/".$article['image_feature'];?>"/>
+																					<?php }else{?>
+																						<img src="<?php echo $this->baseUrl()."/images/noimage.jpg";?>"/>
+																					<?php }?>
+																				</div>
+																				<div class="col-sm-16 article_moblie">
+																					<div class="article-blog-title">
+																						<span class="web"><?php echo $article['title'];?></span>
+																						<span class="mobile">
+																						<?php 
+																								$str1 = utf8_encode($article['title']);
+																								$artitle = substr($str1, 0, 30);
+																								echo utf8_decode($artitle); 
+																							?>
+																						</span>
+																						<div class="small">
+																						  <ul>
+																							<li><i class="fa fa-clock-o"></i> <span class="pub-date"><?php echo date("d-M-Y",strtotime($article['create_date']));?></span></li>                            
+																						  </ul>
+																						  <div class="clear"></div>
+																						</div>
+																					</div>
+																					<div class="article-list-detail web">
+																						<p>
+																							<?php
+																								echo strip_tags($article['description_forweb']);
+																							?>
+																						</p>
+																					</div>
+																					<div class="article-list-detail mobile">
+																						<p>
+																							<?php
+																								echo strip_tags($article['short_descript']);
+																							?>
+																						</p>
+																					</div>
+																				</div>
+																			</a>
+																		</div>
+																		<div class="clear"></div>
+																	<?php }?>
+																	</div>
+																</div>
+																<div class="count_article">
+																	<p><?php echo $tr->translate("TOTAL");?> <span id="allarticle"><?php echo count($articless)." /".$countarticle;?></span><?php echo " ".$tr->translate("ARTICLES");?></p>
+																</div>
+																<div class="wrapperloading">
+																	<span class="norecord"></span>
+																	<div class="loading-info"><img src="<?php echo $this->baseUrl()?>/images/loading.gif" /></div>
+																</div>
+																<div id="button_seemore">
+																	<button type="button" title="<?php echo $tr->translate("CLICK_LOAD_MORE");?>" onClick="load_contents('<?php echo $loadmordata;?>');" class="button singin seemore"><span><span><?php echo $tr->translate("CLICK_LOAD_MORE");?></span></span></button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<script>
+									var loadmoredat = '<?php echo $loadmordata;?>';
+									var track_page = 1; //track user scroll as page number, right now page number is 1
+									var paget = '<?php echo $menu_info['category_id'];?>';
+									var allarticle = '<?php echo $countarticle;?>';
+										function load_contents(track_page){
+										  var url_loading = '/index/loadmorearticle';
+										  jQuery('.loading-info').css("display","block");
+											 jQuery.ajax({
+												url:baseurl+url_loading,
+												type: "post",
+												data: {'page':track_page,'pages':paget},
+												success: function(data){
+													
+													val = jQuery.parseJSON(data);
+													var morepage = parseFloat(track_page)+parseFloat(loadmoredat);
+
+													if(val.countitem==0){
+														jQuery('.norecord').html('<?php echo $tr->translate("NO_MORE_RECORD");?>');
+														document.getElementById('button_seemore').innerHTML = '';
+														 jQuery('.loading-info').css("display","none");
+														return false;
+													}else{
+														jQuery('.norecord').html("");
+														 document.getElementById('button_seemore').innerHTML = '<button type="button" title="<?php echo $tr->translate("CLICK_LOAD_MORE");?>" onClick="load_contents('+morepage+');" class="button singin seemore"><span><span><?php echo $tr->translate("CLICK_LOAD_MORE");?></span></span></button>';
+													}
+													
+												   jQuery("#listarticle").append(val.stringss); //append data into #results element
+												   jQuery('.loading-info').css("display","none");
+												   var allar =morepage; 
+												   if(morepage>allarticle){
+													   allar = allarticle;
+												   }
+												   document.getElementById('allarticle').innerHTML = allar+' /'+allarticle;
+													},
+													error: function(err) {
+														alert(err);
+													}
+												});
+
+										}
+									</script>
+									<script type="text/javascript" src="<?php echo $this->baseUrl() ?>/templates/media/js/template.js"></script>
+				<?php }else if ($menu_info['menu_type_id']==3){//sigle aticle
+									$aticle = $db->getAticleByID($menu_info['article_id']);?>
+								<?php
+								$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+								?>
+								<div class="col-wrapper-main page" >
+									<div class="row">
+										<div class="col-sm-6 cdz-area01 blogmenulef">
+											<div class="feature-title menu-right">
+												  <span><?php echo $tr->translate("PSIS Information")?></span>
+											</div>
+											<div class="widget widget-static-block">
+												<div class="vertical-menu-wrap container-fluid menu-vertical-style02 menu-vertical-right">
+													<div class="row">
+														<ul class="sidebar-menu">
+														<?php if(!empty($this->menuright)) foreach($this->menuright as $menu){ $checksub = $db->checkSubMenuRight($menu['id']);?>
+															<li>
+																<a href="<?php echo $this->baseUrl()."/page/index?param=".$menu['alias_menu'].".html";?>">
+																  <span><?php echo $menu['title']?></span>
+																  <?php if(!empty($checksub)){?>
+																  <i class="fa fa-angle-left pull-right"></i>
+																  <?php }?>
+																</a>
+																<?php echo $db->getSubMenuRight($this->baseUrl(), $menu['id']); ?>
+															</li>
+														<?php }?>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-18">
+											<div class="blog-content">
+												<div class="post-header">
+													<div class="post-title">
+														<h3><?php echo $aticle['title'];?></h3>
+													</div>
+													<?php if(!empty($aticle['modify_date'])){?>
+													<div class="small-utility">
+														<ul class="ico">
+											                <li><i class="fa fa-calendar"></i> <span class="sdate"><?php echo date("d-M-Y",strtotime($aticle['modify_date']));?></span></li>            
+															<li><iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo $url;?>&layout=button_count&size=small&mobile_iframe=true&appId=1196246787117200&width=86&height=20" width="86" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+															</li>
+														  </ul>
+													</div>
+													<?php }?>
+												</div>
+												<div class="post-content">
+													<article class="sigle-article">
+														<?php echo $aticle['description'];?>
+													</article>
+													
+													<div id="fb-root"></div>
+													<script>(function(d, s, id) {
+													  var js, fjs = d.getElementsByTagName(s)[0];
+													  if (d.getElementById(id)) return;
+													  js = d.createElement(s); js.id = id;
+													  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+													  fjs.parentNode.insertBefore(js, fjs);
+													}(document, 'script', 'facebook-jssdk'));
+													</script>
+													
+												</div>
+											</div>
+										</div>
+									</div>							
+								</div>
+				<?php }else if ($menu_info['menu_type_id']==4){//Contacts
+				$session_message_session = new Zend_Session_Namespace('sentmail_msg');
+				$message = $session_message_session->message;
+				$session_message_session->unsetAll();
+				$contact = $db->getMenuContactByMenID($menu_info['id']);?>
+						<!-- Breadcrumb Area Start-->
+								<div class="breadcrumb-area bg-9">	
+									<div class="container">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="breadcrumb-text text-left">
+													<h2><?php echo $menu_info['title_menu'];?></h2>
+													<div class="breadcrumb-bar">
+														<ul class="breadcrumb">
+															<li><a href="<?php echo $this->baseUrl();?>"><?php echo $tr->translate("HOME");?></a></li>
+															<li><?php echo $menu_info['title_menu'];?></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Breadcrumb Area End -->
+						        <!-- Contact Information Area Start -->
+						        <div class="contact-information-area pt-20">
+						            <div class="container">
+						            	<div class="row">
+						                    <div class="col-lg-12 col-md-12">
+						                        <div class="section-title-two">
+						                            <h3><span class="icon icon-Info"></span> <?php echo $tr->translate("CONTACT_INFOMATION");?></h3>
+						                        </div>
+						                    </div>
+						                </div>
+						                <div class="row">
+						                    <div class="col-md-4 col-sm-4">
+						                        <div class="single-c-info">
+						                            <span class="icon icon-Phone"></span>
+						                            <h5><?php echo $tr->translate("PHONE");?></h5>
+						                            <div class="c-divider"></div>
+						                            <span><?php echo $contact['tel']?></span>
+						                        </div>
+						                    </div>
+						                    <div class="col-md-4 col-sm-4">
+						                        <div class="single-c-info">
+						                            <span class="icon icon-Pointer"></span>
+						                            <h5><?php echo $tr->translate("ADDRESS");?></h5>
+						                            <div class="c-divider"></div>
+						                            <span><?php echo $contact['address']?></span>
+						                        </div>
+						                    </div>
+						                    <div class="col-md-4 col-sm-4">
+						                        <div class="single-c-info">
+						                            <span class="icon icon-Phone"></span>
+						                            <h5><?php echo $tr->translate("EMAIL");?></h5>
+						                            <div class="c-divider"></div>
+						                            <span><?php echo $contact['email']?></span>
+						                        </div>
+						                    </div>
+						                </div>
+						            </div>
+						        </div>
+						        <!-- Contact Information Area End -->
+						        <!-- Contact Form Area Start -->
+						        <div class="contact-form-area pt-20 pb-20">
+						            <div class="container">
+						            	<div class="col-md-6 col-sm-6">
+							                <div class="row">
+							                    <div class="col-lg-12 col-md-12">
+							                        <div class="section-title-two">
+							                            <h3><span class="icon icon-Info"></span> <?php echo $tr->translate("CONTACT_FORM");?></h3>
+							                        </div>
+							                    </div>
+							                </div>
+							                <div class="contact-form-wrapper fix">
+							                    <form id="contact-form"" onsubmit="return validateFormContact(this);" action="<?php echo $this->baseUrl().'/index/contact-form-send-mail'?>" method="post">
+							                        <div class="row">
+							                            <div class="col-md-6">
+							                                <input type="text" name="name" id="name" placeholder="<?php echo $tr->translate("NAME");?>" title="<?php echo $tr->translate("NAME");?>">
+							                            </div>
+							                            <div class="col-md-6">
+							                                <input type="text" name="email" id="email" placeholder="<?php echo $tr->translate("EMAIL");?>" title="<?php echo $tr->translate("EMAIL");?>">
+							                            </div>
+							                            <div class="col-md-6">
+							                                <input type="text" name="telephone" id="telephone" placeholder="<?php echo $tr->translate("PHONE");?>" title="<?php echo $tr->translate("PHONE");?>">
+							                            </div>
+							                            <div class="col-md-6">
+							                                <input type="text" name="subject" id="subject" placeholder="<?php echo $tr->translate("SUBJECT");?>">
+							                            </div>
+							                        </div>
+							                        <textarea name="comment" id="comment" cols="30" rows="10" placeholder="<?php echo $tr->translate("COMMENT");?>" title="<?php echo $tr->translate("COMMENT");?>"></textarea>
+							                        <button type="submit" class="submit-btn default-btn gradient">
+							                            <span><?php echo $tr->translate("SUBMIT");?></span>
+							                        </button>
+							                        <p id="message" class="form-messege"><?php if(!empty($message)){ echo $message; } ?></p>
+							                    </form>
+							                    <script> 
+													function validateFormContact(form){
+													var message = document.getElementById('message');
+													  re = /^\w+$/;
+													  if(form.name.value==""){
+														  message.innerHTML = "Please fill your Name !";
+													      form.name.focus();
+													      return false;
+													  }else if(form.email.value == "") {
+													      message.innerHTML = "Please fill your email address !";
+													      form.email.focus();
+													      return false;
+													  }else if(form.subject.value == "") {
+													      message.innerHTML = "Please fill your subject address !";
+													      form.email.focus();
+													      return false;
+													   }else if(form.comment.value == "") {
+														      message.innerHTML = "Please fill your comment !";
+														      form.comment.focus();
+														      return false;
+												        }
+													  return true;
+												}
+												</script>
+							                </div>
+							              </div>
+							              <div class="col-md-6 col-sm-6">
+							              	<div class="row">
+							                    <div class="col-lg-12 col-md-12">
+							                        <div class="section-title-two">
+							                            <h3><span class="icon icon-Pointer"></span> <?php echo $tr->translate("LOCATION");?></h3>
+							                        </div>
+							                    </div>
+							                </div>
+						                 <!-- Google Map Start -->
+									        <div class="google-map-area">
+									            <!--  Map Section -->
+									            <?php if (!empty($contact['map'])){
+														echo $contact['map'];
+												 }else{?>
+													<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3991901.8873551!2d102.73614393157487!3d12.292761097008988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310787bfd4dc3743%3A0xe4b7bfe089f41253!2sCambodia!5e0!3m2!1sen!2skh!4v1494389183880" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+												<?php }?>
+									        </div>
+								        <!-- Google Map End -->
+						        		 </div>
+						            </div>
+						        </div>
+						        <!-- Contact Form Area End -->
+						       
+							<?php }else if ($menu_info['menu_type_id']==5){//Photo Gallary?>
+							
+							<?php $loadmordata=8; 
+							$countalb = $db->countAllalbum();
+							$album = $db->getAllAlbum();?>
+							<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/templates/jss/styles.css" />
+							<script type="text/javascript" src="<?php echo $this->baseUrl();?>/templates/jss/jquery.roundabout-1.0.min.js"></script> 
+							<script type="text/javascript" src="<?php echo $this->baseUrl();?>/templates/jss/jquery.easing.1.3.js"></script>
+							<script type="text/javascript" src="<?php echo $this->baseUrl();?>/templates/jss/jquery.roundabout-shapes-1.1.js"></script>
+								<div id="listcategory" class="gallery">
+									<?php if(!empty($album)) foreach($album as $rs){?>
+									<div class="col-sm-6 galleries">
+									  <?php if(!empty($rs['image_feature'])){?>
+										<img src="<?php echo $this->baseUrl()."/images/photo/".$rs['image_feature'];?>" alt="<?php echo $rs['image_feature'];?>" class="image" style="width:100%">
+									  <?php }else{?>
+										<img src="<?php echo $this->baseUrl();?>/templates/media/img_lights.jpg" alt="<?php echo $rs['image_feature'];?>" class="image" style="width:100%">
+									   <?php }?>
+									  <div class="overlay"><span><?php 
+									  	if(strlen($rs['title'])<=28){
+									  		echo mb_substr($rs['title'],0,28,"utf-8");
+									 	 }else{
+									 	 	echo mb_substr($rs['title'],0,28,"utf-8").".....";
+									 	 }
+									  		?></span></div>
+									  <div class="middle">
+										<div class="text" onClick="getAlbum('<?php echo $rs['title_alias'];?>');" ><?php echo $tr->translate("VIEW_DETAIL");?></div>
+										</div>
+									</div>
+									<?php }?>
+									<div id="myModal" class="modal">
+
+											  <!-- Modal content -->
+											  <div class="modal-content">
+												<div class="modal-header">
+												  <span class="close">&times;</span>
+												  <h2 id="albumtitleheader"></h2>
+												</div>
+												<div class="col-sm-24 modal-body">
+													 <div class="col-sm-14">
+														<div id="folio_scroller_container" class="grid_8 cleafix">
+															<ul id="folio_scroller"> 
+															</ul> 
+														</div>
+													 </div>
+												  	<div class="col-sm-10">
+														<div class="title">
+															<h2 id="albumtitle"></h2>
+														</div>
+														<div id="albumdescription" class="description">
+														</div>
+													 </div>
+												</div>
+											  </div>
+
+											</div>
+									  </div>
+									
+									  <div class="count_article">
+											<p><?php echo $tr->translate("TOTAL");?> <span id="allablum"><?php echo count($album)." /".$countalb;?></span><?php echo " ".$tr->translate("ALBUM");?></p>
+										</div>
+									  <?php if(count($album)==8){?>
+										<div class="wrapperloading">
+											<span class="norecord"></span>
+											<div class="loading-info"><img src="<?php echo $this->baseUrl()?>/images/loading.gif" /></div>
+										</div>
+										<div id="button_seemore">
+											<button type="button" title="<?php echo $tr->translate("CLICK_LOAD_MORE");?>" onClick="load_contentsablum('<?php echo $loadmordata;?>');" class="button singin seemore"><span><span><?php echo $tr->translate("CLICK_LOAD_MORE");?></span></span></button>
+										</div>
+									  <?php }?>
+								</div>
+								<script>
+							var modal = document.getElementById('myModal');
+								
+							var url_album='/index/getalbum';
+							function getAlbum(index){
+								var width = jQuery(document).innerWidth();
+								if(width<768){
+									
+									hostname=baseurl+'/page/index/?album='+index+'.html';
+									window.location.href = hostname;
+									return false;
+								}
+								jQuery.ajax({
+									url: baseurl+url_album,
+									type: "post",
+									data: {'index':index},
+									success: function(data){
+										
+										val = jQuery.parseJSON(data);
+										document.getElementById('folio_scroller').innerHTML =val.listimage;
+										document.getElementById('albumtitle').innerHTML =val.title;
+										document.getElementById('albumtitleheader').innerHTML =val.title;
+										document.getElementById('albumdescription').innerHTML =val.description;
+										modal.style.display = "block";
+											jQuery('ul#folio_scroller').roundabout({
+												easing: 'easeOutInCirc',
+												shape: 'waterWheel',
+												duration: 600
+											});
+										},
+										error: function(err) {
+											alert(err);
+										}
+									});
+								}
+								// Get the <span> element that closes the modal
+								var span = document.getElementsByClassName("close")[0];
+								// When the user clicks on <span> (x), close the modal
+								span.onclick = function() {
+									modal.style.display = "none";
+								}
+								// When the user clicks anywhere outside of the modal, close it
+								window.onclick = function(event) {
+									if (event.target == modal) {
+										modal.style.display = "none";
+									}
+								}
+								
+								var loadmoredat = '<?php echo $loadmordata;?>';
+								
+								var allalbum = '<?php echo $countalb;?>';
+									function load_contentsablum(track_page){
+									  var url_loading = '/index/loadmorealbum';
+									  jQuery('.loading-info').css("display","block");
+										 jQuery.ajax({
+											url:baseurl+url_loading,
+											type: "post",
+											data: {'page':track_page},
+											success: function(data){
+												
+												val = jQuery.parseJSON(data);
+												var morepage = parseFloat(track_page)+parseFloat(loadmoredat);
+												if(val.countitem==0){
+													jQuery('.norecord').html('<?php echo $tr->translate("NO_MORE_RECORD");?>');
+													document.getElementById('button_seemore').innerHTML = '';
+													 jQuery('.loading-info').css("display","none");
+													return false;
+												}else{
+													jQuery('.norecord').html("");
+													 document.getElementById('button_seemore').innerHTML = '<button type="button" title="<?php echo $tr->translate("CLICK_LOAD_MORE");?>" onClick="load_contentsablum('+morepage+');" class="button singin seemore"><span><span><?php echo $tr->translate("CLICK_LOAD_MORE");?></span></span></button>';
+												}
+												
+											   jQuery("#listcategory").append(val.stringss); //append data into #results element
+											   jQuery('.loading-info').css("display","none");
+											   var allar =morepage; 
+											   if(morepage>allalbum){
+												   allar = allalbum;
+											   }
+											   document.getElementById('allablum').innerHTML = allar+' /'+allalbum;
+												},
+												error: function(err) {
+													alert(err);
+												}
+											});
+
+									}
+
+								</script>
+							<?php }?>
+							
+	<?Php }else if(!empty($this->param['article'])){ 
+	$aticle = $this->article_de;
+	?>	
+	<?php
+	$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	?>
+	<title><?php echo $aticle['title'];?></title>
+	 <div class="wrapper">
+	    <div class="page">
+	        <div class="main-container col1-layout">
+	            <div class="main">
+					<div class="container col-main-containter">
+						<div class="row">
+						<!-- Col main -->
+							<div class="col-main col-sm-24">
+								<div class="wrapper-breadcrums">
+									<div class="breadcrumbs">
+						   				<ul class="items">
+						                    <li class="item home">
+						                            <a href="<?php echo $this->baseUrl();?>" title="Go to Home Page"><?php echo $tr->translate("HOME");?> </a>
+						                        </li>
+						                    <li class="item product">
+						                            <strong><?php echo $aticle['title'];?></strong>
+						                   </li>
+							            </ul>
+									</div>
+								</div>
+								<div class="col-wrapper-main page" >
+									<div class="row">
+										<div class="col-sm-6 cdz-area01 blogmenulef">
+											<div class="feature-title menu-right">
+												  <span><?php echo $tr->translate("PSIS Information")?></span>
+											</div>
+											<div class="widget widget-static-block">
+												<div class="vertical-menu-wrap container-fluid menu-vertical-style02 menu-vertical-right">
+													<div class="row">
+														<ul class="sidebar-menu">
+														<?php if(!empty($this->menuright)) foreach($this->menuright as $menu){ $checksub = $db->checkSubMenuRight($menu['id']);?>
+															<li>
+																<a href="<?php echo $this->baseUrl()."/page/index?param=".$menu['alias_menu'].".html";?>">
+																  <span><?php echo $menu['title']?></span>
+																  <?php if(!empty($checksub)){?>
+																  <i class="fa fa-angle-left pull-right"></i>
+																  <?php }?>
+																</a>
+																<?php echo $db->getSubMenuRight($this->baseUrl(), $menu['id']); ?>
+															</li>
+														<?php }?>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-18">
+											<div class="blog-content">
+												<div class="post-header">
+													<div class="post-title">
+														<h3><?php echo $aticle['title'];?></h3>
+													</div>
+													<?php if(!empty($aticle['modify_date'])){?>
+													<div class="small-utility">
+														<ul class="ico">
+											                <li><i class="fa fa-calendar"></i> <span class="sdate"><?php echo date("d-M-Y",strtotime($aticle['modify_date']));?></span></li>            
+															<li><iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo $url;?>&layout=button_count&size=small&mobile_iframe=true&appId=1196246787117200&width=86&height=20" width="86" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+															</li>
+														  </ul>
+													</div>
+													<?php }?>
+												</div>
+												<div class="post-content">
+													<article class="sigle-article">
+														<?php echo $aticle['description'];?>
+													</article>
+													
+													<div id="fb-root"></div>
+													<script>(function(d, s, id) {
+													  var js, fjs = d.getElementsByTagName(s)[0];
+													  if (d.getElementById(id)) return;
+													  js = d.createElement(s); js.id = id;
+													  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+													  fjs.parentNode.insertBefore(js, fjs);
+													}(document, 'script', 'facebook-jssdk'));
+													</script>
+													
+												</div>
+											</div>
+										</div>
+									</div>							
+								</div>
+							</div>
+						</div>
+					</div>
+	            </div>
+	        </div>
+	   </div>
+	</div> 
+	<?Php }else if(!empty($this->param['category'])){  ?>
+	<title><?php echo $this->cate['title'];?></title>
+	 <div class="wrapper">
+	    <div class="page">
+	        <div class="main-container col1-layout">
+	            <div class="main">
+					<div class="container col-main-containter">
+						<div class="row">
+						<!-- Col main -->
+							<div class="col-main col-sm-24">
+								<div class="wrapper-breadcrums">
+									<div class="breadcrumbs">
+						   				<ul class="items">
+						                    <li class="item home">
+												<a href="<?php echo $this->baseUrl();?>" title="Go to Home Page"><?php echo $tr->translate("HOME");?> </a>
+											</li>
+						                    <li class="item product">
+						                        <strong><?php echo $this->cate['title'];?></strong>
+						                   </li>
+							            </ul>
+									</div>
+								</div>
+								<div class="col-wrapper-main page" >
+									<div class="row">
+										<div class="col-sm-6 cdz-area01 blogmenulef">
+											<div class="feature-title menu-right">
+												  <span><?php echo $tr->translate("PSIS Information")?></span>
+											</div>
+											<div class="widget widget-static-block">
+												<div class="vertical-menu-wrap container-fluid menu-vertical-style02 menu-vertical-right">
+													<div class="row">
+														<ul class="sidebar-menu">
+														<?php if(!empty($this->menuright)) foreach($this->menuright as $menu){ $checksub = $db->checkSubMenuRight($menu['id']);?>
+															<li>
+																<a href="<?php echo $this->baseUrl()."/page/index?param=".$menu['alias_menu'].".html";?>">
+																  <span><?php echo $menu['title']?></span>
+																  <?php if(!empty($checksub)){?>
+																  <i class="fa fa-angle-left pull-right"></i>
+																  <?php }?>
+																</a>
+																<?php echo $db->getSubMenuRight($this->baseUrl(), $menu['id']); ?>
+															</li>
+														<?php }?>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-18">
+											<div class="row">
+												<div class="col-sm-24">
+													<div class="widget widget-static-block">
+														<div class="">
+															<div class="nav-tab-content tab-content">
+																<div id="listarticle" class=" postlist list-article" data-role="content">
+																	<div class="postlist list-article">
+																	<?php if(!empty($this->article)) foreach($this->article as $article){ ?>
+																		<div class="list-article article row">
+																			<a href="<?php echo $this->baseUrl()."/page/index?article=".$article['alias_article'].".html"; ?>">
+																				<div class="col-sm-8 article_moblie">
+																					<?php if(!empty($article['image_feature'])){?>
+																						<img src="<?php echo $this->baseUrl()."/images/article/".$article['image_feature'];?>"/>
+																					<?php }else{?>
+																						<img src="<?php echo $this->baseUrl()."/images/noimage.jpg";?>"/>
+																					<?php }?>
+																				</div>
+																				<div class="col-sm-16 article_moblie">
+																					<div class="article-blog-title">
+																						<span class="web"><?php echo $article['title'];?></span>
+																						<span class="mobile">
+																						<?php 
+																								$str1 = utf8_encode($article['title']);
+																								$artitle = substr($str1, 0, 30);
+																								echo utf8_decode($artitle); 
+																							?>
+																						</span>
+																						<div class="small">
+																						  <ul>
+																							<li><i class="fa fa-clock-o"></i> <span class="pub-date"><?php echo date("d-M-Y",strtotime($article['create_date']));?></span></li>                            
+																						  </ul>
+																						  <div class="clear"></div>
+																						</div>
+																					</div>
+																					<div class="article-list-detail">
+																						<p><?php
+																								echo strip_tags($article['short_descript']);
+																							?>
+																						</p>
+																					</div>
+																				</div>
+																			</a>
+																		</div>
+																		<div class="clear"></div>
+																	<?php }?>
+																	</div>
+																</div>
+																<div class="count_article">
+																	<p><?php echo $tr->translate("TOTAL");?> <span id="allarticle"><?php echo count($this->article)." /".$this->countarticel;?></span><?php echo " ".$tr->translate("ARTICLES");?></p>
+																</div>
+																<div class="wrapperloading">
+																	<span class="norecord"></span>
+																	<div class="loading-info"><img src="<?php echo $this->baseUrl()?>/images/loading.gif" /></div>
+																</div>
+																<div id="button_seemore">
+																	<button type="button" title="<?php echo $tr->translate("CLICK_LOAD_MORE");?>" onClick="load_contents('<?php echo $loadmordata;?>');" class="button singin seemore"><span><span><?php echo $tr->translate("CLICK_LOAD_MORE");?></span></span></button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>							
+								</div>
+							</div>
+						</div>
+					</div>
+	            </div>
+	        </div>
+	   </div>
+	</div> 
+	<script>
+	var loadmoredat = '<?php echo $loadmordata;?>';
+	var track_page = 1; //track user scroll as page number, right now page number is 1
+	var paget = '<?php echo $this->cate['id'];?>';
+	var allarticle = '<?php echo $this->countarticel;?>';
+		function load_contents(track_page){
+		  var url_loading = '/index/loadmorearticle';
+		  jQuery('.loading-info').css("display","block");
+			 jQuery.ajax({
+				url:baseurl+url_loading,
+				type: "post",
+				data: {'page':track_page,'pages':paget},
+				success: function(data){
+					
+					val = jQuery.parseJSON(data);
+					var morepage = parseFloat(track_page)+parseFloat(loadmoredat);
+
+					if(val.countitem==0){
+						jQuery('.norecord').html('<?php echo $tr->translate("NO_MORE_RECORD");?>');
+						document.getElementById('button_seemore').innerHTML = '';
+						 jQuery('.loading-info').css("display","none");
+						return false;
+					}else{
+						jQuery('.norecord').html("");
+						 document.getElementById('button_seemore').innerHTML = '<button type="button" title="<?php echo $tr->translate("CLICK_LOAD_MORE");?>" onClick="load_contents('+morepage+');" class="button singin seemore"><span><span><?php echo $tr->translate("CLICK_LOAD_MORE");?></span></span></button>';
+					}
+					
+				   jQuery("#listarticle").append(val.stringss); //append data into #results element
+				   jQuery('.loading-info').css("display","none");
+				   var allar =morepage; 
+				   if(morepage>allarticle){
+					   allar = allarticle;
+				   }
+				   document.getElementById('allarticle').innerHTML = allar+' /'+allarticle;
+					},
+					error: function(err) {
+						alert(err);
+					}
+				});
+
+		}
+	</script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl() ?>/templates/media/js/template.js"></script>
+	<?Php }else if(!empty($this->param['album'])){  
+		$images = explode(",",$this->album['image_list']);
+	?>
+	<style type="text/css">
+	.royalSlider {height: 450px; }
+	.no-fullscreen .rsOverflow {max-width: 100% !important; float: right;}
+	.no-fullscreen .rsImg{width: auto !important; max-width:100%; height: auto !important; margin-left:0px !important;}
+	.rsFullscreen .rsImg{height:100vh;}
+	.rsFullscreen .rsSlide{display:table !important; width:100%;}
+	.rsFullscreen .rsContent{display:table-cell; vertical-align:middle; text-align:center;}
+	.rsFullscreen .rsImg{display: inline; height:auto; width:auto; max-height: 100vh; max-width: 100%;}
+	.rs-inner {display: inline-block; height:auto; width:auto; max-height: 100%; max-width: 100%; position: relative;}
+	.map-popup{z-index:10000;} .cdz-qs-view .map-link{float:left;}
+	.cdz-brand-slider-wrap-02
+	{
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	</style>
+	<title><?php echo $this->album['title'];?></title>
+	 <div class="wrapper">
+	    <div class="page">
+	        <div class="main-container col1-layout">
+	            <div class="main">
+					<div class="container col-main-containter">
+						<div class="row">
+						<!-- Col main -->
+							<div class="col-main col-sm-24">
+								<div class="wrapper-breadcrums">
+									<div class="breadcrumbs">
+						   				<ul class="items">
+						                    <li class="item home">
+												<a href="<?php echo $this->baseUrl();?>" title="Go to Home Page"><?php echo $tr->translate("HOME");?> </a>
+											</li>
+						                    <li class="item product">
+						                        <strong><?php echo $this->album['title'];?></strong>
+						                   </li>
+							            </ul>
+									</div>
+								</div>
+								<div class="col-wrapper-main " >
+									<div class="product-view">
+										<div class="product-essential">
+											<div class="row">
+												<div class="col-sm-24">
+													<div class="row">
+														<div class="col-sm-13 product-view-media">
+															<div class="product-img-box">
+																<div class="row">
+																	<div class="product-image-moreview col-sm-24" >
+																		<div class="more-views">
+																			<h2></h2>
+																			<div class="fwImage">
+																				<div id="viewmore-slider" class="royalSlider rsUni product-image-thumbs cdz-zoom no-fullscreen">
+																					<?php if (!empty($images)) foreach ($images as $rs){?>
+																					<div class="rsContent">
+																						<a class="rsImg"  href="<?php echo $this->baseUrl()."/images/photo/".$rs; ?>">
+																							<img class="rsTmb" src="<?php echo $this->baseUrl()."/images/photo/".$rs; ?>" alt="<?php echo $this->album['title']; ?>" />
+																						</a>
+																					</div>
+																					<?php }?>
+																								 
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															<script>
+															(function( $ ) {
+																$(window).load(function() {	
+																	 setUpMediaSlider('#viewmore-slider', 'vertical');
+																});
+															})( jQuery );
+															</script>
+														</div>
+													</div>
+													<div class="col-sm-10 col-sm-push-1 product-view-info">
+														<div class="product-shop">
+															<div class="product-shop-wrap product-shop-title">
+																<div class="product-name">
+																	<h1 itemprop="name" class="product-name-h1"><?php echo $this->album['title'];?></h1>
+																</div>
+															</div>
+														</div>	
+														<div class="product-shop-wrap product-shop-desc">
+															<div class="short-description">
+																<h2><?php echo $tr->translate("DESCRIPTION");?></h2>
+																<div class="std" itemprop="description">
+																<?php echo $this->album['description'];?>
+																</div>
+															</div>
+														</div>
+														</div>
+													</div>
+												</div>
+											</div>	
+										</div>
+									</div>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php }?>

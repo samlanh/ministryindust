@@ -1,0 +1,154 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$this->headTitle($tr->translate('EDIT_USER'));
+echo $this->headTitle();
+?>
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.Form');
+	dojo.require('dijit.form.FilteringSelect');	
+	dojo.require('dijit.form.Button');
+	dojo.require("dijit.form.CheckBox");
+</script>
+<div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>	
+<form action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">										
+			if(this.validate()) {
+				if(dojo.byId('password').value != dojo.byId('con_password').value ){
+					alert('សូម​ពិនិត្រ ពាក្យ​​សំងាត់​ទាំង​ 2 របស់​អ្នក មិន​ដូច​គ្នា​ទេ, សូម​បញ្ចូល ​ម្តង​ទៀត..');
+					dojo.byId('password').value = '';
+					dojo.byId('con_password').value = '';
+					dijit.byId('password').focus();
+					return false;
+				}		
+				loading();		
+				return true;
+			}
+
+			return false;
+	</script>
+	<table cellspacing="0" style="margin: 0 auto; width: 500px; padding-bottom: 10px; background: #f1f1f1;">
+		<tr class="header">
+			<td colspan="2"><strong><i class="fa fa-users" aria-hidden="true"></i><?php echo $tr->translate('EDIT_USER')?></strong></td>
+		</tr>
+		<tr>
+			<td>
+				<table cellspacing="10" width="100%">
+					<tr>
+						<td align="center" valign="top">
+							<table cellspacing="10">
+								<tr>
+									<td><?php echo $tr->translate('FULL_NAME');?></td>
+									<td width="250px">
+										<input type="text" required="true" name="first_name" id="first_name" placeholder="នាមខ្លួន" 
+										dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->user_edit['first_name'];?>"
+										missingMessage="អ្នក​ភ្លេច​បំពេញ​ នាមខ្លួន!" class='fullside'/>
+									</td>
+								</tr>
+								<!-- <tr>
+									<td><?php //echo $tr->translate('LAST_NAME');?></td>
+									<td>
+										<input type="text" required="true" name="last_name" id="last_name" placeholder="នាម​ត្រកូល" 
+										dojoType="dijit.form.ValidationTextBox" value="<?php //echo $this->user_edit['last_name'];?>"
+										missingMessage="អ្នក​ភ្លេច​បំពេញ​ នាម​ត្រកូល!" class='fullside'/>
+									</td>
+								</tr> -->
+								<tr>
+									<td><?php echo $tr->translate('USER_NAME');?></td>
+									<td>
+										<input type="text" required="true" name="user_name" id="user_name" placeholder="ឈ្នោះ​អ្នក​ប្រើ​ប្រាស់" 
+										dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->user_edit['user_name'];?>" 
+										missingMessage="អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ​អ្នក​ប្រើ​ប្រាស់!" class='fullside'/>
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate('PASSWORD');?><input dojoType='dijit.form.CheckBox' id="check_change" name="check_change" onChange="Checkchange();" /> </td>							
+									<td>
+									
+										<input type="password" required="true" name="password" id="password" placeholder="ពាក្យ​​សំងាត់" 
+										regExp="\w{6,}" invalidMessage="ពាក្យ​សំងាត់យ៉ាង​តិច មាន 6​ តួអក្សរ"
+										dojoType="dijit.form.ValidationTextBox" missingMessage="អ្នក​ភ្លេច​បំពេញ​ ពាក្យ​​សំងាត់!" class='fullside'/>
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate('CONFIRM_PASSWORD');?></td>							
+									<td>
+										<input type="password" required="true" name="con_password" id="con_password" placeholder="បញ្ជាក់ពាក្យ​​សំងាត់" 
+										regExp="\w{6,}" invalidMessage="ពាក្យ​សំងាត់យ៉ាង​តិច មាន 6​ តួអក្សរ"
+										dojoType="dijit.form.ValidationTextBox"  missingMessage="អ្នក​ភ្លេច​បំពេញ​ បញ្ជាក់ ពាក្យ​​សំងាត់!" class='fullside'/>
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate('STATUS');?></td>
+									<td>
+										<select name="active" required="true" id="active" class='fullside' dojoType="dijit.form.FilteringSelect"  missingMessage="អ្នក​ភ្លេច​បំពេញ​  ស្ថាន​ភាព!"> 
+											<option value="1" <?php if($this->user_edit['active'] == 1) echo 'selected';?> >ប្រើ​ប្រាស់</option>
+											<option value="0" <?php if($this->user_edit['active'] == 0) echo 'selected';?> >មិនប្រើ​ប្រាស់</option>																					
+										</select> 
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate('USER_TYPE');?></td>
+									<td>
+										<select onchange="disabledAgent(this.value);" class='fullside' name="user_type" required="true" id="user_type" 
+										 missingMessage="អ្នក​ភ្លេច​បំពេញ​  តំណែង!" dojoType="dijit.form.FilteringSelect"> 
+										 	<?php foreach ($this->user_typelist as $key => $ust) : ?>
+												<option value="<?php echo $key;?>"  <?php if($this->user_edit['user_type'] == $key) echo 'selected';?> ><?php echo $ust;?></option>
+											<?php endforeach;?>																																
+										</select> 
+									</td>
+								</tr>									
+							</table>
+						</td>							
+					</tr>
+				</table>	
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
+				iconClass="dijitIconUndo" onclick="window.location = '<?php echo $this->url(array('module'=>'rsvacl','controller'=>"user",'action'=>'index'),null,true); ?>';" />
+				<input type="submit" value="Save" label="Save" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+			</td>
+		</tr>
+	</table>	
+	<input type="hidden" name="id" value="<?php echo $this->user_edit['id'];?>" />
+</form>
+<script>
+dojo.ready(function(){
+	try{
+		Checkchange();
+	}catch(e){
+		alert(e);
+	}
+	$(window).keydown(function(event){
+		if(event.keyCode == 13) {
+		  event.preventDefault();
+		  return false;
+		}
+	  });
+});
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+function Checkchange(){
+	  if (dojo.byId("check_change").checked){
+		  dijit.byId('password').set('required',true); 
+		  dijit.byId('password').set('readonly',false); 
+		  dijit.byId('con_password').set('required',true); 
+		  dijit.byId('con_password').set('readonly',false); 
+		 
+	  }else{
+		  $('#password').val('');
+		  dijit.byId('password').set('required',false); 
+		  dijit.byId('password').set('readonly',true); 
+		  dijit.byId('con_password').set('required',false); 
+		  dijit.byId('con_password').set('readonly',true); 
+	  }
+}
+</script>

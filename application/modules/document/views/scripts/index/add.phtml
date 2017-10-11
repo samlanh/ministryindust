@@ -1,0 +1,99 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate('ADD_DOCUMENT'));
+?>	
+<?php  $frm = $this->frm_client;?>
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
+<script>
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.Dialog");
+dojo.require("dijit.layout.TabContainer");
+dojo.require("dijit.form.Textarea");
+</script>
+<style>
+
+</style>
+<form id='company' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				return true;
+			} else {
+				return false;
+			}
+</script>
+<table  width="100%" style="margin-top:-5px;">
+	<tr class="header">
+		<td colspan="2"><strong><i class="fa fa-users" aria-hidden="true"></i><?php echo $tr->translate('ADD_DOCUMENT')?></strong></td>
+	</tr>
+	<tr>
+		<td style="max-width:1100px;border: solid 1px #eee;background: rgba(241, 241, 241, 0.2);">
+		<table style="margin: 0 auto; width: 50%;">
+			<tr>
+				<td align="left" valign="top">
+						<table style="margin: 0 auto; width: 100%;" cellspacing="10">
+							<tr>
+								<td><?php echo $tr->translate("ឈ្មោះឯកសារ")?></td>
+								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_name" id="document_name" type="text"></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("ប្រភេទឯកសារ")?></td>
+								<td>
+									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_type" id="document_type">
+										<?php if(!empty($this->document_type)){
+												foreach($this->document_type as $rs){
+										?>	
+												<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+										<?php }}?>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("រូបតំណាង")?></td>
+								<td><input class="fullside" name="photo" id="photo" type="file" accept=".jpg, .jpeg, .png"></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("ឯកសារ")?></td>
+								<td><input class="fullside" required="1" name="document" id="document" type="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx"></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("កាលបរិឆ្ឆេទ")?></td>
+								<td><input dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd/MM/yyyy'}" class="fullside" name="date_register" id="date_register" value="<?php echo date("Y-m-d");?>" type="text"></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("ពណ៍នា")?></td>
+								<td>
+									<textarea class="fullside" name="note" id="note" style="height: 150px;overflow-x:hidden;font-family:'khmer os battambang'; font-size: 14px; "></textarea>
+								</td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("ពាក្យគន្លឹះ")?></td>
+								<td>
+								<input dojoType="dijit.form.TextBox" class="fullside" name="key_word" id="key_word" type="text"></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center">
+									<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
+									<input type="submit" value="SAVE_NEW" tabindex="1" label="<?php echo $tr->translate('EDIT');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
+										iconClass="dijitEditorIcon dijitEditorIconSave" />
+								</td>
+							</tr>
+						</table>
+					</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>	
+</form>
+<table>
+<tr>
+</tr>
+</table>
+<script type="text/javascript">
+var district_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));?> );
+dojo.ready(function(){	
+	
+});
+</script>

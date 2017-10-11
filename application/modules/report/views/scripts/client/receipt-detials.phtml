@@ -1,0 +1,136 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("REPORT_RECIEPT_DETIALS_LISTS"));
+$frm = $this->frm_search;
+$frms=$this->frm;
+$db = new Application_Model_DbTable_DbGlobalSelect();
+$row = $db->getWebsiteSetting('logo');
+?>
+<div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint">
+<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<tr>
+    	<td align="center">
+    	 
+    	 	<style>
+						th{padding: 5px;}
+						.hover:hover{background: #ccc;}
+					</style>
+        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl()."/images/lang/".$row['value'];?>" height="85px"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("COMPANY_NAME");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_RECIEPT_DETIALS_LISTS");?></h2>
+					<?php //if (empty($this->search['show_all'])){?>
+						<!--<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php //echo date("Y-M-d",strtotime($this->search['start_date']))." - ".date("Y-M-d",strtotime($this->search['end_date']));?></h2>-->
+						<?php //}?>
+					</td>
+                    <td width="20%"></td>
+                </tr> 
+            </table>
+			<table id="exportExcel" width="100%"> 
+				<tr>
+		    	<td align="center">
+		        	<table width="100%" style="font-family: 'Khmer OS Battambang';" cellpadding="0" cellpadding="0">
+		            	 
+		                <tr>
+		                	<td colspan="3" valign="top">
+		                		<table width="100%" cellpadding="0" cellspacing="0">
+									<style>
+										ul{margin: 0;padding:0;}
+										table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+										th{padding: 5px;}
+										ul.pur_info li{line-height:18px; 
+												font-weight: normal !important;}
+										ul.pur_info li strong{font-weight: bold;}
+									   .hover:hover{background: #ccc;}
+									</style>
+									<tbody>
+									<?php //print_r($this->recieptbyid);?>
+		                			<tr><style>
+											ul.pur_info{}
+											ul.pur_info li {
+												line-height: 22px;
+												font-weight: normal !important;font-size: 14px;
+											}
+											.rd_info{width:100%;display: block;font-size:15px;white-space: nowrap;padding: 5px 0;}
+											.rd_info u{margin-right: 75px;}
+											</style>
+		                				<td style="" valign="top" width="35%;">
+										<div class="" style="float:left;">
+		                				<div class="rd_info" ><u><strong><?php echo $tr->translate("CUSTOMER");?></strong></u></div>
+		                				   <ul class='pur_info left'>
+												<?php if(!empty($this->recieptbyid['customer_code'])){?><li style="text-align: left;"><strong><?php echo $tr->translate("CUSTOMER_CODE");?>: </strong><?php echo $this->recieptbyid['customer_code'];?></li><?php }?>
+												<li style="text-align: left;"><strong><?php echo $tr->translate("CUSTOMER_NAME");?> : </strong><?php echo $this->recieptbyid['customer_name'];?></li>
+			                					<?php if(!empty($this->recieptbyid['customer_email'])){?><li style="text-align: left;"><strong><?php echo $tr->translate("EMAIL");?>: </strong><?php echo $this->recieptbyid['customer_email'];?></li><?php }?>
+		                					</ul>
+										</div>
+										<div class="" style="float:right;">
+											<div class="rd_info" ><u><strong><?php echo $tr->translate("RECEIPT");?></strong></u></div>
+											<ul class='pur_info right'>
+												<li style="text-align: left;"><strong><?php echo $tr->translate("RECIEPT_NO");?>: </strong><?php echo $this->recieptbyid['reciept_no'];?></li>
+												<li style="text-align: left;"><strong><?php echo $tr->translate("PAID_DATE");?> : </strong><?php echo date("d-M-Y", strtotime($this->recieptbyid['paid_date']));?></li>
+											</ul>
+											</div>
+		                				</td>
+		                			</tr>
+									</tbody>
+								</table>
+				              </td>
+				           </tr>   
+						</tbody>
+					</table>
+		        </td>
+		    </tr>
+		    	<tr>
+					<td>
+						<table width="100%" border="1" style="border-collapse:collapse;font-size: 14px;" bordercolor="black">
+							<tr class="style" align="center" style="floafont-weight:bold; font-size:14px; padding:5px 0px; " >
+								<td class="header"><?php echo $tr->translate("NUM");?></td>
+								<td class="header"><?php echo $tr->translate("INVOICE_NO");?></td>
+								<td class="header"><?php echo $tr->translate("AMOUNT");?></td>
+								<td class="header"><?php echo $tr->translate("BALANCE");?></td>
+								<td class="header"><?php echo $tr->translate("PAID");?></td>
+							 </tr>
+							 <?php $total=0; $total_balance=0;$total_paid=0; ?>
+						   <?php if(!empty($this->recieptdetail))
+							   foreach($this->recieptdetail as $key =>$row){
+									$total = $total+$row['total'];
+									$total_paid=$total_paid+$row['paid'];
+									$total_balance =  $total_balance+$row['balance'];
+								   ?>
+							   <tr style="font-size: 12px;" align="center">
+								 <td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+								 <td style="white-space: nowrap;">&nbsp;<?php echo $row['inovoice_no']?>&nbsp;</td>
+								 <td style="white-space: nowrap;" align="right">&nbsp;<?php echo $row['total'];?>&nbsp;</td>
+								 <td style="white-space: nowrap;" align="right">&nbsp;<?php echo $row['balance'];?>&nbsp;</td>
+								 <td style="white-space: nowrap;" align="right">&nbsp;<?php echo $row['paid'];?>&nbsp;</td>
+								 </tr>
+							<?php }?>
+							<tr >
+								<td colspan="1" style="border-left: solid 1px #fff;border-bottom: solid 1px #fff;"></td>
+								<td align="center">&nbsp;<strong><?php echo $tr->translate("TOTAL_AMOUNT");?></strong>&nbsp;</td>
+								<td align="right">&nbsp;<strong><?php echo "$ ".number_format($total,2);?></strong>&nbsp;</td>
+								<td align="right">&nbsp;<strong><?php echo "$ ".number_format($total_balance,2);?></strong>&nbsp;</td>
+								<td align="right">&nbsp;<strong><?php echo "$ ".number_format($total_paid,2);?></strong>&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>	
+			</table>
+    	</td>
+    </tr>
+</table>
+		<br />
+		   <table align="center" width="100%">
+				   <tr style="font-size: 12px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>
+</div>
+</div>

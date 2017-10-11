@@ -1,0 +1,84 @@
+<?php 
+$request=Zend_Controller_Front::getInstance()->getRequest();
+$action=$request->getActionName();
+$controller=$request->getControllerName();
+$module=$request->getModuleName();
+
+	$session_lang=new Zend_Session_Namespace('lang');
+	$currentlang = $session_lang->lang_id;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$db = new Application_Model_DbTable_DbGlobalSelect();
+	$row = $db->getWebsiteSetting('logo');
+	$email = $db->getWebsiteSetting('email');
+	$tel = $db->getWebsiteSetting('tel');
+	$address = $db->getWebsiteSetting('address');
+	$facebook = $db->getWebsiteSetting('facebook');
+	$youtube = $db->getWebsiteSetting('youtube');
+	$twitter = $db->getWebsiteSetting('twitter');
+	$googleplus = $db->getWebsiteSetting('googleplus');
+	
+	$vdgb = new Application_Model_DbTable_DbVdGlobal();
+	$alllang =  $vdgb->getLaguage();
+	
+?>
+<!-- Footer Area Start -->
+        <footer class="footer-area ptb-20">
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="single-footer-widget blogfooter">
+                                <div class="footer-info-wrapper">
+									<h2 class="pb-35 footertitle moul"><?php echo $tr->translate("COMPANY_NAME");?></h2>
+                                    <div class="f-info">
+                                        <span class="f-info-text"><?php echo $address['value'];?></span>
+										<br />
+										<span class="f-info-text"><?php echo $tr->translate("PHONE");?> <?php echo $tel['value'];?></span>
+										<br />
+										<span class="f-info-text">&copy; 2017 <?php echo $tr->translate("COMPANY_NAME All rights reserved")." ".$tr->translate("");?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="col-md-6 col-sm-12 col-xs-12">
+							<div class="google_map_footer">
+								<iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15635.480432890956!2d104.89801725000001!3d11.561168200000001!3m2!1i1024!2i768!4f13.1!5e0!3m2!1skm!2skh!4v1504773040467" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+							</div>
+						 </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-border"></div>
+              
+            </div>
+        </footer>
+               <!-- Footer Area End -->
+       
+		<!-- All js here -->
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/bootstrap.min.js"></script>
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/owl.carousel.min.js"></script>
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/jquery.meanmenu.js"></script>
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/slick.min.js"></script>
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/isotope.pkgd.min.js"></script>
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/imagesloaded.pkgd.min.js"></script>	
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/ajax-mail.js"></script> 
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/plugins.js"></script>
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/main.js"></script>
+		
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+		<script>
+		$(document).ready(function() {
+		
+		  $(".js-select2").select2({
+		  placeholder: "",
+		 
+		});
+		
+		});
+		</script>
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$this->headTitle($tr->translate('EDIT_MENU')); 
+echo $this->headTitle();
+$frm = $this->frm;
+?>
+
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.FilteringSelect');
+</script>
+
+<form action="<?php echo $this->url(array('module'=>'menu-manager','controller'=>'index','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				return true;
+			}
+			return false;
+	</script>
+		
+	<table cellspacing="20" style="margin: 0 auto; width: 500px">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate('EDIT_MENU')?></strong></legend>
+					<table cellspacing="20" width="100%">
+						<tr>
+							<td align="center" valign="top">
+								<table cellspacing="5">
+									<tr>
+										<td><?php echo $tr->translate('TITLE')?></td>
+										<td width="250px">
+											<?php echo $frm->getElement('title');?>
+										</td>
+									</tr>
+									<tr>
+										<td><?php echo $tr->translate('DESCRIPTION')?></td>
+										<td>
+											<?php echo $frm->getElement('note');?>
+										</td>
+									</tr>
+									<tr>
+										<td><?php echo $tr->translate('STATUS')?></td>
+										<td>
+											<?php echo $frm->getElement('status');?>
+										</td>
+									</tr>
+								</table>
+							</td>							
+						</tr>
+					</table>	
+				</fieldset>
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+			<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
+				iconClass="dijitIconUndo" onclick="window.history.back();" />
+				<input class="button_success" type="submit" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+			</td>
+		</tr>
+	</table>	
+	<input type="hidden" id="agent" name="agent" value="0" />	
+</form>

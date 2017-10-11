@@ -1,0 +1,94 @@
+<?php 
+	$session_lang=new Zend_Session_Namespace('lang');
+    $lang =	$session_lang->lang_id;
+	  $tr=Application_Form_FrmLanguages::getCurrentlanguage();
+	
+	  
+      $array_icon = array(
+      		'home'=>'<span class="icon_menu"><i class="fa  fa-home" aria-hidden="true"></i></span><br>',
+      		'other'=>'<span class="icon_menu"><i class="fa  fa-info-circle" aria-hidden="true"></i></span><br>',
+      		'document'=>'<span class="icon_menu"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span><br>',
+      		'company'=>'<span class="icon_menu"><i class="fa fa-industry" aria-hidden="true"></i></span><br>',
+      		'group'=>'<span class="icon_menu"><i class="fa  fa-user-circle-o" aria-hidden="true"></i></span><br>',
+      		'department'=>'<span class="icon_menu"><i class="fa fa-university" aria-hidden="true"></i></span><br>',
+      		'report'=>'<span class="icon_menu"><i class="fa  fa-file-text" aria-hidden="true"></i></span><br>',
+      		'rsvacl'=>'<span class="icon_menu"><i class="fa  fa-cog" aria-hidden="true"></i></span><br>',
+      		'setting'=>'<span class="icon_menu"><i class="fa  fa-cogs" aria-hidden="true"></i></span><br>',
+      		'menu-manager'=>'<span class="icon_menu"><i class="fa fa-list" aria-hidden="true"></i></span><br>',
+      		'product'=>'<span class="icon_menu"><i class="fa fa-cubes" aria-hidden="true"></i></span><br>',
+      		'field-manager'=>'<span class="icon_menu"><i class="fa fa-window-restore" aria-hidden="true"></i></span><br>',
+      		);
+	  $module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
+      $session_user=new Zend_Session_Namespace('auth');
+      $arr_module = $session_user->arr_module;
+      $menuleft=array();
+      $class='link';
+      if(!empty($arr_module)){
+      	foreach ($arr_module as $rs){
+      		if($rs==$module){$class='current';}else{$class='link';}
+      		
+      		$url =$this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true);
+      		if ($rs=="group"){
+      			$menuleft[$rs]="<li class='$class'><a href='$url'>".$array_icon[$rs]."<span>".$tr->translate("CUSTOMER")."</span></a></li>";
+      		}else{
+      		$menuleft[$rs]="<li class='$class'><a href='$url'>".$array_icon[$rs]."<span>".$tr->translate(strtoupper($rs))."</span></a></li>";
+      		}
+      	}
+      }
+?>  
+<div id="menu">
+	<div class="logo" style=" width: 15%; display: inline-block; vertical-align: top;">
+		<img style=" padding: 10px 0px 0px 10px;" src="<?php echo $this->baseurl();?>/images/camapplogo.png" title="" />
+	</div>
+	<div class="menu_header" style=" width: 75%; display: inline-block;">
+	<ul>
+		<?php
+	$session_user=new Zend_Session_Namespace('auth');
+		$modules_access = $session_user->arr_module;
+			foreach($menuleft as $key=>$value){
+				$access = array_search($key,$modules_access);
+				//if($access!='' OR $access>=0){
+					if($module==$value){
+						echo str_replace('link', 'current',$value);
+					}
+					else{
+						echo $value;
+					}
+				//}
+			} 
+		?>
+	</ul>
+	</div>
+	<div class="language" style="width: 9%; display: inline-block;text-align: right;vertical-align: top; ">
+		<?php if($lang ==1){?>
+				<img onclick="changeLange(2);"  src="<?php echo $this->baseurl();?>/images/bkm.png" title="" style="cursor: pointer;" />
+			<?php }else{?>
+				<img onclick="changeLange(1);" src="<?php echo $this->baseurl();?>/images/ben.jpg" title="" style="cursor: pointer;" />
+			<?php }?>
+	</div>
+</div>
+<div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>
+<script>
+		
+var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
+function changeLange(lang){
+	dojo.xhrPost({
+		url: url_changelang,
+	    content :{ 
+			    'lange':lang,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			location.reload();
+		},
+		error: function(err) {
+			
+		}
+	});
+}
+	</script>

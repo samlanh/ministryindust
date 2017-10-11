@@ -1,0 +1,154 @@
+<?php 
+$request=Zend_Controller_Front::getInstance()->getRequest();
+$action=$request->getActionName();
+$controller=$request->getControllerName();
+$module=$request->getModuleName();
+
+	$session_lang=new Zend_Session_Namespace('lang');
+	//if(empty($lang_id)){
+		//$session_lang->lang_id=2;
+	//}
+	$currentlang = $session_lang->lang_id;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$db = new Application_Model_DbTable_DbGlobalSelect();
+	$slide = $db->getWebsiteSetting("slideshow");
+	$row = $db->getWebsiteSetting('logo');
+	$headerbg = $db->getWebsiteSetting('headebackground');
+	$slides = explode(",", $slide['value']);
+	$menu_items = $db->getMenuItems();
+// 	print_r($menu_items);exit();
+	$vdgb = new Application_Model_DbTable_DbVdGlobal();
+	$alllang =  $vdgb->getLaguage();
+	
+	$client_session=new Zend_Session_Namespace('client');
+	$cus_id =$client_session->client_id;
+	$user_name = $client_session->client_name;
+	
+	$para=Zend_Controller_Front::getInstance()->getRequest()->getParam("param");
+	$param = explode('.',$para);
+	
+	$indexparam=Zend_Controller_Front::getInstance()->getRequest()->getParams();
+	//echo $db->getCurrentLang();
+
+	$facebook = $db->getWebsiteSetting('facebook');
+	$youtube = $db->getWebsiteSetting('youtube');
+	$twitter = $db->getWebsiteSetting('twitter');
+	$googleplus = $db->getWebsiteSetting('googleplus');
+	$tel = $db->getWebsiteSetting('tel');
+?>
+<!doctype html>
+<html lang="en">
+    <head>
+		<meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+      <!-- Favicon Icon -->
+        <link rel="shortcut icon" href="<?php echo $this->baseUrl();?>/images/icon.ico" type="image/x-icon"/>
+        
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css?family=Battambang|Roboto|Roboto+Condensed" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Moul" rel="stylesheet">
+		<!-- All css here -->
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/font-awesome.min.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/meanmenu.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/animate.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/owl.carousel.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/slick.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/linear-icons.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/stroke-gan-icon.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/shortcode/shortcodes.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>style.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>template.css">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/responsive.css">
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <script>		
+			var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
+			function changeLange(lang){
+				jQuery.ajax({
+					url: url_changelang,
+					type: "post",
+					data:{'lange':lang},
+					success: function(data){
+						location.reload();
+					},
+					error:function(err){
+						
+					}
+				});
+			}
+			<?php if ($currentlang==1){?>
+				var monthNames = [
+				                  "Jan", "Feb", "Mar",
+				                  "Apr", "May", "Jun", "Jul",
+				                  "Aug", "September", "Oct",
+				                  "Nov", "Dec"
+				                ];
+		      <?php }else{?>
+		     var monthNames = [
+			                  "មករា", "កុម្ភៈ", "មិនា",
+			                  "មេសា", "ឧសភា", "មិថុនា", "កក្កដា",
+			                  "សីហា", "កញ្ញា", "តុលា",
+			                  "វិច្ឆិការ", "ធ្នូ"
+			                ];
+		      <?php }?>
+		      var baseurl = '<?php echo $this->baseUrl();?>';
+		      var currentlanguage='<?php echo $currentlang;?>';
+	</script>
+    <body>
+		<!-- Header Full Area Start -->
+		<header class="header-full-area fixed">
+            <div class="header-top">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-7">
+                            <div class="header-top-left logo">
+                               <a href="<?php echo $this->baseUrl();?>"><img src="<?php echo $this->baseUrl().'/images/lang/'.$row['value']?>" /></a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-5">
+                           <div class="header-top-right lang">
+                           <?php if (!empty($alllang)) foreach ($alllang as $ll){
+									if ($currentlang != $ll['id']){?>
+								<span onclick="changeLange('<?php echo $ll['id'];?>');"> <img src="<?php echo $this->baseUrl()."/images/lang/".$ll['iconImage'];?>" > <span class="lang_title"><?php echo $tr->translate(strtoupper($ll['title']));?></span></span>
+							<?php }
+							}?>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom header-sticky">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="main-menu mean-menu">
+                                <nav>
+                                    <ul>              
+                                        <li class="<?php if($controller=="index" && $action=="index") { echo 'active';}?>"><a href="<?php echo $this->baseUrl();?>"><?php echo $tr->translate("HOME");?></a></li>
+                                        <?php 
+                                        if (!empty($menu_items)) foreach ($menu_items as $menu){?>
+                                        <li class="<?php if($menu['alias_menu']==$param[0] OR $controller==$menu['alias_menu']) { echo 'active';}?>">
+                                        	<?php $link = $this->baseUrl()."/page/index?param=".$menu['alias_menu'];
+                                        		if($menu['menu_type_id']==6){$link = $this->baseUrl()."/".$menu['alias_menu'];}
+                                        	?>
+                                        	<a href="<?php echo $link;?>"><?php echo $menu['title']; if (!empty($vdgb->checkSubMenu($menu['id']))){ ?><i class="icon-arrow-down"></i><?php }?></a>
+                                        	<?php echo $vdgb->getSubMaiMenu($this->baseUrl(), $menu['id']); ?>
+                                        </li>
+                                        <?php }?>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="mobile-menu hidden-lg hidden-md"></div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+		</header>
+		<!-- Header Full Area End -->

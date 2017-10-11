@@ -1,0 +1,291 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate('ADD_RECIEPT'));
+?>	
+<?php  $frm = $this->frm;?>
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
+<script>
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.NumberTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.Dialog");
+dojo.require("dijit.layout.TabContainer");
+dojo.require("dijit.form.Textarea");
+dojo.require("dojo.parser");
+dojo.require("dojo.NodeList-manipulate");
+</script>
+<style>
+td.border-td {
+    border: solid 1px #ccc;
+    padding: 5px;
+}
+</style>
+<form id='add_client' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				return true;
+			} else {
+				return false;
+			}
+</script>
+<table  width="100%" style="margin-top:-5px;">
+	<tr class="header">
+		<td colspan="2"><strong><i class="fa fa-file-excel-o" aria-hidden="true"></i><?php echo $tr->translate('ADD_RECIEPT')?></strong></td>
+	</tr>
+	<tr>
+		<td style="max-width:1100px;border: solid 1px #eee;background: rgba(241, 241, 241, 0.2);">
+		<table style="margin: 0 auto; width: 100%;">
+			<tr>
+				<td align="left" valign="top">
+					<table style="margin: 0 auto; width: 100%;" cellspacing="10">
+						<tr>
+							<td class="bold"><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('reciept_date');?></td>
+							<td class="bold"><?php echo $tr->translate("RECIEPT_NO")?></td>
+							<td><?php echo $frm->getElement('reciept_no');?></td>
+						</tr>
+						<tr>
+							<td class="bold"><?php echo $tr->translate("CUSTOMER")?></td>
+							<td><?php echo $frm->getElement('client_id');?></td>
+							<td class="bold"><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('status');?></td>
+						</tr>
+						<tr>
+							<td class="bold"><?php echo $tr->translate("NOTE")?></td>
+							<td ><?php  	echo $frm->getElement('note');?></td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<table id="table_parent" class="set-style" style="margin: 0 auto; width: 100%;  " >
+									<thead>
+										<tr>
+											<td colspan="3">
+												<input type="hidden" name="identity" id="identity"  value="" >
+												<input type="hidden" name="old_identity" id="old_identity"  value="" >
+												<div id='data_table' name='data_table'></div>
+											</td>
+										</tr>
+										
+									</thead>
+									<tbody>
+										<tr>
+											<td>&nbsp;
+											</td>
+											<td class="bold" style=" width: 180px;"><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
+											<td style=" width: 260px;"><?php echo $frm->getElement('paid_amount');?></td>
+										</tr>
+										<tr>
+											<td>&nbsp;
+											</td>
+											<td class="bold" style=" width: 180px;"><?php echo $tr->translate("PAID")?></td>
+											<td style=" width: 260px;"><?php echo $frm->getElement('total_paid');?></td>
+										</tr>
+										<tr>
+											<td>&nbsp;
+											</td>
+											<td class="bold" style=" width: 180px;"><?php echo $tr->translate("BALANCE_DUE")?></td>
+											<td style=" width: 260px;"><?php echo $frm->getElement('balance');?></td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" align="center">
+								<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
+								<input type="submit" value="SAVE_CLOSE" tabindex="2" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
+									iconClass="dijitEditorIcon dijitEditorIconSave" /> 
+								<input type="submit" value="SAVE_NEW" tabindex="1" label="<?php echo $tr->translate('SAVENEW');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
+									iconClass="dijitEditorIcon dijitEditorIconSave" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+			
+		</td>
+	</tr>
+</table>	
+</form>
+<table>
+<tr>
+</tr>
+</table>
+<?php echo $this->client_form;?>
+<script type="text/javascript">
+
+var title = 0;
+var col = 0;
+var no = 0;
+func='';
+tmp = '';
+var temp='';
+var url_getInvoice = '<?php echo $this->url(array('module'=>'group','controller'=>'reciept','action'=>'getinvoice')); ?>';
+function getAllInvoice(){
+	client_id = dijit.byId('client_id').get('value');
+	if(client_id=='' || client_id==0 ){
+		alert('Please Select Customer');
+		dijit.byId('client_id').focus();
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_getInvoice,	
+		content:{ 
+		    'client_id':client_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+
+			tem='<div style="  border-bottom: solid 1px #ccc; padding: 5px 0;">'
+				+'<span style="vertical-align: top; font-weight: bold;">ជ្រើសរើសអចលទ្រព្យ</span>&nbsp;&nbsp;&nbsp;&nbsp;'
+				+'<input type="checkbox" class="checkbox" name="check_all" id="check_all" value="all" OnChange="calculateTotal(0)" checked="checked"/>&nbsp;<span style="vertical-align: top;"><?php echo $tr->translate('ALL');?></span>'
+				+'<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
+				+'<thead><tr><th class="tdheader"><?php echo $tr->translate('');?></th>'
+				+'<th class="tdheader"><?php echo $tr->translate('NUM');?></th>'
+				+'<th class="tdheader"><?php echo $tr->translate('DATE');?></th>'
+				+'<th class="tdheader"><?php echo $tr->translate('INVOICE_NO');?></th>'
+				+'<th class="tdheader"><?php echo $tr->translate('AMOUNT');?></th>'
+				+'<th class="tdheader"><?php echo $tr->translate('BALANCE');?></th>'
+			+'</thead>';
+			tem+=data.table;
+			tem+='</table></div>';
+			dojo.byId('data_table').innerHTML = tem;
+			
+			$("#identity").val(data.identity);
+			$("#old_identity").val(data.identity);
+			dijit.byId('paid_amount').attr('value',(data.total).toFixed(2));
+			dijit.byId('total_paid').attr('value',0);
+			dijit.byId('balance').attr('value',(data.total_balance).toFixed(2));
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+function calculateTotal(index){
+	var total = 0;
+	var total_size=0;
+	var old_identity = $("#old_identity").val();
+	if(index==0){
+			if($('#check_all').is(":checked")){
+				$('.checkbox').each(function() { //loop through each checkbox
+		            this.checked = true;  
+				});
+				$("#identity").val(old_identity);
+
+				var arrays = old_identity.split(',');
+			     if(arrays!=""){
+			    	 for(var i=0;i< arrays.length;i++) {
+			    		 total = total+parseFloat($('#amount'+arrays[i]).val());
+			    		// total_size = total_size+parseFloat($('#size'+arrays[i]).val());
+			    	}
+				}
+			}else{
+				$('.checkbox').each(function() { //loop through each checkbox
+		            this.checked = false;  
+				});
+				$("#identity").val('');
+			}
+	}else{
+		 $('#check_all').attr('checked', false); // Unchecks it
+		var a = $("input:checked").val();
+		 var identity = [];
+	     $(':checkbox:checked').each(function(i){
+	    	 identity[i] = $(this).val();
+	     });
+	     $("#identity").val(identity);
+
+		 var newIdentity = $("#identity").val();
+	     var arrays = newIdentity.split(',');
+	     if(arrays!=""){
+	    	 for(var i=0;i< arrays.length;i++) {
+	    		 
+	    		 total = total+parseFloat($('#amount'+arrays[i]).val());
+	    		 //total_size = total_size+parseFloat($('#size'+arrays[i]).val());
+	    	}
+		}
+			if(old_identity == newIdentity ){
+				$('#check_all').attr('checked', true); // checks it
+			}
+	}
+	dijit.byId('paid_amount').attr('value', total);
+	dijit.byId('balance').attr('value', total);
+	//dijit.byId('size').attr('value', total_size);
+}
+function calculateBalance(){
+	ammount = dijit.byId('paid_amount').get('value');
+	total_paid = dijit.byId('total_paid').get('value');
+	balance = parseFloat(ammount) - parseFloat(total_paid);
+	if(total_paid>ammount){
+		alert("<?php echo $tr->translate("DEPOSIT_CAN_NOT_BIG_THAN_AMOUNT");?>");
+		dijit.byId('total_paid').attr('value',ammount.toFixed(2));
+		balance =0;
+	}
+	dijit.byId('balance').attr('value',balance.toFixed(2));
+}
+function showFormClient(){
+	client_id = dijit.byId('client_id').get('value');
+	if(client_id==-1){
+		dijit.byId('frm_client').show();
+	}
+}
+var client_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->client))?>);
+var url_addclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add-client')); ?>';
+function addCustomer(){
+	if(dijit.byId('form_client').validate()){
+		dojo.xhrPost({
+			url:url_addclient,
+			form: dojo.byId("form_client"),
+			handleAs:"json",
+			load: function(data) {
+				var Itemmake = {					
+						id: data,
+					    name: dijit.byId('customer_name').get('value')
+				};			
+				addDataToSelectbox(dijit.byId('client_id'), client_store, Itemmake, data);
+				dijit.byId('form_client').reset();
+				dijit.byId("frm_client").hide();
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+	}
+}
+var check=1;
+var url_email = '<?php echo $this->baseUrl();?>/index/checkmail';
+function checkMail(){
+	email = $('#email').val();
+	 var message = document.getElementById('error');
+	$.ajax({
+        url: url_email,
+        type: "post",
+        data: {'email':email},
+        success: function(data){
+            val = $.parseJSON(data);
+				if(val==1){
+					 message.innerHTML = "  Email already use !";
+ 					dijit.byId('email').focus();
+ 					check=1;
+				}else{
+					message.innerHTML = "";
+					check=0;
+				}
+
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+}
+</script>
+
+
+
+
+
+
+
+

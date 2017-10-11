@@ -1,0 +1,124 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("REPORT_INVOICE_LISTS"));
+$frm = $this->frm_search;
+$frms=$this->frm;
+$db = new Application_Model_DbTable_DbGlobalSelect();
+	$row = $db->getWebsiteSetting('logo');
+?>
+<div style=" width:28cm; margin:0 auto; padding:0px 0.5cm">
+<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+<table>
+   <tr>  
+      <td><?php echo $frm->getElement("adv_search");?></td>
+      <td><?php echo $frms->getElement('client_id');?></td>
+       <td><?php echo $frms->getElement('delivery_info');?></td>
+	   <td><?php echo $frm->getElement('is_paid');?></td>
+      <td><?php echo $frm->getElement('start_date');?></td>
+      <td><?php echo $frm->getElement('end_date');?></td>
+      <td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+	  <td>	<input type="submit" value="show_all" onClick="resetForm();" label="<?php echo $tr->translate('SHOW_ALL');?>" id="show_all" dojoType="dijit.form.Button" name="show_all" />
+	 	 <input type="hidden" name="recordcopy" id="recordcopy" dojoType="dijit.form.TextBox" /></td>
+	  </td>
+   </tr>
+</table>  
+<?php //echo $this->list;?> 
+</form> 
+</div>
+<script type="text/javascript">
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dijit.form.DateTextBox");
+</script>
+<div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint">
+<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<tr>
+    	<td align="center">
+    	 
+    	 	<style>
+					//.style{
+					////	line-height: 20px;font-size: 11px !important;
+						//font-family: 'Khmer OS Battambang';
+						//}
+						th{padding: 5px;}
+						.hover:hover{background: #ccc;}
+					</style>
+        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl()."/images/lang/".$row['value'];?>" style=" width: 180px;"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("COMPANY_NAME");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_INVOICE_LISTS");?></h2>
+                	<?php if (empty($this->search['show_all'])){?>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo date("Y-M-d",strtotime($this->search['start_date']))." - ".date("Y-M-d",strtotime($this->search['end_date']));?></h2>
+                	<?php }?>
+                	</td>
+                    <td width="20%"></td>
+                </tr> 
+            </table>
+			<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 14px;" bordercolor="black">  
+		    	<tr bgcolor="#c1d0f3" class="style" align="center" style="floafont-weight:bold; font-size:14px; padding:5px 0px; " >
+		        	<td class="header"><?php echo $tr->translate("NUM");?></td>
+		            <td class="header"><?php echo $tr->translate("INVOICE_NO");?></td>
+		            <td class="header"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
+		            <td class="header"><?php echo $tr->translate("ORDER_DATE");?></td>
+					<td class="header"><?php echo $tr->translate("DELIVERY_INFO");?></td>
+		            <td class="header"><?php echo $tr->translate("AMOUNT");?></td>
+		            <td class="header"><?php echo $tr->translate("PAID");?></td>
+		            <td class="header" ><?php echo $tr->translate("BALANCE_AFTER");?></td>
+					<td class="header"><?php echo $tr->translate("IS_PIAD");?></td>
+					<td class="header"><?php echo $tr->translate("USER_NAME");?></td>
+		         </tr>
+				 <?php //print_r($this->rs_invoice);exit();?>
+		       <?php $total=0; $total_balance=0;$total_paid=0; if(!empty($this->rs_invoice))foreach($this->rs_invoice as $key =>$row){
+		       	$total = $total+$row['amount'];
+		       	$total_balance =  $total_balance+$row['balance_after'];
+				$total_paid=$total_paid+$row['paid'];
+		       	?>
+				   <tr style="font-size: 12px;" align="left">
+				     <td align="center">&nbsp;<?php echo $key+1; ?></td>
+				     <td align="center" style="white-space: nowrap;">&nbsp;<?php echo $row['invoice_no']?>&nbsp;</td>
+				     <td align="center" style="white-space: nowrap;">&nbsp;<?php echo $row['client_name']?>&nbsp;</td>
+				     <td align="center" style="white-space: nowrap;">&nbsp;<?php echo date("d-M-Y", strtotime($row['order_date']));?>&nbsp;</td>
+				     <td align="center" style="white-space: nowrap;">&nbsp;<?php echo $row['delivery_status'];?>&nbsp;</td>
+					 <td align="right" style="white-space: nowrap;">&nbsp;<?php echo "$ ".number_format($row['amount'],2);?>&nbsp;</td>
+					  <td align="right" style="white-space: nowrap;">&nbsp;<?php echo "$ ".number_format($row['paid'],2);?>&nbsp;</td>
+					 <td align="right" style="white-space: nowrap;">&nbsp;<?php echo "$ ".number_format($row['balance_after'],2);?>&nbsp;</td>
+					 <td style="white-space: nowrap;">&nbsp;
+						 <?php 
+							if($row['is_paid']==1){
+								echo $tr->translate("IS_COMPLETE");
+							}else{
+								echo $tr->translate("NOT_COMPLETE");}
+						?>&nbsp;
+					 </td>
+					 <td align="center" style="white-space: nowrap;">&nbsp;<?php echo $row['user_mod']?>&nbsp;
+					 </td>
+					 </tr>
+				<?php }?>
+				<tr >
+					<td colspan="4" style="border-left: solid 1px #fff;border-bottom: solid 1px #fff;"></td>
+					<td align="center">&nbsp;<strong><?php echo $tr->translate("TOTAL");?></strong>&nbsp;</td>
+					<td align="right" style="white-space: nowrap;">&nbsp;<strong><?php echo "$ ".number_format($total,2);?></strong>&nbsp;</td>
+					<td align="right" style="white-space: nowrap;">&nbsp;<strong><?php echo "$ ".number_format($total_balance,2);?></strong>&nbsp;</td>
+					<td align="right" style="white-space: nowrap;">&nbsp;<strong><?php echo "$ ".number_format($total_paid,2);?></strong>&nbsp;</td>
+					<td></td>
+					<td></td>
+				</tr>
+		    </table>
+    	</td>
+    </tr>
+</table>
+		<br />
+		   <table align="center" width="100%">
+				   <tr style="font-size: 12px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>
+</div>
+</div>
