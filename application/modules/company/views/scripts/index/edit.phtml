@@ -100,13 +100,13 @@ dojo.require("dijit.form.Textarea");
 							<tr>
 								<td valign="top"><?php echo $tr->translate("ឡូហ្គូក្រុមហ៊ុន/Logo")?> (jpg, .jpeg, .png</td>
 								<td valign="top">
-									<input style="width:90px;" class="fullside" required="1" name="logo" id="logo" accept=".jpg, .jpeg, .png" type="file"><img src="<?php echo $this->baseUrl()."/companylogo/".$rsdata['logo'];?>" width="100px"/>
+									<input class="fullside"  name="logo" id="logo" accept=".jpg, .jpeg, .png" type="file"><img src="<?php echo $this->baseUrl()."/companylogo/".$rsdata['logo'];?>" width="100px"/>
 										<input type="hidden" name="old_logo" value="<?php echo $rsdata['logo'];?>" />
 									</td>
 							</tr>
 							<tr>
 								<td><?php echo $tr->translate("ឯកសារច្បាប់")?> (jpg, .jpeg, .png)</td>
-								<td><input class="fullside" required="1" name="document_company" accept=".jpg, .jpeg, .png" multiple type="file"></td>
+								<td><input class="fullside"  name="document_company" accept=".jpg, .jpeg, .png" multiple type="file"></td>
 							</tr>
 							<tr>
 								<td colspan="2" align="center">
