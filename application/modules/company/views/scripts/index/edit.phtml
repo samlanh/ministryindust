@@ -16,6 +16,9 @@ dojo.require("dijit.form.Textarea");
 <style>
 
 </style>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.js"></script>
+<link href="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.css" rel="stylesheet">
 <form id='company' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -24,6 +27,7 @@ dojo.require("dijit.form.Textarea");
 				return false;
 			}
 </script>
+
 <table  width="100%" style="margin-top:-5px;">
 	<tr class="header">
 		<td colspan="2"><strong><i class="fa fa-users" aria-hidden="true"></i><?php echo $tr->translate('EDIT_COMPANY')?></strong></td>
@@ -66,16 +70,9 @@ dojo.require("dijit.form.Textarea");
 									</select>
 								</td>
 							</tr>
-							<tr>
-								<td colspan="2" align="right">
-									<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
-									<input type="submit" value="SAVE_NEW" tabindex="1" label="<?php echo $tr->translate('EDIT');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
-										iconClass="dijitEditorIcon dijitEditorIconSave" />
-								</td>
-							</tr>
 						</table>
 					</td>
-					<td width="50%" style="background:#eaeaea;">
+					<td width="50%" style="background:#eaeaea; vertical-align: top;">
 						<table style="margin: 0 auto; width: 100%;" cellspacing="10">
 							<tr>
 								<td><?php echo $tr->translate("ផលិតផល")?></td>
@@ -92,10 +89,6 @@ dojo.require("dijit.form.Textarea");
 										<?php }}?>
 									</select>
 								</td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['note']?>" class="fullside" name="note" id="note" type="text"></td>
 							</tr>
 							<tr>
 								<td valign="top"><?php echo $tr->translate("ឡូហ្គូក្រុមហ៊ុន/Logo")?> (jpg, .jpeg, .png</td>
@@ -118,7 +111,23 @@ dojo.require("dijit.form.Textarea");
 								<?php }?>
 								</td>
 							</tr>
+							
 					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<textarea class="ckeditor" height="200px" style="min-height:60px;" id="note" name="note"><?php echo $rsdata['note']?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
+					<input type="submit" value="SAVE_NEW" tabindex="1" label="<?php echo $tr->translate('EDIT');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
+						iconClass="dijitEditorIcon dijitEditorIconSave" />
 				</td>
 			</tr>
 		</table>

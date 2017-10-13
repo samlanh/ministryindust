@@ -15,6 +15,10 @@ dojo.require("dijit.form.Textarea");
 <style>
 
 </style>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.js"></script>
+<link href="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.css" rel="stylesheet">
+<form id='company' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
 <form id='company' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -86,10 +90,6 @@ dojo.require("dijit.form.Textarea");
 								</td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
-								<td><input dojoType="dijit.form.TextBox" class="fullside" name="note" id="note" type="text"></td>
-							</tr>
-							<tr>
 								<td><?php echo $tr->translate("ឡូហ្គូក្រុមហ៊ុន/Logo")?> (jpg, .jpeg, .png</td>
 								<td><input class="fullside" required="1" name="logo" id="logo" accept=".jpg, .jpeg, .png" type="file"></td>
 							</tr>
@@ -97,21 +97,27 @@ dojo.require("dijit.form.Textarea");
 								<td><?php echo $tr->translate("ឯកសារច្បាប់")?> (jpg, .jpeg, .png)</td>
 								<td><input class="fullside" required="1" name="document_company" accept=".jpg, .jpeg, .png" multiple type="file"></td>
 							</tr>
-							
-							<tr>
-								<td colspan="2" align="center">
-									<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
-									<input type="submit" value="SAVE_CLOSE" tabindex="2" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
-										iconClass="dijitEditorIcon dijitEditorIconSave" /> 
-									<input type="submit" value="SAVE_NEW" tabindex="1" label="<?php echo $tr->translate('SAVENEW');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
-										iconClass="dijitEditorIcon dijitEditorIconSave" />
-								</td>
-							</tr>
 					</table>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="2"><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<textarea class="ckeditor" height="200px" style="min-height:60px;" id="note" name="note"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
+					<input type="submit" value="SAVE_CLOSE" tabindex="2" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
+						iconClass="dijitEditorIcon dijitEditorIconSave" /> 
+					<input type="submit" value="SAVE_NEW" tabindex="1" label="<?php echo $tr->translate('SAVENEW');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
+						iconClass="dijitEditorIcon dijitEditorIconSave" />
+				</td>
+			</tr>
 		</table>
-			
 		</td>
 	</tr>
 </table>	
