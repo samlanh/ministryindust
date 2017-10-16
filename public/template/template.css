@@ -288,6 +288,18 @@ ul.result-list .result_description ul li {
 .blog-left-result img {
     width: 100%;
 }
+.page_title.documenttil {
+    margin-bottom: 15px;
+}
+ul.document-list li {
+    display: inline-block;
+    margin: 10px 10px;
+}
+ul.document-list li img {
+    min-height: 325px;
+    max-height: 325px;
+    box-shadow: 0px 1px 3px #868585;
+}
 /*==============================
 End Result company search
 ====================*/
