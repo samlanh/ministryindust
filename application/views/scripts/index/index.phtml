@@ -101,7 +101,7 @@ if ($currentlang==1){
 						<?php if ($i==1){?>
 							<ul class="list_compay col-md-4 col-sm-4 col-xs-12">
 							<?php }?>
-								<li><a href="#"><?php echo $com['com_name'];?></a></li>
+								<li><a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($com['id']);?>"><?php echo $com['com_name'];?></a></li>
 							<?php if (count($company)==$i){?>
 							</ul>
 							<?php }else if ($i==$limt){ $limt = $limt+$list;?>
