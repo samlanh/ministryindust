@@ -44,6 +44,20 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 								<span><?php echo $tr->translate("ADDRESS");?></span> : <?php echo $company['address'];?>
 								<p class="company_desc"><?php echo $company['note'];?></p>
 							</div>
+							<?php if (!empty($company['file1'])){?>
+							<div class="page_title documenttil">
+								<h3><?php echo $tr->translate("Legal Document");?></h3>
+							</div>
+							<div>
+								<ul class="document-list">
+									<?php for ($i=1; $i<=8; $i++){?>
+									<li>
+										<img src="<?php echo $this->baseUrl()."/companylogo/".$company['file'.$i];?>" />
+									</li>
+									<?php }?>
+								</ul>
+							</div>
+							<?php }?>
 						</div>
 						<?php }else if (!empty($this->param['oranization'])){?>
 						<div class="page_title">
