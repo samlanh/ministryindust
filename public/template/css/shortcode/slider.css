@@ -1,0 +1,156 @@
+/* -----------------------------------
+Template Name: Dazimaxx Premium Multipurpose HTML Template
+Description: This is html5 template
+Author: HasTech
+Version: 1.0
+NOTE: This is Slider style file. All Slider related style included in this file.
+
+--------------------------------------*/
+.slider-area, .slider-two-area, .slider-three-area, .banner-content,.single-slide, .owl-item, .owl-stage, .slider-wrapper, .owl-stage-outer, .banner-content .container, .banner-content .row, .banner-content .col-lg-10, .banner-content .col-md-12, .banner-content .col-lg-7, .banner-content .text-content-wrapper, .banner-content .text-content, .banner-content .display-table, .banner-content .display-table-cell{
+    height: 100%;
+}
+.slider-area, .slider-two-area, .slider-three-area {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+.slider-area .owl-item .single-slide img, .slider-two-area .owl-item .single-slide img, .slider-three-area .owl-item .single-slide img {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    width: 100%;
+}
+.banner-content .text-content-wrapper {display: table; width: 100%}
+.banner-content .text-content {
+    display: table-cell;
+    position: relative;
+    vertical-align: middle;
+    z-index: 3;
+}
+.banner-content h1 {
+    -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+    -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+    -webkit-animation-name: fadeOutDown;
+            animation-name: fadeOutDown;
+    color: #ffffff;
+    font-size: 48px;
+    letter-spacing: 24px;
+    line-height: 48px;
+    margin-bottom: 28px;
+    text-transform: uppercase;
+}
+.banner-content p {
+    -webkit-animation-delay: 1s;
+            animation-delay: 1s;
+    -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+    -webkit-animation-name: fadeOutDown;
+            animation-name: fadeOutDown;
+    color: #ffffff;
+    font-size: 14px;
+    letter-spacing: 21px;
+    line-height: 20px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+.banner-btn .default-btn {
+    background: #181b24 none repeat scroll 0 0;
+    margin-top: 45px;
+    padding: 21px 44px 18px;
+    -webkit-animation-delay: 1.5s;
+            animation-delay: 1.5s;
+    -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+    -webkit-animation-name: fadeOutDown;
+            animation-name: fadeOutDown;
+}
+.slider-area .owl-item.active .banner-content p, 
+.slider-area .owl-item.active .banner-content h1, 
+.slider-area .owl-item.active .banner-btn .default-btn, 
+.slider-two-area .owl-item.active .banner-content p, 
+.slider-two-area .owl-item.active .banner-content h1, 
+.slider-two-area .owl-item.active .banner-btn .default-btn,
+.slider-three-area .owl-item.active .banner-content p, 
+.slider-three-area .owl-item.active .banner-content h1, 
+.slider-three-area .owl-item.active .banner-content h5, 
+.slider-three-area .owl-item.active .banner-btn .default-btn{
+    -webkit-animation-name: fadeInUp;
+            animation-name: fadeInUp
+}
+.single-slide {background-position: center top; background-size: cover;}
+.background-area {position: relative}
+.slider-area .owl-controls, .slider-two-area .owl-controls, .slider-three-area .owl-controls {
+    bottom: 34%;
+    height: 135px;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 15px;
+    position: absolute;
+    /* right: 60px;
+   -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);*/
+	bottom: 25px;
+    height: auto; 
+    left: 0;
+    right: 0;
+}
+.slider-area .owl-dot:first-child, .slider-two-area .owl-dot:first-child, .slider-three-area .owl-dot:first-child {
+    margin-left: 0;
+}
+.owl-carousel .owl-controls .owl-dot {
+    background: #fff;
+    color: #333;
+	    font-size: 14px;
+    font-weight: 600;
+}
+.owl-carousel .owl-controls .owl-dot.active {
+    color: #0daf10;
+}
+.slider-area .owl-dot, .slider-two-area .owl-dot, .slider-three-area .owl-dot {
+    background: rgba(255, 255, 255, 0.2) none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 50%;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 10px;
+    height: 29px;
+    line-height: 29px;
+    margin: 0 7px;
+    text-align: center;
+   /* -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);*/
+    width: 29px;
+    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s
+}
+.slider-area .owl-dot.active {}
+.slider-three-area .text-content > h5 {
+    color: #ffffff;
+    margin-bottom: 17px;
+    text-transform: uppercase;
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+    -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+    -webkit-animation-name: fadeOutDown;
+            animation-name: fadeOutDown;
+}
+.slider-three-area .banner-content h1 {letter-spacing: 0; margin-bottom: 25px;}
+.slider-three-area .banner-content p {
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+}

@@ -1,0 +1,398 @@
+.moul {
+    font-family: 'Rubik', sans-serif,'Moul';
+}
+.blog-two-area a img {
+    width: 100%;
+}
+.breadcrumb-bar p.subtitle {
+    color: #fff;
+    font-size: 16px;
+}
+/*================================================
+	Start News & Event Home
+========================================*/
+.blog-two-area.newsevent {
+    background: #00a859;
+}
+.blog-two-area.newsevent .section-title-light.text-center h2 {
+    text-shadow: 2px 1px 0px #000;
+    color: #fff;
+}
+.single-blog.listnews {
+    background: #fff;
+}
+.single-blog.listnews .blog-text {
+    padding: 10px 15px;
+}
+.single-blog.listnews .blog-text h5 {
+    font-size: 14px;
+    font-weight: 600;
+}
+.single-blog.listnews .blog-text p {
+    color: #333;
+}
+.single-blog.listnews .blog-text .readmore {
+    text-align: right;
+}
+.single-blog.listnews .blog-text .readmore {
+    text-align: right;
+    background: none;
+    color: #00a859;
+	    margin-top: 0;
+}
+.single-blog.listnews .blog-text .readmore:after {
+    background: none;
+}
+.single-blog.listnews .blog-text .readmore:hover span {
+    color: #6a6f6d;
+}
+.section-button a.default-btn.showall {
+       background: #fff;
+    color: #00a859;
+    border-radius: 5px;
+    font-weight: 600;
+    border: solid 1px #fff;
+    box-shadow: 0px 1px 3px #3a3838;
+}
+.section-button a.default-btn.showall:after {
+    background: none;
+}
+.section-button a.default-btn.showall:hover span{
+	color: #6a6f6d;
+}
+/*================================================
+	End News & Event Home
+========================================*/
+
+/*================================================
+	Start Tap List Company Home
+========================================*/
+.tap-area .tapfeature {
+    background: #00a859;
+    border-top: solid 2px #03904e;
+    box-shadow: 0px 1px 3px #3a3838;
+}
+.tap-area .tapfeature ul.menutap {
+    /*text-align: center;*/
+}
+.tap-area .tapfeature ul li {
+    display: inline-block;
+}
+.tap-area .tapfeature ul li a {
+    color: #fff;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+.tap-area .tapfeature ul li a:hover,
+.tap-area .tapfeature ul li.active a {
+    border-bottom: solid 2px #fff;
+}
+.tap-area  .content-tap {
+    padding: 30px 0;
+}
+.tap-area .content-tap ul.list_compay {
+    list-style: disc;
+	color: #333;
+    font-weight: 600;
+    margin-left:10px;
+}
+.tap-area .content-tap ul.list_compay li {
+    padding: 10px 0;
+}
+.tap-area .content-tap ul.list_compay li a:hover {
+    color: #00a859;
+}
+/*================================================
+	END Tap List Company Home
+========================================*/
+
+/*================================================
+	Start file show slide Home
+========================================*/
+.file_slide .title_date {
+    color: #333;
+    text-align: center;
+    font-size: 16px;
+}
+.file_slide .blog-image a {
+    box-shadow: 0px 1px 3px #868585;
+}
+/*================================================
+	END file show slide Home
+========================================*/
+
+
+/*================================================
+	start blog search Home
+========================================*/
+.form_search_home .row-form-home {
+    padding: 10px 0;
+}
+.form_search_home .row-form-home .label_title {
+    color: #333;
+    font-weight: 600;
+}
+
+.form_search_home .row-form-home  input, 
+.form_search_home .row-form-home  textarea {
+    border: 1px solid #ebebeb;
+    border-radius: 3px;
+    color: #90939c;
+    font-size: 14px;
+    height: 57px;
+    padding: 0 24px;
+    resize: none;
+}
+textarea::-webkit-input-placeholder 
+input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #90939c;
+}
+textarea::-moz-placeholder
+input::-moz-placeholder { /* Firefox 19+ */
+  color: #90939c;
+}
+textarea:-ms-input-placeholder 
+input:-ms-input-placeholder { /* IE 10+ */
+  color: #90939c;
+}
+textarea:-moz-placeholder
+input:-moz-placeholder { /* Firefox 18- */
+  color: #90939c;
+}
+.select2-container--default .select2-selection--single{
+    padding:6px;
+    height: 47px;
+
+    font-size: 1em;  
+    position: relative;
+	border: 1px solid #ebebeb;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  
+    color: #333;
+    font-size: 1.3em;
+    padding: 4px 12px;
+    height: 47px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 20px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-width: 6px 6px 0 6px;
+    height: 0;
+    left: 50%;
+    margin-left: -23px;
+    margin-top: -2px;
+}
+.form_search_home .row-form-home input.btu_submit {
+    background: #fff;
+    color: #00a859;
+    border-radius: 5px;
+    font-weight: 600;
+    border: solid 1px #fff;
+    box-shadow: 0px 1px 3px #868585;
+    width: 200px;
+    text-align: center;
+    padding: 10px 0;
+}
+.form_search_home .row-form-home input.btu_submit:hover {
+    color: #292929;
+    background: #fdfdfd;
+}
+/*================================================
+	END blog search Home
+========================================*/
+
+/*================================================
+	Start blog partner Home
+========================================*/
+.partner{
+    border-top: solid 2px #979797;
+}
+ul.partner_list li.partnerlist{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+   
+}
+ul.partner_list li img {
+  width: 100%;
+    margin: 1%;
+    border: solid 1px #eee;
+	height: 110px;
+}
+/*================================================
+	END blog partner Home
+========================================*/
+
+/*================================================
+	Start footer map
+========================================*/
+.google_map_footer {
+    max-height: 280px;
+    max-width: 450px;
+    height: 200px;
+}
+.google_map_footer iframe {
+    /* max-height: 100%; */
+    height: 100%;
+    max-width: 100%;
+}
+/*================================================
+	END footer map
+========================================*/
+
+
+
+.page_title {
+    padding: 10px 0;
+    border-bottom: solid 1px #ccc;
+}
+.page_title h3 {
+    padding: 10px 0;
+	clear: both;
+}
+.clearboth{
+	clear: both !important;
+}
+.right{
+	float: right;
+}
+.page_title h3 a.search_again {
+    
+    color: #00a859;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 34px;
+    vertical-align: bottom;
+}
+.page_title h3 a.search_again:hover {
+    color: #353333;
+}
+
+/*==============================
+Result company search
+====================*/
+ul.result-list .result_description ul li {
+    display: inline-block;
+    color: #333;
+    padding: 10px 2px;
+}
+.blog-left-result img {
+    width: 100%;
+}
+/*==============================
+End Result company search
+====================*/
+
+
+
+/*================================================
+	Start News & Event
+========================================*/
+.single-blog-post .list {
+    box-shadow: 0px 1px 3px #868585;
+  
+}
+.single-blog-post .list .blog-post-text {
+    padding: 10px;
+}
+.single-blog-post .list .blog-post-text h4 {
+    font-size: 16px;
+    /* line-height: 25px; */
+    font-weight: 600;
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
+}
+.single-blog-post .list .blog-post-text > p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #000;
+}
+.single-blog-post .list .readmore {
+    text-align: right;
+}
+.single-blog-post .list .readmore a {
+     text-align: right;
+    background: #eee;
+    color: #00a859;
+    margin-top: 0;
+    box-shadow: 0px 0px 3px #868585;
+    background: -webkit-linear-gradient(#ffffff, #f3f2f2);
+    background: -o-linear-gradient(#ffffff, #f3f2f2);
+    background: -moz-linear-gradient(#ffffff, #f3f2f2);
+    background: linear-gradient(#ffffff, #f3f2f2);
+}
+.single-blog-post .list .readmore a:after {
+    background:none;
+}
+.single-blog-post .list .readmore a:hover span{
+	color: #00a859;
+}
+
+/*================================================
+	End News & Event
+========================================*/
+
+/*================================================
+	Start Advertise blog
+========================================*/
+.row_advertise img.ad_img {
+    border: solid 1px #babdbd;
+}
+/*================================================
+	End Advertise blog
+========================================*/
+
+/*================================================
+	Start Sigle Article
+========================================*/
+.breadcrumb-area.siglearticle .breadcrumb-text h2 {
+    color: #ffffff;
+    line-height: 32px;
+    font-size: 26px;
+    margin-bottom: 33px;
+    position: relative;
+    text-transform: uppercase;
+    z-index: 2;
+}
+.sigle_article .blog-details .blog-post-text h4 {
+    color: #000;
+    padding: 10px 0;
+    font-size: 18px;
+    line-height: 1.5em;
+    font-weight: 600;
+    border-bottom: solid 1px #eee;
+}
+.blog-details .blog-post-text p {
+    color: #000;
+}
+.popular-post img {
+    width: 99px;
+}
+/*================================================
+	End Sigle Article
+========================================*/
+
+
+.ht-single-widget.right_blog h4.widget-title {
+    margin-bottom: 10px;
+}
+.popular-post .post-text h6 {
+    font-size: 12px;
+    font-weight: 600;
+}
+ul.department li a{padding-left:10px; }
+ul.department li.activemenu{ border-left:2px solid #09b865 !important;}
+.hotnews{color:#00a859 !important; line-height: 47px;}
+.messageblog{}
+.hotnews img{ margin-right: 10px;}
+h2.hotnews{}
