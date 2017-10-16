@@ -8,6 +8,9 @@
     color: #fff;
     font-size: 16px;
 }
+.post_date span.date {
+    color: #6b6c6c;
+}
 /*================================================
 	Start breadcrumb
 ========================================*/
