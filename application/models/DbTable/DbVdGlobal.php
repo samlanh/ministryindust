@@ -333,6 +333,12 @@ class Application_Model_DbTable_DbVdGlobal extends Zend_Db_Table_Abstract
 			echo '</ul>';
 		}
 	}
+	function getMessageHomepage(){
+		$db = $this->getAdapter();
+		$lang = $this->getCurrentLang();
+		$sql="SELECT description,title FROM `mini_hotnews` WHERE language_id=".$lang;
+		return $db->fetchRow($sql);
+	}
 
 }
 ?>

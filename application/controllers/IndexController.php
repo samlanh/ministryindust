@@ -52,6 +52,8 @@ class IndexController extends Zend_Controller_Action
 		$this->view->rsprovince = $db->getAllProvince();
 		$db = new Application_Model_DbTable_DbVdGlobal();
 		$this->view->rsdepartment = $db->getAllDepartment();
+		$this->view->rsmessage = $db->getMessageHomepage();
+		
     }
 	
    
@@ -143,7 +145,7 @@ class IndexController extends Zend_Controller_Action
 		}
 	}
     protected function sortMenu($menus){
-    	$menus_order = Array ( 'home','menu-manager','department','document','company','group','product','report','rsvacl','setting','other');
+    	$menus_order = Array ( 'home','menu-manager','department','document','company','about','product','report','rsvacl','setting','other');
     	$temp_menu = Array();
     	$menus=array_unique($menus);
     	foreach ($menus_order as $i => $val){

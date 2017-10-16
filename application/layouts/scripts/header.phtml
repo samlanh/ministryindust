@@ -15,7 +15,7 @@
       		'rsvacl'=>'<span class="icon_menu"><i class="fa  fa-cog" aria-hidden="true"></i></span><br>',
       		'setting'=>'<span class="icon_menu"><i class="fa  fa-cogs" aria-hidden="true"></i></span><br>',
       		'menu-manager'=>'<span class="icon_menu"><i class="fa fa-list" aria-hidden="true"></i></span><br>',
-      		'product'=>'<span class="icon_menu"><i class="fa fa-cubes" aria-hidden="true"></i></span><br>',
+      		'about'=>'<span class="icon_menu"><i class="fa fa-address-card" aria-hidden="true"></i></span><br>',
       		'field-manager'=>'<span class="icon_menu"><i class="fa fa-window-restore" aria-hidden="true"></i></span><br>',
       		);
 	  $module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
@@ -26,7 +26,6 @@
       if(!empty($arr_module)){
       	foreach ($arr_module as $rs){
       		if($rs==$module){$class='current';}else{$class='link';}
-      		
       		$url =$this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true);
       		if ($rs=="group"){
       			$menuleft[$rs]="<li class='$class'><a href='$url'>".$array_icon[$rs]."<span>".$tr->translate("CUSTOMER")."</span></a></li>";
