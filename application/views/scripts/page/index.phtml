@@ -209,16 +209,6 @@ if(!empty($this->param['param'])){
 					                               <div class="article_desc">
 					                               <?php echo $aticle['description'];?>
 					                               </div>
-					                               <?php
-													$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-													?>
-					                                <div class="social-icons">
-					                                    <a target="_blank"href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url);?>" class="facebook"><i class="fa fa-facebook"></i></a>
-					                                    <a href="https://twitter.com/devitemsllc" class="twitter"><i class="fa fa-twitter"></i></a>
-					                                    <a href="https://dribbble.com/devitemsllc" class="dribbble"><i class="fa fa-dribbble"></i></a>
-					                                    <a href="https://www.pinterest.com/" class="pinterest"><i class="fa fa-pinterest"></i></a>
-					                                    <a href="https://www.youtube.com/channel/UC0KLL1Ylo1JrcSUZOeX3tqQ" class="youtube"><i class="fa fa-youtube"></i></a>
-					                                </div>
 					                            </div>
 					                        </div>
 					                    </div>
@@ -500,13 +490,6 @@ if(!empty($this->param['param'])){
 	                               <div class="article_desc">
 	                               <?php echo $aticle['description'];?>
 	                               </div>
-	                                <div class="social-icons">
-	                                    <a href="https://www.facebook.com/devitems/" class="facebook"><i class="fa fa-facebook"></i></a>
-	                                    <a href="https://twitter.com/devitemsllc" class="twitter"><i class="fa fa-twitter"></i></a>
-	                                    <a href="https://dribbble.com/devitemsllc" class="dribbble"><i class="fa fa-dribbble"></i></a>
-	                                    <a href="https://www.pinterest.com/" class="pinterest"><i class="fa fa-pinterest"></i></a>
-	                                    <a href="https://www.youtube.com/channel/UC0KLL1Ylo1JrcSUZOeX3tqQ" class="youtube"><i class="fa fa-youtube"></i></a>
-	                                </div>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -520,14 +503,13 @@ if(!empty($this->param['param'])){
 	                                    <div class="popular-post">
 	                                        <a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"; ?>">
 	                                        <?php if(!empty($rs['image_feature'])){?>
-												<img src="<?php echo $this->baseUrl()."/images/article/".$rs['image_feature'];?>" alt="<?php echo $rs['title'];?>"/>
+												<img src="<?php echo $this->baseUrl()."/images/article/".$rs['image_feature'];?>" />
 											<?php }else{?>
-												<img src="<?php echo $this->baseUrl()."/images/noimage.jpg";?>" alt="<?php echo $rs['title'];?>"/>
+												<img src="<?php echo $this->baseUrl()."/images/noimage.jpg";?>"/>
 											<?php }?>
 	                                        </a>
 	                                        <div class="post-text">
 	                                            <h6><a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"; ?>"><?php echo $rs['title'];?></a></h6>
-	                                            <!-- <span><?php //echo $tr->translate("DATE")?> <span><?php //echo date("d-M-Y",strtotime($rs['create_date']));?></span></span> -->
 	                                        </div>
 	                                    </div>
 	                                    <?php }?>

@@ -371,5 +371,21 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		 FROM `mini_documentfile` AS df WHERE df.`status`=1";
 		return $db->fetchAll($sql);
 	}
+	
+	function  getAllDocumentType(){
+    	$sql="SELECT * FROM `mini_document_type` WHERE title!='' AND status=1";
+    	return  $this->getAdapter()->fetchAll($sql);
+    }
+    function getDocumentByDocType($doc_type=null){
+    	$db = $this->getAdapter();
+    	$sql="
+    	SELECT d.*,
+    	(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id = d.`document_type` LIMIT 1) AS doc_type_title
+    	FROM `mini_documentfile` AS d WHERE d.`status`>-1 AND title!='' ";
+    	if (!empty($doc_type)){
+    		$sql.=" AND d.`document_type`=".$doc_type;
+    	}
+    	return $db->fetchAll($sql);
+    }
 }
 ?>

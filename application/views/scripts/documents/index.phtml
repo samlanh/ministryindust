@@ -1,0 +1,98 @@
+<?php 
+$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$session_lang=new Zend_Session_Namespace('lang');
+$currentlang = $session_lang->lang_id;
+if ($currentlang==1){
+	$day = array("Mon"=>"Monday", "Tue"=>"Tuesday", "Wed"=>"Wednesday","Thu"=>"Thursday", "Fri"=>"Friday", "Sat"=>"Saturday", "Sun"=>"Sunday");
+	$number = array("0","1","2","3","4","5","6","7","8","9");
+	$month = array("01"=>"Jan", "02"=>"Feb", "03"=>"Mar","04"=>"Apr", "05"=>"May", "06"=>"Jun", "07"=>"Jul","08"=>"Aug", "09"=>"September", "10"=>"Oct","11"=>"Nov", "12"=>"Dec");
+}else{
+	$day = array("Mon"=>"ថ្ងៃច័ន្ទ", "Tue"=>"ថ្ងៃអង្គារ", "Wed"=>"ថ្ងៃពុធ","Thu"=>"ថ្ងៃព្រហស្បត្តិ៍", "Fri"=>"ថ្ងៃសុក្រ", "Sat"=>"ថ្ងៃសៅរ៍", "Sun"=>"ថ្ងៃអាទិត្យ");
+	$number = array("០","១","២","៣","៤","៥","៦","៧","៨","៩");
+	$month = array("01"=>"មករា", "02"=>"កុម្ភៈ", "03"=>"មិនា", "04"=>"មេសា", "05"=>"ឧសភា", "06"=>"មិថុនា", "07"=>"កក្កដា","08"=>"សីហា", "09"=>"កញ្ញា", "10"=>"តុលា","11"=>"វិច្ឆិការ", "12"=>"ធ្នូ");
+}
+?>
+<title><?php echo $tr->translate("DOCUMENT");?></title>
+<!-- Breadcrumb Area Start-->
+		<div class="breadcrumb-area bgimage" style="background-image: url('<?php echo $this->baseUrl()."/template/document.jpg"?>');">	
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="breadcrumb-text text-right">
+							<h2><?php echo $tr->translate("DOCUMENT");?></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb Area End -->
+		<div class="blog-two-area ptb-20">
+			<div class="container">
+                 <div class="row">
+					<div class="col-md-8 col-sm-12 col-xs-12">
+						<div class="page_title mtb-10">
+							<h3><?php echo $tr->translate("អនុក្រឹត");?></h3>
+						</div>
+						<ul class="result-list">
+								<?php foreach ($this->document as $document){?>
+								<li class="pb-20">
+									<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+										<?php 
+										$image = $this->baseUrl()."/images/noimage.jpg";
+										if (!empty($document['image'])){
+												$image = $this->baseUrl()."/companylogo/".$document['image'];
+											}
+										?>
+										<img src="<?php echo $image;?>" />
+									</div>
+									<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
+										<div class="post_date">
+											<span class="date">
+											<?php 
+											$date = strtotime($document['modify_date']);
+											$spp = str_split(date("d",$date));
+											$num="";
+											foreach ($spp as $ss){
+												$num.=$number[$ss];
+											}
+											$year='';
+											$sp_year = str_split(date("Y",$date));
+											foreach ($sp_year as $y){
+												$year.=$number[$y];
+											}
+											echo $day[date("D",$date)]." ".$num." ".$month[date("m",$date)]." ".$year;
+											?>
+											</span>
+										</div>
+										<div class="result_title">
+											<a target="_blank" href="<?php echo $this->baseUrl()."/file/".$document['file_name'];?>"><h4><?php echo $document['title'];?></h4></a>
+										</div>
+										<div class="result_description">
+										</div>
+									</div>
+									<div class="clearboth"></div>
+								</li>
+								<?php }?>
+							</ul>
+					</div>
+					<div class="col-md-4 col-sm-12 col-xs-12">
+						<h4>បញ្ញាត្តិ និង គោលនយោបាយ</h4>
+						<ul class="department">
+							<?php if(!empty($this->document_type))foreach($this->document_type as $key =>$rs){?>
+							<li <?php if($this->param== base64_encode($rs['id']) OR ($this->param=='' AND $key==0)){echo "class='activemenu'";}?>><a href="<?php echo $this->baseUrl()."/documents/index?dctype=".base64_encode($rs['id']);?>"><?php echo $rs['title'];?></a></li>
+							<?php }?>
+						</ul>
+						<?php if (!empty($this->banner)){?>
+							<div class="blog-advertise" style="margin-top:30px;">
+								<?php foreach ($this->banner as $rs){?>
+								<div class="row_advertise pb-20"> 
+									<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
+								</div>
+								<?php }?>
+							</div>
+						<?php }?>
+				 	</div>
+				 </div>
+			</div>
+		</div>
