@@ -9,6 +9,21 @@
     font-size: 16px;
 }
 /*================================================
+	Start breadcrumb
+========================================*/
+.breadcrumb-area.bgimage {
+    background-attachment: scroll;
+    background-clip: initial;
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: initial;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+/*================================================
+	End breadcrumb
+========================================*/
+/*================================================
 	Start News & Event Home
 ========================================*/
 .blog-two-area.newsevent {

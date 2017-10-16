@@ -723,6 +723,7 @@ textarea:focus {box-shadow: none; outline: 0}
     position: relative;
     text-transform: uppercase;
     z-index: 2;
+    text-shadow: 2px 1px 0px #000;
 }
 .breadcrumb-bar li {
     color: #ffffff;
