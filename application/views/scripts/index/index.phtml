@@ -1,8 +1,19 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $dbselect = new Application_Model_DbTable_DbGlobalSelect();
+$session_lang=new Zend_Session_Namespace('lang');
+$currentlang = $session_lang->lang_id;
+if ($currentlang==1){
+	$day = array("Mon"=>"Monday", "Tue"=>"Tuesday", "Wed"=>"Wednesday","Thu"=>"Thursday", "Fri"=>"Friday", "Sat"=>"Saturday", "Sun"=>"Sunday");
+	$number = array("0","1","2","3","4","5","6","7","8","9");
+	$month = array("01"=>"Jan", "02"=>"Feb", "03"=>"Mar","04"=>"Apr", "05"=>"May", "06"=>"Jun", "07"=>"Jul","08"=>"Aug", "09"=>"September", "10"=>"Oct","11"=>"Nov", "12"=>"Dec");
+}else{
+	$day = array("Mon"=>"ថ្ងៃច័ន្ទ", "Tue"=>"ថ្ងៃអង្គារ", "Wed"=>"ថ្ងៃពុធ","Thu"=>"ថ្ងៃព្រហស្បត្តិ៍", "Fri"=>"ថ្ងៃសុក្រ", "Sat"=>"ថ្ងៃសៅរ៍", "Sun"=>"ថ្ងៃអាទិត្យ");
+	$number = array("០","១","២","៣","៤","៥","៦","៧","៨","៩");
+	$month = array("01"=>"មករា", "02"=>"កុម្ភៈ", "03"=>"មិនា", "04"=>"មេសា", "05"=>"ឧសភា", "06"=>"មិថុនា", "07"=>"កក្កដា","08"=>"សីហា", "09"=>"កញ្ញា", "10"=>"តុលា","11"=>"វិច្ឆិការ", "12"=>"ធ្នូ");
+}
 ?>
- <title><?php echo $tr->translate("COMPANY_NAME");?></title>
+ 	<title><?php echo $tr->translate("COMPANY_NAME");?></title>
 		<!-- Slider Three Area Start -->
 		<div class="slider-three-area">
 		    <div class="slider-wrapper">
@@ -113,20 +124,40 @@ $dbselect = new Application_Model_DbTable_DbGlobalSelect();
        <div class="blog-two-area ptb-20">
 			<a href="#"><img src="<?php echo $this->baseUrl()."/template/"?>home.jpg" alt=""></a>
 	   </div>
+	   <?php if (!empty($this->document)){?>
         <!-- Blog Two Area Start -->
         <div class="file_slide ptb-20">
             <div class="container">
                 <div class="row">
                     <div class="blog-file-slide">
-                    <?php for ($i=0; $i<5; $i++){?>
+                    <?php foreach ($this->document as $doc){
+                    	if (!empty($doc['image'])){
+                    	$image = $this->baseUrl()."/companylogo/".$doc['image'];
+                    	}else{
+                    		$image = $this->baseUrl()."/template/file.jpg";
+                    	}
+                    	?>
                         <div class="col-xs-12">
                             <div class="single-blog">
 								<div class="title_date">
-									ថ្ងៃច័ន្ទ ២១ មេសា ២០១៧
+									<!-- ថ្ងៃច័ន្ទ ២១ មេសា ២០១៧ -->
+									<?php 
+									$date = strtotime($doc['modify_date']);
+									$spp = str_split(date("d",$date));
+									$num="";
+									foreach ($spp as $ss){
+										$num.=$number[$ss];
+									}
+									$year='';
+									$sp_year = str_split(date("Y",$date));
+									foreach ($sp_year as $y){
+										$year.=$number[$y];
+									}
+									echo $day[date("D",$date)]." ".$num." ".$month[date("m",$date)]." ".$year;?>
 								</div>
                                 <div class="blog-image">
-                                    <a href="#">
-                                        <img src="<?php echo $this->baseUrl()."/template/"?>file.jpg" alt="">
+                                    <a href="<?php echo $this->baseUrl()."/file/".$doc['file_name'];?>" target="_blank" download title="<?php echo $doc['title'];?>">
+                                        <img src="<?php echo $image;?>" alt="">
                                     </a>
                                 </div>
                                
@@ -141,6 +172,7 @@ $dbselect = new Application_Model_DbTable_DbGlobalSelect();
             </div>
         </div>
         <!-- Blog Two Area End -->
+        <?php }?>
 		
 		<div class="blog-two-area ptb-20">
 			<a href="#"><img src="<?php echo $this->baseUrl()."/template/"?>formheader.jpg" alt=""></a>

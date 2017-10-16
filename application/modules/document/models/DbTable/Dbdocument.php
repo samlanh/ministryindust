@@ -12,7 +12,7 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     	 
     	$sql="
     	SELECT d.`id`,d.`title`,
-		(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id =d.`document_type` LIMIT 1) AS doc_type_title,d.`create_date`,d.`status`
+		(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id =d.`document_type` LIMIT 1) AS doc_type_title,d.`modify_date`,d.`status`
 		 FROM `mini_documentfile` AS d WHERE d.`status`>-1 AND title!='' ";
     	 
     	if(!empty($data['txt_search'])){
@@ -25,38 +25,61 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     	if ($data['document_type']>0){
     	$sql.=" AND d.`document_type`=".$data['document_type'];
     	}
+    	$sql.=" ORDER BY d.id DESC";
     	return $db->fetchAll($sql);
-    	}
+    }
+    function getDocumentById($id){
+    	$db = $this->getAdapter();
+    	$sql="SELECT df.* FROM `mini_documentfile` AS df WHERE df.`id`=$id LIMIT 1";
+    	return $db->fetchRow($sql);
+    }
     function addDocument($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
-    		$photoname = str_replace(" ", "_", $data['document_name']) . '.jpg';
-    		$upload = new Zend_File_Transfer();
-    		$upload->addFilter('Rename',
-    				array('target' => PUBLIC_PATH . '/companylogo/'. $photoname, 'overwrite' => true) ,'photo');
-    		$receive = $upload->receive();
+    		print_r($data);exit();
+    		$part= PUBLIC_PATH.'/companylogo/';
+    		$photoname = str_replace(" ", "_", $data['document_name']);
+    		$name = $_FILES['photo']['name'];
+    		$size = $_FILES['photo']['size'];
+    		$photo='';
+    		if (!empty($name)){
+    			$tem =explode(".", $name);
+    			$image_name = date("Y").date("m").date("d").time().".".end($tem);
+//     			$image_name =iconv('ISO-8859-1', 'UTF-8//IGNORE', $image_name);
+    			$tmp = $_FILES['photo']['tmp_name'];
+    			
+    			if(move_uploaded_file($tmp, $part.$image_name)){
+    				$photo = $image_name;
+    			}
+    			else
+    				$string = "Image Upload failed";
+    				
+    		}
     		
-    		if($receive)
-    		{
-    			$data['photo'] = $photoname;
-    		}
-    		else{
-    			$data['photo']="";
+    		$document='';
+    		$partfile= PUBLIC_PATH.'/file/';
+    		$filename = $_FILES['document']['name'];
+    		$filesize = $_FILES['document']['size'];
+    		if (!empty($filename)){
+    			$temfile =explode(".", $filename);
+    			$file_name = date("Y").date("m").date("d").time().".".end($temfile);
+    			$tmp = $_FILES['document']['tmp_name'];
+    		
+    			if(move_uploaded_file($tmp, $partfile.$file_name)){
+    				$document = $file_name;
+    			}
+    			else
+    				$string = "Document Upload failed";
     		}
     		
-    		$files = $upload->getFileInfo();
-    		$file_size=0;
-    		if(!empty($files['document']['size'])){
-    			$file_size=$files['document']['size'];
-    		}
 	    	$arr = array(
 	    			'title'=>$data['document_name'],
 	    			'key_word'=>$data['key_word'],
 					'document_type'=>$data["document_type"],
-	    			'image'=>$data["photo"],
-	    			'file_name'=>$data['photo'],
-	    			'file_size'=>$file_size,
+	    			'image'=>$photo,
+	    			'file_name'=>$document,
+	    			'file_size'=>$filesize,
 	    			'create_date'=>date("Y-m-d"),
 	    			'modify_date'=>$data['date_register'],
 	    			'user_id'=>$this->getUserId(),
@@ -70,6 +93,70 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		$db->rollBack();
     	}
+	}
+	function editDocument($data){
+		$db = $this->getAdapter();
+		$db->beginTransaction();
+		try{
+			$part= PUBLIC_PATH.'/companylogo/';
+			$photoname = str_replace(" ", "_", $data['document_name']);
+			$name = $_FILES['photo']['name'];
+			$size = $_FILES['photo']['size'];
+			$photo='';
+			if (!empty($name)){
+				$tem =explode(".", $name);
+				$image_name = date("Y").date("m").date("d").time().".".end($tem);
+// 				$image_name =iconv('ISO-8859-1', 'UTF-8//IGNORE', $image_name);
+				$tmp = $_FILES['photo']['tmp_name'];
+				 
+				if(move_uploaded_file($tmp, $part.$image_name)){
+					$photo = $image_name;
+				}
+				else
+					$string = "Image Upload failed";
+		
+			}else{
+				$photo = $data['old_photo'];
+			}
+			$document='';
+			$partfile= PUBLIC_PATH.'/file/';
+			$filename = $_FILES['document']['name'];
+			$filesize = $_FILES['document']['size'];
+			if (!empty($filename)){
+				$temfile =explode(".", $filename);
+				$file_name = date("Y").date("m").date("d").time().".".end($temfile);
+				$tmp = $_FILES['document']['tmp_name'];
+				
+				if(move_uploaded_file($tmp, $partfile.$file_name)){
+					$document = $file_name;
+				}
+				else
+					$string = "Document Upload failed";
+			}else{
+				$document = $data['old_document'];
+			}
+			
+			$arr = array(
+					'title'=>$data['document_name'],
+					'key_word'=>$data['key_word'],
+					'document_type'=>$data["document_type"],
+					'image'=>$photo,
+					'file_name'=>$document,
+					'file_size'=>$filesize,
+// 					'create_date'=>date("Y-m-d"),
+					'modify_date'=>$data['date_register'],
+					'user_id'=>$this->getUserId(),
+					'status'=>1,
+			);
+			$where=" id=".$data['id'];
+			$this->update($arr, $where);
+			$db->commit();
+		}catch(exception $e){
+			echo $e->getMessage();exit();
+			Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			$db->rollBack();
+		}
 	}
     function getAllDocumentType(){
     	$sql="SELECT id,title AS name FROM `mini_document_type` WHERE title!=''";

@@ -46,7 +46,11 @@ class Document_IndexController extends Zend_Controller_Action {
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
   			$db->addDocument($_data);
-  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/document/index/add");
+  			if (!empty($_data['save_new'])){
+  				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/document/index/add");
+  			}else{
+  				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/document/index");
+  			}
   		}
   	}catch (Exception $e){
   		Application_Form_FrmMessage::message("Application Error");
@@ -55,26 +59,23 @@ class Document_IndexController extends Zend_Controller_Action {
   	$this->view->document_type = $db->getAllDocumentType();
   }
   public function editAction(){
-  	$db = new Company_Model_DbTable_Dbcompany();
+  	$db = new Document_Model_DbTable_Dbdocument();
+  	$id = $this->getRequest()->getParam('id');
   	try{
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
-  			$db->addCompany($_data);
-  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/company/index/add");
+  			$_data['id'] = $id;
+  			$db->editDocument($_data);
+  			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS", "/document/index");
   		}
   	}catch (Exception $e){
   		Application_Form_FrmMessage::message("Application Error");
   		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
   	}
-  	$id = $this->getRequest()->getParam('id');
-  	$result =  $db->getCompanyById($id);
-  	if(empty($result)){Application_Form_FrmMessage::Sucessfull("NO_RECORD", "/company/index");}
+  	$result =  $db->getDocumentById($id);
+  	if(empty($result)){Application_Form_FrmMessage::Sucessfull("NO_RECORD", "/document/index");}
   	$this->view->rs = $result;
-  	$db = new Application_Model_DbTable_DbGlobal();
-  	$this->view->rsprovince = $db->getAllProvince();
-  	 
-  	$db = new Application_Model_DbTable_DbVdGlobal();
-  	$this->view->rsdepartment = $db->getAllDepartment();
+  	$this->view->document_type = $db->getAllDocumentType();
   	
   }
 }

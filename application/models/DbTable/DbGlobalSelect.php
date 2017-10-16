@@ -363,5 +363,13 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		}
 		return $idetity;
 	}
+	
+	function getHomeDocument(){
+		$db = $this->getAdapter();
+		$sql="SELECT df.*,
+		(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id =df.`document_type` LIMIT 1) AS doc_type_title
+		 FROM `mini_documentfile` AS df WHERE df.`status`=1";
+		return $db->fetchAll($sql);
+	}
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('EDIT_COMPANY'));
+	echo $this->headTitle($tr->translate('EDIT_DOCUMENT'));
 	$rsdata = $this->rs;
 ?>	
 <?php  $frm = $this->frm_client;?>
@@ -17,115 +17,82 @@ dojo.require("dijit.form.Textarea");
 
 </style>
 <form id='company' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
-<script type="dojo/method" event="onSubmit">			
+	<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				return true;
 			} else {
 				return false;
 			}
-</script>
-<table  width="100%" style="margin-top:-5px;">
-	<tr class="header">
-		<td colspan="2"><strong><i class="fa fa-users" aria-hidden="true"></i><?php echo $tr->translate('EDIT_COMPANY')?></strong></td>
-	</tr>
-	<tr>
-		<td style="max-width:1100px;border: solid 1px #eee;background: rgba(241, 241, 241, 0.2);">
-		<table style="margin: 0 auto; width: 100%;">
-			<tr>
-				<td align="left" valign="top">
-						<table style="margin: 0 auto; width: 100%;" cellspacing="10">
-							<tr>
-								<td><?php echo $tr->translate("លេខកូដ")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['com_code']?>" class="fullside" name="company_code" id="company_code" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("ឈ្មោះក្រុមហ៊ុន")?></td>
-								<td><input dojoType="dijit.form.ValidationTextBox" value="<?php echo $rsdata['com_name']?>" required="1" class="fullside" name="company_name" id="company_name" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("លេខទូរសព្ទ")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['com_phone']?>" class="fullside" name="phone" id="phone" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("អាស័យដ្ឋាន")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['address']?>" class="fullside" name="address" id="address" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("ថ្ងៃចុះបញ្ជី")?></td>
-								<td><input dojoType="dijit.form.DateTextBox" value="<?php echo $rsdata['register_date']?>" constraints="{datePattern:'dd/MM/yyyy'}" class="fullside" name="date_register" id="date_register"  type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("ស្ថាប័នក្រោមចំនុះ")?></td>
-								<td>
-									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department" id="department">
-										<?php if(!empty($this->rsdepartment)){
-												foreach($this->rsdepartment as $rs){
-										?>	
-												<option <?php if($rsdata['depart_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
-										<?php }}?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2" align="right">
-									<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
-									<input type="submit" value="SAVE_NEW" tabindex="1" label="<?php echo $tr->translate('EDIT');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
-										iconClass="dijitEditorIcon dijitEditorIconSave" />
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td width="50%" style="background:#eaeaea;">
-						<table style="margin: 0 auto; width: 100%;" cellspacing="10">
-							<tr>
-								<td><?php echo $tr->translate("ផលិតផល")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['product']?>" class="fullside" name="product_name" id="product_name" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("រាជធានី/ខេត្ត")?></td>
-								<td>
-									<select class="fullside" name="province_id" id="province_id" dojoType="dijit.form.FilteringSelect">
-										<?php if(!empty($this->rsprovince)){
-												foreach($this->rsprovince as $rs){
-										?>	
-												<option <?php if($rsdata['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
-										<?php }}?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['note']?>" class="fullside" name="note" id="note" type="text"></td>
-							</tr>
-							<tr>
-								<td valign="top"><?php echo $tr->translate("ឡូហ្គូក្រុមហ៊ុន/Logo")?> (jpg, .jpeg, .png</td>
-								<td valign="top">
-									<input style="width:90px;" class="fullside" required="1" name="logo" id="logo" accept=".jpg, .jpeg, .png" type="file"><img src="<?php echo $this->baseUrl()."/companylogo/".$rsdata['logo'];?>" width="100px"/>
-										<input type="hidden" name="old_logo" value="<?php echo $rsdata['logo'];?>" />
+	</script>
+	<table  width="100%" style="margin-top:-5px;">
+		<tr class="header">
+			<td colspan="2"><strong><i class="fa fa-users" aria-hidden="true"></i><?php echo $tr->translate('EDIT_DOCUMENT')?></strong></td>
+		</tr>
+		<tr>
+			<td style="max-width:1100px;border: solid 1px #eee;background: rgba(241, 241, 241, 0.2);">
+			<table style="margin: 0 auto; width: 50%;">
+				<tr>
+					<td align="left" valign="top">
+							<table style="margin: 0 auto; width: 100%;" cellspacing="10">
+								<tr>
+									<td><?php echo $tr->translate("ឈ្មោះឯកសារ")?></td>
+									<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_name" id="document_name" value="<?php echo $this->rs['title'];?>" type="text"></td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("ប្រភេទឯកសារ")?></td>
+									<td>
+										<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_type" id="document_type">
+											<?php if(!empty($this->document_type)){
+													foreach($this->document_type as $rs){
+											?>	
+													<option value="<?php echo $rs['id'];?>" <?php if ($this->rs['document_type']==$rs['id']){ echo 'selected="selected"';}?>><?php echo $rs['name'];?></option>
+											<?php }}?>
+										</select>
 									</td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("ឯកសារច្បាប់")?> (jpg, .jpeg, .png)</td>
-								<td><input class="fullside" required="1" name="document_company" accept=".jpg, .jpeg, .png" multiple type="file"></td>
-							</tr>
-							<tr>
-								<td colspan="2" align="center">
-								<?php for ($i=1;$i<=8;$i++){ 
-								if(!empty($rsdata['file'.$i])){?>
-									<img src="<?php echo $this->baseUrl()."/companylogo/".$rsdata['file'.$i];?>" width="60px"/>
-								<?php }?>
-								<input type="hidden" name="document_company<?php echo $i?>" value="<?php echo $rsdata['file'.$i];?>" />
-								<?php }?>
-								</td>
-							</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-			
-		</td>
-	</tr>
-</table>	
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("រូបតំណាង")?></td>
+									<td>
+										<input class="fullside" name="photo" id="photo" type="file" accept=".jpg, .jpeg, .png">
+										<input class="fullside" name="old_photo" id="old_photo" type="hidden" value="<?php echo $this->rs['image'];?>" >
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("ឯកសារ")?></td>
+									<td>
+										<input class="fullside" name="document" id="document" type="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+										<input class="fullside" name="old_document" id="old_document" type="hidden" value="<?php echo $this->rs['file_name'];?>" >
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("កាលបរិឆ្ឆេទ")?></td>
+									<td><input dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd/MM/yyyy'}" class="fullside" name="date_register" id="date_register" value="<?php echo $this->rs['modify_date'];?>" type="text"></td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("ពណ៍នា")?></td>
+									<td>
+										<textarea class="fullside" name="note" id="note" style="height: 150px;overflow-x:hidden;font-family:'khmer os battambang'; font-size: 14px; "><?php echo $this->rs['note'];?></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("ពាក្យគន្លឹះ")?></td>
+									<td>
+									<input dojoType="dijit.form.TextBox" class="fullside" name="key_word" id="key_word" type="text" value="<?php echo $this->rs['key_word'];?>"></td>
+								</tr>
+								<tr>
+									<td colspan="2" align="center">
+										<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
+										<input type="submit" value="SAVE_CLOSE" tabindex="1" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
+											iconClass="dijitEditorIcon dijitEditorIconSave" />
+									</td>
+								</tr>
+							</table>
+						</td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+	</table>
 </form>
 <table>
 <tr>
