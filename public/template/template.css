@@ -355,6 +355,11 @@ End Result company search
     margin-bottom: 10px;
     color: #000;
 }
+.blog-post-text p.shordescription {
+    line-height: 1.5em;
+    height: 4.5em;
+    overflow: hidden;
+}
 .single-blog-post .list .readmore {
     text-align: right;
 }
@@ -427,6 +432,12 @@ End Result company search
 .popular-post .post-text h6 {
     font-size: 12px;
     font-weight: 600;
+}
+ul.department {
+    margin: 10px 0;
+}
+ul.department li {
+    padding: 5px;
 }
 ul.department li a{padding-left:10px; }
 ul.department li.activemenu{ border-left:2px solid #09b865 !important;}
