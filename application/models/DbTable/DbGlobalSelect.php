@@ -96,9 +96,7 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		$lang = $this->getCurrentLang();
 		$sql="SELECT arc.*,
 		(SELECT arcd.title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS title,
-		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description,
-		(SELECT arcd.description_forweb FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description_forweb,
-		(SELECT arcd.short_descript FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS short_descript
+		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description
 		 FROM `mini_article` AS arc WHERE arc.`status`=1  ";
 		$where='';
 		if (!empty($cate_id)){// for get product by category
@@ -145,9 +143,7 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		$sql="SELECT arc.*,
 		(SELECT arcd.title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS title,
 		(SELECT arcd.sub_title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS sub_title,
-		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description,
-		(SELECT arcd.short_descript FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS short_descript,
-		(SELECT arcd.description_forweb FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description_forweb
+		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description
 		 FROM `mini_article` AS arc WHERE arc.`status`=1   ";
 		$where='';
 		if (!empty($cate_id)){// for get article by category
@@ -166,9 +162,7 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		$sql="SELECT arc.*,
 		(SELECT arcd.title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS title,
 		(SELECT arcd.sub_title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS sub_title,
-		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description,
-		(SELECT arcd.short_descript FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS short_descript,
-		(SELECT arcd.description_forweb FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description_forweb
+		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description
 		FROM `mini_article` AS arc WHERE arc.`status`=1   ";
 		$where='';
 		if (!empty($cate_id)){// for get article by category
@@ -193,9 +187,7 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		$sql ="SELECT arc.*,
 		(SELECT arcd.title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS title,
 		(SELECT arcd.sub_title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS sub_title,
-		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description,
-		(SELECT arcd.description_forweb FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description_forweb,
-		(SELECT arcd.short_descript FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS short_descript
+		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description
 		 FROM `mini_article` AS arc WHERE arc.`status`=1 AND arc.id IN ($listarticleid) ";
 		 return $db->fetchAll($sql);
 	}
@@ -206,7 +198,6 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		(SELECT arcd.title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS title,
 		(SELECT arcd.sub_title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS sub_title,
 		(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description,
-		(SELECT arcd.short_descript FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS short_descript,
 	  	(SELECT cat.title FROM `mini_category_detail` AS cat WHERE cat.category_id = arc.`category_id` AND cat.languageId=$lang LIMIT 1) AS cate_title
 		 FROM `mini_article` AS arc WHERE arc.`status`=1 AND arc.`alias_article`='$alias' LIMIT 1";
 		 return $db->fetchRow($sql);
@@ -373,23 +364,40 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 	}
 	
 	function  getAllDocumentType(){
-    	$sql="SELECT * FROM `mini_document_type` WHERE title!='' AND status=1";
+		$lang = $this->getCurrentLang();
+		$arraytitle = array(1=>"title_en",2=>"title");
+    	$sql="SELECT dt.*,
+			dt.".$arraytitle[$lang]." as title
+    	FROM `mini_document_type` as dt WHERE dt.title!='' AND dt.status=1";
     	return  $this->getAdapter()->fetchAll($sql);
     }
     function getDocumentByDocType($doc_type=null){
     	$db = $this->getAdapter();
+    	$lang = $this->getCurrentLang();
+    	$arraytitle = array(1=>"title_en",2=>"title");
     	$sql="
     	SELECT d.*,
-    	(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id = d.`document_type` LIMIT 1) AS doc_type_title
-    	FROM `mini_documentfile` AS d WHERE d.`status`>-1 AND title!='' ";
+    	(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id = d.`document_type` LIMIT 1) AS doc_type_title,
+    	d.".$arraytitle[$lang]." as title
+    	FROM `mini_documentfile` AS d WHERE d.`status`=1 AND title!='' ";
     	if (!empty($doc_type)){
     		$sql.=" AND d.`document_type`=".$doc_type;
     	}
     	$sql.=" ORDER BY d.id DESC ";
     	return $db->fetchAll($sql);
     }
+    function getEyepublicDocument(){
+    	$db = $this->getAdapter();
+    	$sql="
+    	SELECT d.*
+    	FROM `mini_eyespublic` AS d WHERE d.`status` =1 AND d.title!='' ";
+    	$sql.=" ORDER BY d.id DESC ";
+    	return $db->fetchAll($sql);
+    }
     function  getDocumentTypeInfoById($id){
-    	$sql="SELECT * FROM `mini_document_type` WHERE title!='' AND id=$id LIMIT 1";
+    	$lang = $this->getCurrentLang();
+    	$arraytitle = array(1=>"title_en",2=>"title");
+    	$sql="SELECT dt.*,dt.".$arraytitle[$lang]." as title FROM `mini_document_type` as dt WHERE dt.title!='' AND dt.id=$id LIMIT 1";
     	return  $this->getAdapter()->fetchRow($sql);
     }
 }
