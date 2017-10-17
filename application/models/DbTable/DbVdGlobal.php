@@ -82,10 +82,11 @@ class Application_Model_DbTable_DbVdGlobal extends Zend_Db_Table_Abstract
 	} 
 	public function getAllDepartment($parent = 0, $spacing = '', $cate_tree_array = ''){
 		$db=$this->getAdapter();
+		$lang = $this->getCurrentLang();
 		if (!is_array($cate_tree_array))
 			$cate_tree_array = array();
 		$sql="SELECT c.`id`,c.alias,
-		(SELECT cd.title FROM `mini_department_detail` AS cd WHERE cd.department_id = c.`id` AND cd.language_id=1 LIMIT 1) AS name,
+		(SELECT cd.title FROM `mini_department_detail` AS cd WHERE cd.department_id = c.`id` AND cd.language_id=$lang LIMIT 1) AS name,
 		c.`depart_parentid` FROM `mini_department` AS c WHERE c.`status`=1 AND c.`depart_parentid`=$parent ORDER BY id ASC";
 		$query = $db->fetchAll($sql);
 		$stmt = $db->query($sql);
@@ -100,11 +101,12 @@ class Application_Model_DbTable_DbVdGlobal extends Zend_Db_Table_Abstract
 		return $cate_tree_array;
 	}
 	public function getAllParentAbout($parent = 0, $spacing = '', $cate_tree_array = ''){
+		$lang = $this->getCurrentLang();
 		$db=$this->getAdapter();
 		if (!is_array($cate_tree_array))
 			$cate_tree_array = array();
 		$sql="SELECT a.`id`,a.alias,
-		(SELECT ad.title FROM `mini_aboutministry_detail` AS ad WHERE ad.ministy_id = a.`id` AND ad.language_id=1 LIMIT 1) AS name,
+		(SELECT ad.title FROM `mini_aboutministry_detail` AS ad WHERE ad.ministy_id = a.`id` AND ad.language_id=$lang LIMIT 1) AS name,
 		a.`parent_id` FROM `mini_aboutministry` AS a WHERE a.`status`=1 AND a.`parent_id`=$parent ORDER BY id ASC";
 		$query = $db->fetchAll($sql);
 		$stmt = $db->query($sql);
