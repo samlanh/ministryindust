@@ -12,6 +12,22 @@ if ($currentlang==1){
 	$number = array("០","១","២","៣","៤","៥","៦","៧","៨","៩");
 	$month = array("01"=>"មករា", "02"=>"កុម្ភៈ", "03"=>"មិនា", "04"=>"មេសា", "05"=>"ឧសភា", "06"=>"មិថុនា", "07"=>"កក្កដា","08"=>"សីហា", "09"=>"កញ្ញា", "10"=>"តុលា","11"=>"វិច្ឆិការ", "12"=>"ធ្នូ");
 }
+$string="";
+if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
+	if (empty($string)){
+		$string = $rs['title'];
+	}else{
+		if ($key== (count($this->document_type)-1)){
+			$string = $string." ".$tr->translate("AND").$rs['title'];
+		}else{
+			$br="";
+			if ($key==4){
+				$br="<br />";
+			}
+			$string = $string.", ".$br.$rs['title'];
+		}
+	}
+}
 ?>
 <title><?php echo $tr->translate("DOCUMENT")." | ".$this->doc_type['title'];?></title>
 <!-- Breadcrumb Area Start-->
@@ -21,6 +37,13 @@ if ($currentlang==1){
 					<div class="col-md-12">
 						<div class="breadcrumb-text text-right">
 							<h2><?php echo $tr->translate("DOCUMENT");?></h2>
+							<div class="breadcrumb-bar">
+								<div class="col-md-4">
+								</div>
+								<div class="col-md-8 col-sm-8 col-xs-12" style="margin: 0;  padding: 0;">
+									<p class="subtitle"><?php echo $string;?></p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
