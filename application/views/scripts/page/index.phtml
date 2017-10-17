@@ -108,10 +108,10 @@ if(!empty($this->param['param'])){
 							                                   <!-- <div class="blog-post-meta">
 								                                    <span><i class="fa fa-calendar"></i> <span><?php //echo date("d-M-Y",strtotime($article['create_date']));?></span></span>
 								                                </div> -->  
-							                                    <p class="shordescription">
-							                                    <?php
-																	echo strip_tags($article['description']);
-																?> 
+							                                    <p>
+							                                     <?php
+																		echo mb_substr($article['description'],0,100, "utf-8")."...";
+																	?> 
 																</p>
 																<div class="readmore">
 							                                    <a href="<?php echo $this->baseUrl()."/page/index?article=".$article['alias_article'].".html"; ?>" class="default-btn"><span><?php echo $tr->translate("READ_MORE")?></span></a>
@@ -616,9 +616,9 @@ if(!empty($this->param['param'])){
                                    <!-- <div class="blog-post-meta">
 	                                    <span><i class="fa fa-calendar"></i> <span><?php //echo date("d-M-Y",strtotime($article['create_date']));?></span></span>
 	                                </div> -->  
-                                    <p class="shordescription">
+                                    <p>
 	                                    <?php
-											echo strip_tags($article['description']);
+											echo mb_substr($article['description'],0,100, "utf-8")."...";
 										?> 
 										</p>
 									<div class="readmore">
