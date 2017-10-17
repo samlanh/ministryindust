@@ -112,7 +112,6 @@ if ($currentlang==1){
 	                        <?php }?>
 					</div>
 					<div class="col-md-4 col-sm-12 col-xs-12">
-						<h4>បញ្ញាត្តិ និង គោលនយោបាយ</h4>
 						<ul class="department">
 							<?php if(!empty($this->document_type))foreach($this->document_type as $key =>$rs){?>
 							<li <?php if($this->param== base64_encode($rs['id']) OR ($this->param=='' AND $key==0)){echo "class='activemenu'";}?>><a href="<?php echo $this->baseUrl()."/documents/index?dctype=".base64_encode($rs['id']);?>"><?php echo $rs['title'];?></a></li>

@@ -4,14 +4,14 @@ $bannerlist = $db->getWebsiteSetting("banner");
 $banner = explode(",", $bannerlist['value']);
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
-<title><?php //echo $menu_info['title_menu'];?></title>
+<title><?php echo $tr->translate("About Ministry");?></title>
 	<!-- Breadcrumb Area Start-->
 <div class="breadcrumb-area bg-8">	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8">
 				<div class="breadcrumb-text text-left">
-					<h2>អំពីក្រសួង</h2>
+					<h2><?php echo $tr->translate("About Ministry");?></h2>
 					<div class="breadcrumb-bar">
 					</div>
 				</div>
@@ -38,13 +38,6 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                               		 	echo $this->rsfirst['description'];
                               		?>
                                </div>
-                                <div class="social-icons">
-                                    <a href="https://www.facebook.com/devitems/" class="facebook"><i class="fa fa-facebook"></i></a>
-                                    <a href="https://twitter.com/devitemsllc" class="twitter"><i class="fa fa-twitter"></i></a>
-                                    <a href="https://dribbble.com/devitemsllc" class="dribbble"><i class="fa fa-dribbble"></i></a>
-                                    <a href="https://www.pinterest.com/" class="pinterest"><i class="fa fa-pinterest"></i></a>
-                                    <a href="https://www.youtube.com/channel/UC0KLL1Ylo1JrcSUZOeX3tqQ" class="youtube"><i class="fa fa-youtube"></i></a>
-                                </div>
                             </div>
                         </div>
                     </div>
