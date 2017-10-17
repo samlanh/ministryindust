@@ -218,6 +218,9 @@ var alias_require=0;
 	var old_alias="";
 	var specialcharalias = [" ",",",".","?",";","/","{","}","|","[","]","~","!","@","#","$","%","^","&","*","(",")","+","=","`","<",">"];
 	function generateAlias(alias){
+		if(menutype==6){
+			 return false;
+		 }
 		title = dijit.byId('title'+alias).get('value');
 		var title_alias = title.split(' ').join('-');
 		//title_alias = (title_alias.split('?').join('-')).split('"').join('-');

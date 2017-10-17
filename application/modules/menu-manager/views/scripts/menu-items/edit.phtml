@@ -225,6 +225,10 @@ require(["dojo/ready"], function(ready){
 	var old_alias="<?php echo $this->row['alias_menu'];?>";
 	var specialcharalias = [" ",",",".","?",";","/","{","}","|","[","]","~","!","@","#","$","%","^","&","*","(",")","+","=","`","<",">"];
 	function generateAlias(alias){
+		 menutype =	dijit.byId("menu_type").get("value");
+		 if(menutype==6){
+			 return false;
+		 }
 		title = dijit.byId('title'+alias).get('value');
 		var title_alias = title.split(' ').join('-');
 		//title_alias = (title_alias.split('?').join('-')).split('"').join('-');
