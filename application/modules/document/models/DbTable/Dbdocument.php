@@ -37,7 +37,6 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
-    		print_r($data);exit();
     		$part= PUBLIC_PATH.'/companylogo/';
     		$photoname = str_replace(" ", "_", $data['document_name']);
     		$name = $_FILES['photo']['name'];

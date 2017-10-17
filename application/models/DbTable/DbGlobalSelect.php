@@ -385,7 +385,12 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
     	if (!empty($doc_type)){
     		$sql.=" AND d.`document_type`=".$doc_type;
     	}
+    	$sql.=" ORDER BY d.id DESC ";
     	return $db->fetchAll($sql);
+    }
+    function  getDocumentTypeInfoById($id){
+    	$sql="SELECT * FROM `mini_document_type` WHERE title!='' AND id=$id LIMIT 1";
+    	return  $this->getAdapter()->fetchRow($sql);
     }
 }
 ?>

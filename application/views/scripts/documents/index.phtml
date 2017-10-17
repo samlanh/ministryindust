@@ -13,7 +13,7 @@ if ($currentlang==1){
 	$month = array("01"=>"មករា", "02"=>"កុម្ភៈ", "03"=>"មិនា", "04"=>"មេសា", "05"=>"ឧសភា", "06"=>"មិថុនា", "07"=>"កក្កដា","08"=>"សីហា", "09"=>"កញ្ញា", "10"=>"តុលា","11"=>"វិច្ឆិការ", "12"=>"ធ្នូ");
 }
 ?>
-<title><?php echo $tr->translate("DOCUMENT");?></title>
+<title><?php echo $tr->translate("DOCUMENT")." | ".$this->doc_type['title'];?></title>
 <!-- Breadcrumb Area Start-->
 		<div class="breadcrumb-area bgimage" style="background-image: url('<?php echo $this->baseUrl()."/template/document.jpg"?>');">	
 			<div class="container">
@@ -31,50 +31,85 @@ if ($currentlang==1){
 			<div class="container">
                  <div class="row">
 					<div class="col-md-8 col-sm-12 col-xs-12">
-						<div class="page_title mtb-10">
-							<h3><?php echo $tr->translate("អនុក្រឹត");?></h3>
+						<div class="page_title mb-10">
+							<h3><?php echo $this->doc_type['title'];?></h3>
 						</div>
-						<ul class="result-list">
-								<?php foreach ($this->document as $document){?>
-								<li class="pb-20">
-									<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+						<ul class="result-list ">
+							<?php foreach ($this->document as $document){?>
+							<li class="pb-20">
+								<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+									<?php 
+									$image = $this->baseUrl()."/images/noimage.jpg";
+									if (!empty($document['image'])){
+											$image = $this->baseUrl()."/companylogo/".$document['image'];
+										}
+									?>
+									<a target="_blank" href="<?php echo $this->baseUrl()."/file/".$document['file_name'];?>">
+									<img src="<?php echo $image;?>" />
+									</a>
+								</div>
+								<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
+									<div class="post_date">
+										<span class="date">
 										<?php 
-										$image = $this->baseUrl()."/images/noimage.jpg";
-										if (!empty($document['image'])){
-												$image = $this->baseUrl()."/companylogo/".$document['image'];
-											}
+										$date = strtotime($document['modify_date']);
+										$spp = str_split(date("d",$date));
+										$num="";
+										foreach ($spp as $ss){
+											$num.=$number[$ss];
+										}
+										$year='';
+										$sp_year = str_split(date("Y",$date));
+										foreach ($sp_year as $y){
+											$year.=$number[$y];
+										}
+										echo $day[date("D",$date)]." ".$num." ".$month[date("m",$date)]." ".$year;
 										?>
-										<img src="<?php echo $image;?>" />
+										</span>
 									</div>
-									<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
-										<div class="post_date">
-											<span class="date">
-											<?php 
-											$date = strtotime($document['modify_date']);
-											$spp = str_split(date("d",$date));
-											$num="";
-											foreach ($spp as $ss){
-												$num.=$number[$ss];
-											}
-											$year='';
-											$sp_year = str_split(date("Y",$date));
-											foreach ($sp_year as $y){
-												$year.=$number[$y];
-											}
-											echo $day[date("D",$date)]." ".$num." ".$month[date("m",$date)]." ".$year;
-											?>
-											</span>
-										</div>
-										<div class="result_title">
-											<a target="_blank" href="<?php echo $this->baseUrl()."/file/".$document['file_name'];?>"><h4><?php echo $document['title'];?></h4></a>
-										</div>
-										<div class="result_description">
-										</div>
+									<div class="result_title doc">
+										<a target="_blank" href="<?php echo $this->baseUrl()."/file/".$document['file_name'];?>"><?php echo $document['title'];?></a>
 									</div>
+									<div class="result_description">
+									</div>
+								</div>
 									<div class="clearboth"></div>
 								</li>
 								<?php }?>
 							</ul>
+							
+							<?php 
+	                        if($this->countPages>1){ 
+							 	$statpage = $this->currentPage - 5;
+							 	$endpage = $this->currentPage + 5;
+							 	if ($this->currentPage<=5){
+							 		$statpage = 1;
+							 		$endpage =10;
+							 	}
+	                        }
+	                        if (!empty($this->countPages)){
+							 ?> 
+	                        <div class="col-md-12 col-sm-12 col-xs-12 pagination-wrapper fix">
+	                            <div class="pagination-content">
+	                            <?php if($this->countPages>1){ ?>
+	                                <ul class="pagination">
+		                                 <li class="<?php if($this->currentPage==1){ echo "active";}?>">
+		                               	  	<a href="<?php echo $url."&pages=".$this->previousPage;?>"><i class="fa fa-angle-left"></i></a>
+		                                 </li>
+	                                    <?php  $i=0; for( $i=1; $i<=$this->countPages; $i++){?>
+				           			 	<?php if ($statpage<=$i && $endpage>=$i){?>
+                                   					 <li class="<?php if($i==$this->currentPage){ echo "active";}?>">
+                                   					 	<a href="<?php echo $url."&pages=".$i;?>"><?php echo $i;?></a>
+                                   					 </li>
+                                                 <?php }}?>
+                                                 <li class="<?php if($this->countPages==$this->currentPage){ echo "active"; }?>">
+		                               	  	<a "href="<?php echo $url."&pages=".$this->nextPage;?>"><i class="fa fa-angle-right"></i></a>
+		                                 </li>
+	                                </ul>
+	                           		<?php }?>
+	                            </div>
+	                        </div>
+	                        <?php }?>
 					</div>
 					<div class="col-md-4 col-sm-12 col-xs-12">
 						<h4>បញ្ញាត្តិ និង គោលនយោបាយ</h4>
