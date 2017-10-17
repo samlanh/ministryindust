@@ -324,21 +324,21 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		return $db->fetchAll($sql);
 	}
 	
-	function getCompanyByDept($dep_id){
-		$db = $this->getAdapter();
-		$sql="SELECT * FROM `mini_company` AS c WHERE c.status=1 ";
+// 	function getCompanyByDept($dep_id){
+// 		$db = $this->getAdapter();
+// 		$sql="SELECT * FROM `mini_company` AS c WHERE c.status=1 ";
 		
-		if (!empty($dep_id)){// for get product by category
-			$condiction = $this->getListDeptById($dep_id);
-			if (!empty($condiction)){
-				$sql.=" AND c.depart_id IN ($condiction)";
-			}else{$sql.=" AND c.depart_id=$dep_id";
-			}
-		}
-		$limit=15;
-		$sql.=" ORDER BY c.id ASC LIMIT $limit";
-		return $db->fetchAll($sql);
-	}
+// 		if (!empty($dep_id)){// for get product by category
+// 			$condiction = $this->getListDeptById($dep_id);
+// 			if (!empty($condiction)){
+// 				$sql.=" AND c.depart_id IN ($condiction)";
+// 			}else{$sql.=" AND c.depart_id=$dep_id";
+// 			}
+// 		}
+// 		$limit=15;
+// 		$sql.=" ORDER BY c.id ASC LIMIT $limit";
+// 		return $db->fetchAll($sql);
+// 	}
 	
 	function getListDeptById($id,$idetity=null){
 		$where='';
@@ -399,6 +399,16 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
     	$arraytitle = array(1=>"title_en",2=>"title");
     	$sql="SELECT dt.*,dt.".$arraytitle[$lang]." as title FROM `mini_document_type` as dt WHERE dt.title!='' AND dt.id=$id LIMIT 1";
     	return  $this->getAdapter()->fetchRow($sql);
+    }
+    
+    public function getAllTab(){
+    	$db=$this->getAdapter();
+    	$lang = $this->getCurrentLang();
+    	$sql="SELECT *,
+	    	(SELECT u.first_name FROM `rms_users` AS u WHERE u.id=mini_tab.user_id LIMIT 1) AS user_name
+	    	FROM `mini_tab` WHERE language_id=$lang ORDER BY id ASC";
+    	return $db->fetchAll($sql);
+    
     }
 }
 ?>

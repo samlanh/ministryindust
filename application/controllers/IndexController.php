@@ -44,15 +44,19 @@ class IndexController extends Zend_Controller_Action
 				$this->view->slideshow = $image;
 			}
 		}
+		
 		$document = $db->getHomeDocument();
 		$this->view->document = $document;
 		$this->view->home_article = $db->getWebsiteSetting("home_article");
-		$this->view->getAllDepart = $db->getAllDepartment();
+// 		$this->view->getAllDepart = $db->getAllDepartment();
+		$this->view->tab = $db->getAllTab();
+		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$this->view->rsprovince = $db->getAllProvince();
 		$db = new Application_Model_DbTable_DbVdGlobal();
 		$this->view->rsdepartment = $db->getAllDepartment();
 		$this->view->rsmessage = $db->getMessageHomepage();
+		
 		
     }
 	
