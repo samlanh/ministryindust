@@ -1239,7 +1239,7 @@ iframe {width: 100%; border: 0;}
 .pinterest {background: #f68e56 none repeat scroll 0 0;}
 .youtube {background: #ed1c24 none repeat scroll 0 0;}
 .social-icons > a:hover {background: #181b24 none repeat scroll 0 0;}
-.blog-details .blog-post-text {border-bottom: 1px solid #ebebeb; overflow: hidden; padding-bottom: 25px;}
+.blog-details .blog-post-text {/* border-bottom: 1px solid #ebebeb; */ overflow: hidden; padding-bottom: 25px;}
 .blog-details {margin-bottom: 60px;}
 .comments h3, .reply-form > h3 {
     color: #353535;

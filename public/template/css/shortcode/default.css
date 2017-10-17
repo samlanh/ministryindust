@@ -34,7 +34,7 @@ body {
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
-    font-family: 'Rubik', sans-serif,"khmer os battambang";
+    font-family: 'Droid Sans',sans-serif,"khmer os battambang";
 }
 .clear{clear:both}
 .fix {overflow: hidden}
@@ -721,7 +721,7 @@ textarea:focus {box-shadow: none; outline: 0}
     line-height: 32px;
     margin-bottom: 33px;
     position: relative;
-    text-transform: uppercase;
+    text-transform: capitalize;
     z-index: 2;
     text-shadow: 2px 1px 0px #000;
 }
