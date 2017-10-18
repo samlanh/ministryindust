@@ -23,13 +23,13 @@ class IndexController extends Zend_Controller_Action
 				$this->view->partner = $partner;
 			}			
 		}
-		
-		$video = $db->getWebsiteSetting("youtubeframe");
-		if(!empty($video)){
-			if(!empty($video['value'])){
-				$this->view->videos = $video;
-			}			
-		}
+		$this->view->document_type = $db->getAllDocumentType();
+// 		$video = $db->getWebsiteSetting("youtubeframe");
+// 		if(!empty($video)){
+// 			if(!empty($video['value'])){
+// 				$this->view->videos = $video;
+// 			}			
+// 		}
 		
 		$homecategory = $db->getWebsiteSetting("homecategorycontent");
 		if (!empty($homecategory['value'])){
