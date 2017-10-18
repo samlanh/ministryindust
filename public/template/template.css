@@ -7,6 +7,7 @@
 .breadcrumb-bar p.subtitle {
     color: #fff;
     font-size: 16px;
+    text-shadow: 1px 1px 0px #646363;
 }
 .post_date span.date {
     color: #6b6c6c;
@@ -19,6 +20,43 @@
     overflow: hidden;
     display: block;
 }
+/*================================================
+	Home area Images
+========================================*/
+.home-area.bgimage {
+    background-attachment: scroll;
+    background-clip: initial;
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: initial;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 40px 0;
+}
+
+.home-area-text {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    position: relative;
+    z-index: 1;
+}
+.home-area-text h2 {
+    color: #ffffff;
+    line-height: 32px;
+    margin-bottom: 33px;
+    position: relative;
+    text-transform: capitalize;
+    z-index: 2;
+    text-shadow: 2px 1px 0px #000;
+}
+
+.home-bar p.subtitle {
+    color: #fff;
+    font-size: 16px;
+    text-shadow: 1px 1px 0px #646363;
+}
+/*================================================
+	End Home area Images
+========================================*/
 /*================================================
 	Start breadcrumb
 ========================================*/
@@ -441,6 +479,9 @@ ul.department li {
 }
 ul.department li a{padding-left:10px; }
 ul.department li.activemenu{ border-left:2px solid #09b865 !important;}
+ul.department li.activemenu a, ul.department li a:hover {
+    color: #09b865;
+}
 .hotnews{color:#00a859 !important; line-height: 47px;}
 .messageblog{}
 .hotnews img{ margin-right: 10px;}
