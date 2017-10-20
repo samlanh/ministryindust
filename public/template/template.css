@@ -3,6 +3,9 @@
 }
 .blog-two-area a img {
     width: 100%;
+    padding: 45px;
+    background: #ffffff;
+    border: 1px solid #ccc
 }
 .breadcrumb-bar p.subtitle {
     color: #fff;
@@ -196,7 +199,7 @@
 }
 .form_search_home .row-form-home .label_title {
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 }
 
