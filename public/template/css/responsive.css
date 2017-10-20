@@ -214,6 +214,10 @@
 
 /* small mobile :320px. */
 @media (max-width: 767px) {
+.text-content-slide h3.slide-title {
+    bottom: 65px;
+    font-size: 18px;
+}
     .header-sticky.sticky {position: inherit;}
     .about-image {display: block;}
     .about-image {margin-bottom: 30px;}
