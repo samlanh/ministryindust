@@ -37,13 +37,9 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 		    <?php if(!empty($this->slideshow))  foreach($this->slideshow as $key => $ss){?>
 		        <div  data-dot="<?php echo $key+1;?>" class="single-slide" style="background-image: url('<?php echo $this->baseUrl()."/images/slide/".$ss; ?>');">
                     <div class="banner-content">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-7 col-md-10 col-sm-12 col-xs-12">
-                                
-                                </div>
-                            </div>
-                        </div>
+                        <div class="text-content-slide">
+                                        <h3 class="slide-title">ទិដ្ឋភាពមួយផ្នែកនៃឧស្សាហកម្ម</h3>
+                                  </div>
                     </div>
 		        </div>
 		         <?php }?> 
