@@ -73,8 +73,6 @@ class MenuManager_Model_DbTable_DbCategory extends Zend_Db_Table_Abstract
 	    		 	$where=" id=".$data['id'];
 	    		 	$this->update($arr, $where);
 	    		 	$cate_id =$data['id'];
-	    		 	
-	    		 	
 	    		 	if(!empty($lang)){
 	    		 		$iddetail="";
 	    		 		foreach($lang as $row){
@@ -98,7 +96,7 @@ class MenuManager_Model_DbTable_DbCategory extends Zend_Db_Table_Abstract
 		    		 			$arr_cate = array(
 		    		 					'category_id'=>$cate_id,
 		    		 					'title'=>$data['title'.$title],
-		    		 					'sub_title'=>$data['subtitle'.$title],
+		    		 					//'sub_title'=>$data['subtitle'.$title],
 		    		 					'languageId'=>$row['id'],
 		    		 			);
 		    		 			$this->_name="mini_category_detail";
@@ -108,7 +106,7 @@ class MenuManager_Model_DbTable_DbCategory extends Zend_Db_Table_Abstract
 			    		 		$arr_cate = array(
 			    		 				'category_id'=>$cate_id,
 			    		 				'title'=>$data['title'.$title],
-			    		 				'sub_title'=>$data['subtitle'.$title],
+			    		 				//'sub_title'=>$data['subtitle'.$title],
 			    		 				'languageId'=>$row['id'],
 			    		 		);
 			    		 		$this->_name="mini_category_detail";
@@ -126,7 +124,7 @@ class MenuManager_Model_DbTable_DbCategory extends Zend_Db_Table_Abstract
 	    				$arr_cate = array(
 	    						'category_id'=>$cate_id,
 	    						'title'=>$data['title'.$title],
-	    						'sub_title'=>$data['subtitle'.$title],
+	    						//'sub_title'=>$data['subtitle'.$title],
 	    						'languageId'=>$row['id'],
 	    				);
 	    				$this->_name="mini_category_detail";

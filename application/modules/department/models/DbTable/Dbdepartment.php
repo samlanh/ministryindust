@@ -61,8 +61,8 @@ class Department_Model_DbTable_Dbdepartment extends Zend_Db_Table_Abstract
 	    			'depart_parentid'=>$data['parent'],
 					'alias'=>$alias,
 	    			'status'=>$data['status'],
-					'modify_date'=>date("Y-m-d"),
-	    			'date'=>date("Y-m-d"),
+					'modify_date'=>date("Y-m-d H:i:s"),
+	    			'create_date'=>date("Y-m-d H:i:s"),
 // 	    			'description'=>$data['description'],
 	    			'user_id'=>$this->getUserId(),
 	    		);
@@ -117,7 +117,7 @@ class Department_Model_DbTable_Dbdepartment extends Zend_Db_Table_Abstract
 	    		 	}
 	    	}else{
 	    			$this->_name="mini_department";
-	    		 	$arr['date']= date("Y-m-d");
+	    		 	$arr['create_date']= date("Y-m-d");
 	    			$cate_id = $this->insert($arr);
 	    			
 	    			if(!empty($lang)) foreach($lang as $row){
@@ -135,6 +135,7 @@ class Department_Model_DbTable_Dbdepartment extends Zend_Db_Table_Abstract
 	    	}
 	    	$db->commit();
     	}catch(exception $e){
+    		echo $e->getMessage();exit();
     		Application_Form_FrmMessage::message("Application Error");
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		$db->rollBack();

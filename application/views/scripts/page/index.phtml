@@ -6,7 +6,7 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	//$base_url = Application_Form_FrmMessage::getUrl("/");
 	$menu_info = $this->menu_info; 
-	$db = new Application_Model_DbTable_DbGlobalselect();
+	$db = new Application_Model_DbTable_DbGlobalSelect();
 	$articleperpage = $db->getWebsiteSetting("items_per_page");
 	$bannerlist = $db->getWebsiteSetting("banner");
 	

@@ -68,12 +68,10 @@ class About_TabController extends Zend_Controller_Action {
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
   			$_data['id']=$id;
-  			$db->addDepartment($_data);
+//   			print_r($_data);exit();
+  			$db->updatTab($_data);
 			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS","/about/tab");
   		}
-
-//   		$this->view->row = $row;
-  		
   		$frm = new About_Form_Frmabout();
   		$frm_manager=$frm->Frmdepartment();
   		Application_Model_Decorator::removeAllDecorator($frm_manager);

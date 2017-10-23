@@ -49,11 +49,27 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
     	try{
     		$photoname = str_replace(" ", "_", $data['company_name']) . '.jpg';
     		$upload = new Zend_File_Transfer();
-    		$upload->addFilter('Rename',
-    				array('target' => PUBLIC_PATH . '/companylogo/'. $photoname, 'overwrite' => true) ,'photo');
+//     		$upload->addFilter('Rename',
+//     				array('target' => PUBLIC_PATH . '/companylogo/'. $photoname, 'overwrite' => true) ,'document_company');
     		$receive = $upload->receive();
     		if($receive)
     		{
+    			$file = $upload->getFileinfo();
+//     		    echo $file['logo']['name'];exit();//ok
+//     			print_r(count($file));echo"<br /><br />";
+				foreach($file as $index =>$rs){
+					print_r($rs['name'])."<br />";
+// 					echo $rs[$index];exit();
+				}
+				exit();
+    			$filname = $upload->getFileName('name');
+    			print_r($filname);exit();
+    			foreach ($filname as $index =>$rs){
+    				print_r($rs);exit();
+    				echo $rs[$index];exit(); 
+    			}
+    			print_r($file['logo']['document_company_0_']);
+    			print_r($upload->getFileinfo());exit();
     			$data['logo'] = $photoname;
     		}
     		else{

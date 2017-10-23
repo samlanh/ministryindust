@@ -73,35 +73,38 @@ class About_Model_DbTable_Dbtab extends Zend_Db_Table_Abstract
 		$sql="SELECT * FROM `mini_tab` WHERE language_id =$lang AND alias =".$id;
 		return $db->fetchRow($sql);
 	}
-// 	function getDepartmentTitleByLang($cate_id,$lang=null){
-// 		if($lang==null){
-// 			$lang = $this->getCurrentLang();
-// 		}
-// 		$db = $this->getAdapter();
-// 		$sql="SELECT cd.id,cd.`title`,cd.description,cd.`language_id` FROM `mini_department_detail` AS cd WHERE cd.`department_id`=$cate_id AND cd.`language_id`=$lang ";
-// 		return $db->fetchRow($sql);
-// 	}
-	function getDepartmentFirstRecord($alias = null,$lang=null){
-		if($lang==null){
-			$lang = $this->getCurrentLang();
-		}
+	function updatTab($data){
 		$db = $this->getAdapter();
-		$sql="SELECT cd.id,cd.`title`,cd.description,cd.`language_id` 
-			FROM `mini_department_detail` AS cd,mini_department as d
-		WHERE 
-			d.id=cd.department_id
-			AND cd.`language_id`=$lang ";
-		if($alias!=null){
-			$sql.=" AND d.alias = '".$alias."'";
+		$db->beginTransaction();
+		try{
+			$dbglobal = new Application_Model_DbTable_DbVdGlobal();
+			$lang = $dbglobal->getLaguage();
+			$this->_name="mini_tab";
+			if(!empty($lang)) foreach($lang as $row){
+				$title = str_replace(' ','',$row['title']);
+				$arr = array(
+						'title'=>$data['tab'.$title],
+						'description'=>$data['description'.$title],
+						'language_id'=>$row['id'],
+// 						'alias'=>$last_tab,
+						'status'=>$data['status'],
+						'modify_date'=>date("Y-m-d h:i:s"),
+						'user_id'=>$this->getUserId(),
+				);
+				$where = "alias = ".$data['id']." AND language_id = ".$row['id'];
+// 				print_r($arr);exit();
+				$this->update($arr, $where);
+			}
+			$db->commit();
+		}catch(exception $e){
+			$db->rollBack();
+			echo $e->getMessage();exit();
+			Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+	
 		}
-		$sql.=' ORDER BY cd.id ASC  LIMIT 1 ';
-		return $db->fetchRow($sql);
 	}
-// 	public function CheckTitleAlias($alias){
-// 		$db =$this->getAdapter();
-// 		$sql = "SELECT c.`id` FROM `mini_department` AS c WHERE c.`alias_category`= '$alias'";
-// 		return $db->fetchRow($sql);
-// 	}
+
 	
 }
 

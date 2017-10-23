@@ -16,7 +16,7 @@ class SearchcompanyController extends Zend_Controller_Action
     	$param = $this->getRequest()->getParams();
     	$dbgb = new Application_Model_DbTable_DbGlobal();
     	$dbvg = new Application_Model_DbTable_DbVdGlobal();
-    	$db = new Application_Model_DbTable_DbGlobalselect();
+    	$db = new Application_Model_DbTable_DbGlobalSelect();
     	if (!empty($param['company'])){
     		$com_id =  base64_decode($param['company']);
     		$this->view->company_info = $db->getCompanyDetailById($com_id);

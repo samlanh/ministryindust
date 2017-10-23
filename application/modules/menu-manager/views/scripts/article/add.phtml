@@ -67,13 +67,6 @@ $countlang = count($this->lang);
 												<td class="bold"><?php echo $tr->translate('TITLE')?></td>
 												<td>
 													<input type="text" onChange="generateAlias('<?php echo $alias;?>');" dojoType="dijit.form.TextBox" required="required" name="title<?php echo str_replace(' ','',$rs['title']);?>"  id="title<?php echo str_replace(' ','',$rs['title']);?>" value="" class="fullside" placeholder="<?php echo $tr->translate("TITLE_IN_".strtoupper($rs['title']));?>" />
-													<?php //echo $frm->getElement('title');?>
-												</td>
-											</tr>
-											<tr>
-												<td  class="bold"><?php echo $tr->translate('SUB_TITLE')?></td>
-												<td>
-													<input type="text" dojoType="dijit.form.TextBox"  name="subtitle<?php echo str_replace(' ','',$rs['title']);?>"  id="subtitle<?php echo str_replace(' ','',$rs['title']);?>" value="" class="fullside" placeholder="<?php echo $tr->translate("SUB_TITLE_".strtoupper($rs['title']));?>" />
 												</td>
 											</tr>
 											<tr><td class="bold" colspan="2"><?php echo $tr->translate('CONTENT_'.strtoupper($rs['title']))?></td></tr>
@@ -162,7 +155,6 @@ var alias_require=0;
 	function generateAlias(alias){
 		title = dijit.byId('title'+alias).get('value');
 		var title_alias = title.split(' ').join('-');
-		//title_alias = (title_alias.split('?').join('-')).split('"').join('-');
 		for(var i=0; i<specialcharalias.length;i++){
 			title_alias = title_alias.split(specialcharalias[i]).join('');
 		}
@@ -194,7 +186,6 @@ var alias_require=0;
 			}
 		});
 	}
-	
 	 function checkSpcialChar(event){
          if(((event.keyCode > 64 && event.keyCode < 91) || event.keyCode == 45 || (event.keyCode > 96 && event.keyCode < 123) || event.keyCode == 8 || (event.keyCode >= 48 && event.keyCode <= 57))){
              event.returnValue = true;

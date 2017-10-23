@@ -49,7 +49,7 @@ $countlang = count($this->lang);
 		
 	<table style="margin: 0 auto; width: 100%">
 		<tr class="header">
-				<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('ADD_NEW_CATEGORY')?></strong></td>
+				<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('ADD_NEW_DEPARTMENT')?></strong></td>
 			</tr>
 		<tr>
 			<td>
@@ -201,7 +201,7 @@ var specialcharalias = [" ",",",".","?",";","/","{","}","|","[","]","~","!","@",
 			},
 			handleAs:"json",
 			load: function(data) {	
-				alert(data.image);
+				//alert(data.image);
 				//sale_client_store  = getDataStorefromJSON('id','name', data);		
 			    //dijit.byId('sale_client').set('store', sale_client_store);
 			},
@@ -220,31 +220,6 @@ var specialcharalias = [" ",",",".","?",";","/","{","}","|","[","]","~","!","@",
 		}
 		dijit.byId("title_alias").attr('value',title_alias.toLowerCase());
 		checkTitle();
-	}
-	url_CheckTitle = '<?php echo $this->url(array('module'=>'menu-manager','controller'=>'category','action'=>'check-title-alias'));?>';
-	function checkTitle(){
-		title_alias = dijit.byId('title_alias').get('value');
-		dojo.xhrPost({
-			url:url_CheckTitle,	
-			content:{ 
-				'title_alias': title_alias
-			},
-			handleAs:"json",
-			load: function(data) {	
-				if(data !== false ){
-			   		document.getElementById('message').innerHTML ='Alias is duplicated you can set new alias or clear alias will auto generate.';
-			   		dijit.byId('title_alias').focus();
-			   		alias_require=0;
-				}else{
-					document.getElementById('message').innerHTML ='';
-					alias_require=1;
-				}
-				old_alias =dijit.byId('title_alias').get('value');
-			},
-			error: function(err) {
-				alert(err);
-			}
-		});
 	}
 	
 	 function checkSpcialChar(event){

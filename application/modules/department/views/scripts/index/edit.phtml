@@ -1,6 +1,6 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$this->headTitle($tr->translate('EDIT_CATEGORY')); 
+$this->headTitle($tr->translate('EDIT_DEPARTMENT')); 
 echo $this->headTitle();
 $frm = $this->frm;
 $db = new Department_Model_DbTable_Dbdepartment();
@@ -49,7 +49,7 @@ $countlang = count($this->lang);
 		
 	<table  style="margin: 0 auto; width: 100%">
 		<tr class="header">
-			<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('EDIT_CATEGORY')?></strong></td>
+			<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('EDIT_DEPARTMENT')?></strong></td>
 		</tr>
 			<tr>
 				<td>
@@ -203,35 +203,7 @@ var alias_require=1;
 		dijit.byId("title_alias").attr('value',title_alias.toLowerCase());
 		checkTitle();
 	}
-	url_CheckTitle = '<?php echo $this->url(array('module'=>'menu-manager','controller'=>'category','action'=>'check-title-alias'));?>';
-	function checkTitle(){
-		title_alias = dijit.byId('title_alias').get('value');
-		if(title_alias.toLowerCase()==old_alias.toLowerCase()){
-			document.getElementById('message').innerHTML ='';
-			alias_require=1;
-			return false;
-		}
-		dojo.xhrPost({
-			url:url_CheckTitle,	
-			content:{ 
-				'title_alias': title_alias
-			},
-			handleAs:"json",
-			load: function(data) {	
-				if(data !== false ){
-			   		document.getElementById('message').innerHTML ='Alias is duplicated you can set new alias or clear alias will auto generate.';
-			   		dijit.byId('title_alias').focus();
-			   		alias_require=0;
-				}else{
-					alias_require=1;
-					document.getElementById('message').innerHTML ='';
-				}
-			},
-			error: function(err) {
-				alert(err);
-			}
-		});
-	}
+	
 	function checkSpcialCharFortitle(event){
         if(((event.keyCode > 64 && event.keyCode < 91) || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 34 || event.keyCode == 32 || event.keyCode == 63 || event.keyCode == 45 || (event.keyCode > 96 && event.keyCode < 123) || event.keyCode == 8 || (event.keyCode >= 48 && event.keyCode <= 57))){
             event.returnValue = true;

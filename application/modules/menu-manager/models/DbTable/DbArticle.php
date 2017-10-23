@@ -70,7 +70,7 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
 	    			'category_id'=>$data['category'],
 					'alias_article'=>$alias,
 	    			'status'=>$data['status'],
-					'modify_date'=>date("Y-m-d"),
+					'modify_date'=>date("Y-m-d H:i:s"),
 	    			'user_id'=>$this->getUserId(),
 	    		);
 	    		 $this->_name="mini_article";
@@ -107,8 +107,8 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
 		    		 					'articleId'=>$article_id,
 		    		 					'title'=>$data['title'.$title],
 		    		 					'description'=>$data['description'.$title],
-		    		 					'short_descript'=>strip_tags($data['description'.$title]),
-		    		 					'description_forweb'=>strip_tags($data['description'.$title]),
+		    		 					//'short_descript'=>strip_tags($data['description'.$title]),
+		    		 					//'description_forweb'=>strip_tags($data['description'.$title]),
 		    		 					'language_id'=>$row['id'],
 		    		 			);
 		    		 			$this->_name="mini_article_detail";
@@ -119,8 +119,8 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
 			    		 				'articleId'=>$article_id,
 			    		 				'title'=>$data['title'.$title],
 			    		 				'description'=>$data['description'.$title],
-			    		 				'short_descript'=>strip_tags($data['description'.$title]),
-			    		 				'description_forweb'=>strip_tags($data['description'.$title]),
+			    		 				//'short_descript'=>strip_tags($data['description'.$title]),
+			    		 				//'description_forweb'=>strip_tags($data['description'.$title]),
 			    		 				'language_id'=>$row['id'],
 			    		 		);
 			    		 		$this->_name="mini_article_detail";
@@ -140,8 +140,8 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
 	    						'articleId'=>$article_id,
 	    						'title'=>$data['title'.$title],
 	    						'description'=>$data['description'.$title],
-	    						'short_descript'=>strip_tags($data['description'.$title]),
-	    						'description_forweb'=>strip_tags($data['description'.$title]),
+	    						//'short_descript'=>strip_tags($data['description'.$title]),
+	    						//'description_forweb'=>strip_tags($data['description'.$title]),
 	    						'language_id'=>$row['id'],
 	    				);
 	    				$this->_name="mini_article_detail";

@@ -11,8 +11,7 @@ $countlang = count($this->lang);
 	dojo.require('dijit.form.Form');	
 	dojo.require('dijit.form.Button');
 	dojo.require('dijit.form.FilteringSelect');
-	dojo.require("dijit.Dialog");
-	require(["dijit/form/CheckBox","dijit/Dialog","dijit/layout/TabContainer"]);
+	require(["dijit/Dialog","dijit/layout/TabContainer"]);
 </script>
 <style>
 .choose_file{
@@ -40,7 +39,6 @@ $countlang = count($this->lang);
 <form action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">				
 			if(this.validate()) {
-    			if(alias_require==0){ alert("Please check your title alias again.");return false;}
 				loading();				
 				return true;
 			}
@@ -69,7 +67,7 @@ $countlang = count($this->lang);
 											<tr>
 												<td class="bold"><?php echo $tr->translate('TITLE')?></td>
 												<td>
-													<input type="text" value="<?php echo $rstab['title'];?>" dojoType="dijit.form.TextBox" required="required" name="title<?php echo str_replace(' ','',$rs['title']);?>"  id="title<?php echo str_replace(' ','',$rs['title']);?>" class="fullside" placeholder="<?php echo $tr->translate("TITLE_IN_".strtoupper($rs['title']));?>" />
+													<input type="text" value="<?php echo $rstab['title'];?>" dojoType="dijit.form.TextBox" required="required" name="tab<?php echo str_replace(' ','',$rs['title']);?>"  id="tab<?php echo str_replace(' ','',$rs['title']);?>" class="fullside" placeholder="<?php echo $tr->translate("TITLE_IN_".strtoupper($rs['title']));?>" />
 													<input type="hidden" dojoType="dijit.form.TextBox" name="iddetail<?php echo str_replace(' ','',$rs['title']);?>"  id="iddetail<?php echo str_replace(' ','',$rs['title']);?>" value="<?php //echo $lang['id'];?>" class="fullside" />
 												</td>
 											</tr>
@@ -96,8 +94,7 @@ $countlang = count($this->lang);
 							</td>								
 						</tr>
 						<tr>
-							<td>
-						</td>
+							<td><input type="hidden" name="id" name="id" value="<?php echo $this->id;?>"/></td>
 						</tr>
 					</table>	
 			</td>			
@@ -110,7 +107,6 @@ $countlang = count($this->lang);
 			</td>
 		</tr>
 	</table>	
-	<input type="hidden" id="agent" name="agent" value="0" />	
 </form>
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'Directory'"  id="directory" style="width:850px; height:250px; overflow-y: auto;" >
@@ -148,14 +144,16 @@ $countlang = count($this->lang);
 	</div>
 </div>
 <script>
-dojo.ready(function(){
+require(["dojo/ready"], function(ready){
 	$(window).keydown(function(event){
 		if(event.keyCode == 13) {
 		  event.preventDefault();
 		  return false;
 		}
 	  });
-	  dijit.byId('result').attr('value',0);
+	ready(function(){
+	  dijit.byId('status').attr('value',<?php echo $this->result['status'];?>);
+	 });
 });
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";
@@ -195,35 +193,7 @@ var alias_require=1;
 		dijit.byId("title_alias").attr('value',title_alias.toLowerCase());
 		checkTitle();
 	}
-	url_CheckTitle = '<?php echo $this->url(array('module'=>'menu-manager','controller'=>'category','action'=>'check-title-alias'));?>';
-	function checkTitle(){
-		title_alias = dijit.byId('title_alias').get('value');
-		if(title_alias.toLowerCase()==old_alias.toLowerCase()){
-			document.getElementById('message').innerHTML ='';
-			alias_require=1;
-			return false;
-		}
-		dojo.xhrPost({
-			url:url_CheckTitle,	
-			content:{ 
-				'title_alias': title_alias
-			},
-			handleAs:"json",
-			load: function(data) {	
-				if(data !== false ){
-			   		document.getElementById('message').innerHTML ='Alias is duplicated you can set new alias or clear alias will auto generate.';
-			   		dijit.byId('title_alias').focus();
-			   		alias_require=0;
-				}else{
-					alias_require=1;
-					document.getElementById('message').innerHTML ='';
-				}
-			},
-			error: function(err) {
-				alert(err);
-			}
-		});
-	}
+	
 	function checkSpcialCharFortitle(event){
         if(((event.keyCode > 64 && event.keyCode < 91) || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 34 || event.keyCode == 32 || event.keyCode == 63 || event.keyCode == 45 || (event.keyCode > 96 && event.keyCode < 123) || event.keyCode == 8 || (event.keyCode >= 48 && event.keyCode <= 57))){
             event.returnValue = true;

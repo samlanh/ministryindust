@@ -16,7 +16,7 @@ class DocumentsController extends Zend_Controller_Action
     	$param = $this->getRequest()->getParams();
     	$dbgb = new Application_Model_DbTable_DbGlobal();
     	$dbvg = new Application_Model_DbTable_DbVdGlobal();
-    	$db = new Application_Model_DbTable_DbGlobalselect();
+    	$db = new Application_Model_DbTable_DbGlobalSelect();
     	
     	$this->view->document_type = $db->getAllDocumentType();
     	$bannerlist = $db->getWebsiteSetting("banner");

@@ -1,5 +1,5 @@
 <?php 
-$db = new Application_Model_DbTable_DbGlobalselect();
+$db = new Application_Model_DbTable_DbGlobalSelect();
 $bannerlist = $db->getWebsiteSetting("banner");
 $banner = explode(",", $bannerlist['value']);
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();

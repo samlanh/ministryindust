@@ -70,12 +70,6 @@ $countlang = count($this->lang);
 													<input type="hidden" dojoType="dijit.form.TextBox" name="iddetail<?php echo str_replace(' ','',$rs['title']);?>"  id="iddetail<?php echo str_replace(' ','',$rs['title']);?>" value="<?php echo $lang['id'];?>" class="fullside" />
 												</td>
 											</tr>
-											<tr>
-												<td  class="bold"><?php echo $tr->translate('SUB_TITLE')?></td>
-												<td>
-													<input type="text" dojoType="dijit.form.TextBox"  name="subtitle<?php echo str_replace(' ','',$rs['title']);?>"  id="subtitle<?php echo str_replace(' ','',$rs['title']);?>" value="<?php echo $lang['sub_title'];?>" class="fullside" placeholder="<?php echo $tr->translate("SUB_TITLE_".strtoupper($rs['title']));?>" />
-												</td>
-											</tr>
 										</table>
 									</div>
 								<?php }?>
