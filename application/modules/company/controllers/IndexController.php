@@ -24,10 +24,9 @@ class Company_IndexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("លេខកូដ","ឈ្មោះក្រុមហ៊ុន","លេខទូរសព្ទ","ថ្ងៃចុះបញ្ជី","ស្ថាប័នក្រោមចំនុះ","រាជធានី/ខេត្ត","ផលិតផល","ស្ថានការ");
+			$collumns = array("លេខកូដ","ឈ្មោះក្រុមហ៊ុន","លេខទូរសព្ទ","ថ្ងៃចុះបញ្ជី","ស្ថាប័នក្រោមចំនុះ","រាជធានី/ខេត្ត","ផលិតផល","ស្ថានការ","BY_USER");
 			$link_info=array('module'=>'company','controller'=>'index','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('com_code'=>$link_info,'com_name'=>$link_info),0);
-				
 			
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
@@ -46,7 +45,11 @@ class Company_IndexController extends Zend_Controller_Action {
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
   			$db->addCompany($_data);
-  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/company/index/add");
+  			if(!empty($_data['save_close'])){
+  				$this->_redirect("/company/index");
+  			}else{
+  				$this->_redirect("/company/index/add");
+  			}
   		}
   	}catch (Exception $e){
   		Application_Form_FrmMessage::message("Application Error");
@@ -66,7 +69,8 @@ class Company_IndexController extends Zend_Controller_Action {
   			$_data = $this->getRequest()->getPost();
   			$_data['id']=$id;
   			$db->editCompany($_data);
-  			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS", "/company");
+  			$this->_redirect("/company/index");
+//   			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS", "/company");
   		}
   	}catch (Exception $e){
   		Application_Form_FrmMessage::message("Application Error");

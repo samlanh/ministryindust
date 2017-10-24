@@ -23,7 +23,7 @@ class Document_IndexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("ឈ្មោះឯកសារ","ប្រភេទឯកសារ","កាលបរិច្ឆទ","ស្ថានការ");
+			$collumns = array("ឈ្មោះឯកសារ","ប្រភេទឯកសារ","កាលបរិច្ឆទ","ស្ថានការ","BY_USER");
 			$link_info=array('module'=>'document','controller'=>'index','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('title'=>$link_info,'doc_type_title'=>$link_info),0);
 				

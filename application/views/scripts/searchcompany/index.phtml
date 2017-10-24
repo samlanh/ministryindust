@@ -29,7 +29,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 							<h3><?php echo $tr->translate("More About Organization");?> <a href="<?php echo $this->baseUrl()."/searchcompany";?>" class="search_again right"><?php echo $tr->translate("Search Again");?></a></h3>
 						</div>
 						<div class="result-blog ptb-20">
-							<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+							<div class="blog-left-result col-md-3 col-sm-3 col-xs-12">
 								<?php 
 								$image = $this->baseUrl()."/images/noimage.jpg";
 								if (!empty($company['logo'])){
@@ -38,7 +38,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 								?>
 								<img src="<?php echo $image;?>" />
 							</div>
-							<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
+							<div class="blog-right-result col-md-9	 col-sm-9 col-xs-12">
 								<div class="result_title">
 									<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>"><h4><?php echo $company['com_name'];?></h4></a>
 								</div>
@@ -46,14 +46,17 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 									<ul>
 										<?php if (!empty($company['province_name'])){?>
 										<li><?php echo $company['province_name'];?></li>
-										<li>&#9679;<li>
+										
 										<?php }?>
+										<?php if (!empty($company['com_phone'])){?>
+										<li>&#9679;<li>
 										<li><?php echo $company['com_phone'];?></li>
+										<?php }?>
 									</ul>
 								</div>
 							</div>
 							<div class="clearboth"></div>
-							<div>
+							<div class="ptb-20">
 								<span><?php echo $tr->translate("ADDRESS");?></span> : <?php echo $company['address'];?>
 								<p class="company_desc"><?php echo $company['note'];?></p>
 							</div>
@@ -88,7 +91,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 												$image = $this->baseUrl()."/companylogo/".$company['logo'];
 											}
 										?>
-										<img src="<?php echo $image;?>" />
+										<img class="img_border" src="<?php echo $image;?>" />
 									</div>
 									<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
 										<div class="result_title">
@@ -98,9 +101,11 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 											<ul>
 												<?php if (!empty($company['province_name'])){?>
 												<li><?php echo $company['province_name'];?></li>
-												<li>&#9679;<li>
 												<?php }?>
+												<?php if (!empty($company['com_phone'])){?>
+												<li>&#9679;<li>
 												<li><?php echo $company['com_phone'];?></li>
+												<?php }?>
 											</ul>
 										</div>
 									</div>

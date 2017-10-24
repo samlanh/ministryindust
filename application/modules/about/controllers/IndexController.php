@@ -68,10 +68,11 @@ class About_IndexController extends Zend_Controller_Action {
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
   			$_data['id']=$id;
-  			$db->addDepartment($_data);
-			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS","/department/index");
+  			$db->addAboutministry($_data);
+  			$this->_redirect("/about/index");
+// 			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS","/department/index");
   		}
-  		$row = $db->getDepartmentById($id);
+  		$row = $db->getAboutById($id);
   		$this->view->row = $row;
   		$this->view->id = $id;
   		$frm = new About_Form_Frmabout();

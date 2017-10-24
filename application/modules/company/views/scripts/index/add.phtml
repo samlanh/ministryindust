@@ -11,17 +11,23 @@ dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.form.Textarea");
+dojo.require("dojo.parser");
+dojo.require("dojo.NodeList-manipulate");
 </script>
 <style>
-
+	img.image_view {
+	   width: 160px;
+   	   height: 95px;
+	}
+img.image_viewss {
+    width: 30%;
+}
 </style>
 <script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
-<script src="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.js"></script>
-<link href="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.css" rel="stylesheet">
-<form id='company' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
 <form id='company' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+				loading();
 				return true;
 			} else {
 				return false;
@@ -69,9 +75,17 @@ dojo.require("dijit.form.Textarea");
 									</select>
 								</td>
 							</tr>
+							<tr>
+								<td colspan="2"><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<textarea class="ckeditor" height="200px" style="min-height:60px;" id="note" name="note"></textarea>
+								</td>
+							</tr>
 						</table>
 					</td>
-					<td width="50%" style="background:#eaeaea;">
+					<td width="50%" style="background:#eaeaea; vertical-align: top;">
 						<table style="margin: 0 auto; width: 100%;" cellspacing="10">
 							<tr>
 								<td><?php echo $tr->translate("ផលិតផល")?></td>
@@ -90,24 +104,43 @@ dojo.require("dijit.form.Textarea");
 								</td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("ឡូហ្គូក្រុមហ៊ុន/Logo")?> (jpg, .jpeg, .png</td>
-								<td><input class="fullside" required="1" name="logo" id="logo" accept=".jpg, .jpeg, .png" type="file"></td>
+								<td></td>
+								<td style="text-align: center;background: #fff;">
+									<img class="image_viewss" id="image_view" src="<?php echo $this->baseUrl().'/images/no-image.png';?>" alt=""  />
+									<div class="button_browse">
+										<span><?php echo $tr->translate("ឡូហ្គូក្រុមហ៊ុន/Logo")?> (jpg, .jpeg, .png)<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+										<input class="btn_borwse_image"  type="file" id="photo" name="photo" onchange="loadImagess()">
+									</div>
+								</td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("ឯកសារច្បាប់")?> (jpg, .jpeg, .png)</td>
-								<td><input class="fullside" required="1" name="document_company[]" accept=".jpg, .jpeg, .png" multiple type="file"></td>
-							</tr>
+							<td colspan="2">
+								<table id="table_parent" class="set-style" style="margin: 0 auto; width: 100%;  " >
+										<thead>
+											<tr>
+												<td colspan="8">
+													<table  style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;">
+														<tr id="head-title" class="head-td" align="right"></tr>
+													</table>
+													<table id="table_row" style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;">
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td align="left">
+													<input type="button" label="<?php echo $tr->translate('ADD_MORE');?>" dojoType="dijit.form.Button" 
+														 	iconClass="dijitIconEditProperty" onclick="addRow();" />
+													<input type="hidden" name="identity" id="identity"  value="" >
+												</td>
+											</tr>
+										</thead>
+									</table>
+							</td>
+						</tr>
 					</table>
 				</td>
 			</tr>
-			<tr>
-				<td colspan="2"><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<textarea class="ckeditor" height="200px" style="min-height:60px;" id="note" name="note"></textarea>
-				</td>
-			</tr>
+			
 			<tr>
 				<td colspan="2" align="center">
 					<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" /> 
@@ -126,51 +159,84 @@ dojo.require("dijit.form.Textarea");
 <tr>
 </tr>
 </table>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'<?php echo $tr->translate("DO_YOU_WANT_TO_DEL")?>'"  id="deleteForm" style="width:350px;" >
+		<div style=" text-align: center;">
+			<h4><?php echo $tr->translate("DO_YOU_WANT_TO_DEL")?></h4>
+			<input type="hidden" name="recorddelete" id="recorddelete" dojoType="dijit.form.TextBox" />
+			<button onclick="closeForm();" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("CANCEL");?></button>
+			<button onclick="deleteRecord('',1);" iconclass="dijitIconDelete" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("DELETE");?></button>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 var district_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));?> );
 dojo.ready(function(){	
+	addRow();
 	dijit.byId("province_id").attr("value",12);
-	/*try{
-		new dijit.form.FilteringSelect({
-		store: district_store,
-		autoComplete: true,
-		required: false,		           
-		name: "district",
-		id: "district",
-		searchAttr: "name",
-		class: 'fullside',
-		missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ ស្រុក/ខ័ណ្ឌ!",	
-			onChange: function() {
-				district = dijit.byId('district').get('value');
-				if(district==-1){
-					showPopupdistrict();
-					}
-					filterCommune();
-			}  
-		}, "district");
-		 
-		new dijit.form.FilteringSelect({
-		store: commune,
-		autoComplete: true,
-		required: false,		           
-		name: "commune",
-		id: "commune",
-		searchAttr: "name",
-		class: 'fullside',
-		missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឃុំ/សង្កាត់",	
-			onChange: function() {
-				commune = dijit.byId('commune').get('value');
-				if(commune==-1){
-					showPopupCommune();
-				}
-				else{
-					filterVillage();
-				}
-			  }
-		}, "commune");		 
-
-	}catch(e){
-		alert(e);
-	}*/
 });
+function closeForm(){
+	dijit.byId('deleteForm').hide();
+}
+function loadImagess(){
+	 var output = document.getElementById('image_view');
+	output.src = URL.createObjectURL(event.target.files[0]);
+}
+function deleteRecord(index,type=''){
+	 if(type==''){
+		 dijit.byId("recorddelete").attr('value',index);
+		 dijit.byId('deleteForm').show();
+	 }else{
+		index = dijit.byId("recorddelete").get('value');
+		var identity = $('#identity').val();
+		var arrays = identity.split(',');
+		for(var i=0;i<arrays.length;i++) {
+		if(arrays[i] == index) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		$('#identity').val(strings);
+		dojo.query("#row"+index).remove();
+		dijit.byId('deleteForm').hide();
+	 }
+}
+var col = 0;
+var no = 0;
+var title = 0;
+func='';
+tmp = '';
+var temp='';
+function addRow() {
+		col++;no++;
+		template='';
+		var identity = $('#identity').val();
+		var arrays = identity.split(',');
+		if(arrays.length>=8){
+			alert("<?php echo $tr->translate("Maximum File is only 8");?>");
+			return false;
+		}
+		if(title!=1){
+			temp+='<th><?php echo $tr->translate("ឯកសារច្បាប់");?> (jpg, .jpeg, .png)</th>';
+			temp+='<th ><?php //echo $tr->translate("VALUE");?></th>';
+			temp+='<th><?php //echo $tr->translate("DEL");?></th>';
+			dojo.query("#head-title").append(temp);
+			title=1;
+		}
+			template+='<td ><img class="image_view" id="image_view'+col+'" src="<?php echo $this->baseUrl().'/images/no-image.png';?>" alt=""  /></td>';
+			template+='<td><div class="button_browse"><span>Upload <span><i class="fa fa-camera" aria-hidden="true"></i></span></span><input class="btn_borwse_image" accept=".jpg, .jpeg, .png" required="true" type="file" id="photo'+col+'" name="photo'+col+'" onchange="loadImage('+col+')"></div></td>';
+			template+='<td width="3%" align="center" style="padding: 10px 25px;"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+		tmp='<tr id="row'+col+'" style="background: #fff;">';
+		tmp+="</tr>";
+		dojo.query("#table_row").append(tmp);
+		if($("#identity").val()!='') {
+			var identity = $("#identity").val();
+			$("#identity").val(identity+','+col);
+		} else {$("#identity").val(col);}
+		dojo.html.set(dojo.byId("row"+col),template , {
+		     parseContent: true,
+		});
+ }
+ function loadImage(index){
+	 var output = document.getElementById('image_view'+index);
+    output.src = URL.createObjectURL(event.target.files[0]);
+ }
 </script>

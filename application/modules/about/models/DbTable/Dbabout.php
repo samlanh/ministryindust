@@ -19,9 +19,11 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
     		$cate_tree_array = array();
     	
     	$sql="SELECT am.`id`, 
-(SELECT amd.title FROM `mini_aboutministry_detail` AS amd WHERE amd.ministy_id = am.`id`
- AND amd.language_id=$lang LIMIT 1) AS name, 
- am.`parent_id`,status FROM `mini_aboutministry` AS am WHERE am.`status`>-1  AND am.`parent_id`=$parent ";
+		(SELECT amd.title FROM `mini_aboutministry_detail` AS amd WHERE amd.ministy_id = am.`id`
+		 AND amd.language_id=$lang LIMIT 1) AS name, 
+		 am.`parent_id`,
+		 status,user_id 
+    	FROM `mini_aboutministry` AS am WHERE am.`status`>-1  AND am.`parent_id`=$parent ";
 		if(!empty($data['adv_search'])){
 			$s_where = array();
 			$s_search = addslashes(trim($data['adv_search']));
@@ -52,8 +54,8 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
     	try{
     		$dbglobal = new Application_Model_DbTable_DbVdGlobal();
     		$lang = $dbglobal->getLaguage();
-    		if (!empty(trim($data['alias']))){
-    			$alias = $data['alias'];
+    		if (!empty(trim($data['title_alias']))){
+    			$alias = trim($data['title_alias']);
     		}else{
     			$alias = md5(date("Y-m-d H:i:s"));
     		}
@@ -61,8 +63,8 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
 	    			'parent_id'=>$data['parent'],
 					'alias'=>$alias,
 	    			'status'=>$data['status'],
-					'modify_date'=>date("Y-m-d"),
-	    			'date'=>date("Y-m-d"),
+					'modify_date'=>date("Y-m-d H:i:s"),
+// 	    			'create_date'=>date("Y-m-d"),
 	    			'user_id'=>$this->getUserId(),
 	    		);
 	    		 $this->_name="mini_aboutministry";
@@ -98,7 +100,7 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
 		    		 					'language_id'=>$row['id'],
 		    		 			);
 		    		 			$this->_name="mini_aboutministry_detail";
-		    		 			$wheredetail=" department_id=".$data['id']." AND id=".$data['iddetail'.$title];
+		    		 			$wheredetail=" ministy_id=".$data['id']." AND id=".$data['iddetail'.$title];
 		    					$this->update($arr_cate,$wheredetail);
 		    		 		}else{
 			    		 		$arr_cate = array(
@@ -114,7 +116,7 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
 	    		 	}
 	    	}else{
 	    			$this->_name="mini_aboutministry";
-	    		 	$arr['date']= date("Y-m-d");
+	    		 	$arr['create_date']= date("Y-m-d H:i:s");
 	    			$cate_id = $this->insert($arr);
 	    			if(!empty($lang)) foreach($lang as $row){
 	    				$title = str_replace(' ','',$row['title']);
@@ -135,17 +137,19 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
     		$db->rollBack();
     	}
 	}
-	function getDepartmentById($id){
+	function getAboutById($id){
 		$db= $this->getAdapter();
-		$sql="SELECT * FROM `mini_department` WHERE id =".$id;
+		$sql="SELECT  m.*,
+			(SELECT u.first_name FROM `rms_users` AS u WHERE u.id = m.`user_id` LIMIT 1) AS user_name
+		 FROM `mini_aboutministry` as m WHERE m.id =".$id;
 		return $db->fetchRow($sql);
 	}
-	function getDepartmentTitleByLang($cate_id,$lang=null){
+	function getAboutTitleByLang($cate_id,$lang=null){
 		if($lang==null){
 			$lang = $this->getCurrentLang();
 		}
 		$db = $this->getAdapter();
-		$sql="SELECT cd.id,cd.`title`,cd.description,cd.`language_id` FROM `mini_department_detail` AS cd WHERE cd.`department_id`=$cate_id AND cd.`language_id`=$lang ";
+		$sql="SELECT cd.id,cd.`title`,cd.description,cd.`language_id` FROM `mini_aboutministry_detail` AS cd WHERE cd.`ministy_id`=$cate_id AND cd.`language_id`=$lang ";
 		return $db->fetchRow($sql);
 	}
 	function getDepartmentFirstRecord($alias = null,$lang=null){

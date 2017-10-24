@@ -47,7 +47,7 @@ $countlang = count($this->lang);
 		
 	<table  style="margin: 0 auto; width: 100%">
 		<tr class="header">
-			<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('EDIT_CATEGORY')?></strong></td>
+			<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('EDIT_TAB_DEPARTMENT')?></strong></td>
 		</tr>
 			<tr>
 				<td>
@@ -72,8 +72,10 @@ $countlang = count($this->lang);
 												</td>
 											</tr>
 											<tr>
-												<td class="bold" style="width:110px"><?php echo $tr->translate('DESCRIPTION')?><?php echo str_replace(' ','',$rs['title']);?></td>
-												<td>
+												<td colspan="2" class="bold" style="width:110px"><?php echo $tr->translate('DESCRIPTION_'.strtoupper($rs['title']));?></td>
+											</tr>
+											<tr>
+												<td colspan="2">
 													<textarea class="ckeditor" height="400px" style="min-height:60px;font-family:'khmer os battambang'" id="description<?php echo str_replace(' ','',$rs['title']);?>" name="description<?php echo str_replace(' ','',$rs['title']);?>">"<?php echo $rstab['description'];?></textarea>
 												</td>
 											</tr>

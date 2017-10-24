@@ -143,7 +143,9 @@ class Department_Model_DbTable_Dbdepartment extends Zend_Db_Table_Abstract
 	}
 	function getDepartmentById($id){
 		$db= $this->getAdapter();
-		$sql="SELECT * FROM `mini_department` WHERE id =".$id;
+		$sql="SELECT d.*,
+		(SELECT u.first_name FROM `rms_users` AS u WHERE u.id = d.`user_id` LIMIT 1) AS user_name
+		FROM `mini_department` as d WHERE id =".$id;
 		return $db->fetchRow($sql);
 	}
 	function getDepartmentTitleByLang($cate_id,$lang=null){

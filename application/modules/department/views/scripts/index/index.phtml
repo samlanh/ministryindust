@@ -67,19 +67,24 @@ $imgtick='<img src="'.$this->baseUrl().'/images/icon/apply2.png"/>';
 				<th class="tdheader"><?php echo $tr->translate("NUM")?></th>
 				<th class="tdheader" style=" width: 50%;"><?php echo $tr->translate("DEPARTMENT_NAME")?></th>
 				<th class="tdheader"><?php echo $tr->translate("STATUS")?></th>
+				<th class="tdheader"><?php echo $tr->translate("BY_USER")?></th>
 				<th class="tdheader"><?php echo $tr->translate("")?></th>
 			  	</tr>
 			  </thead>
 			  <tbody>
 			  <?php $r=0;
+			  $db = new Department_Model_DbTable_Dbdepartment();
 			   if (!empty($this->row)){ foreach($this->row as $row){ $r++;
 			  	if($r%2==0)$attb='normal';
 			  	else $attb='alternate';
+			  	
+			  	$rowss = $db->getDepartmentById($row['id']);
 			  	?>
 			  	<tr class="<?php echo $attb; ?>">
 			  		<td class="items-no"><?php echo $r;?></td>
 			  		<td class="items"><a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$row['id']));?>"><?php echo $row['name'];?></a></td>
 			  		<td class="items"><?php if($row['status']==1){echo  $imgtick;} else{echo $imgnone;};?></td>
+			  		<td align="center"><?php echo $rowss['user_name'];?></td>
 			  		<td align="center"><a style="cursor: pointer;"  onclick="showDeleteForm(<?php echo $row['id'];?>)" ><img style="vertical-align: middle; padding: 0 5px;" src="<?php echo $this->baseUrl();?>/images/delete.png" /><?php echo $tr->translate("DELETE");?></a></td>
 			  	</tr>
 			  	<?php }

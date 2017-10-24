@@ -19,7 +19,8 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
     	$sql="
     	SELECT c.id,c.com_code,c.com_name,c.com_phone,c.register_date,
 			(SELECT cd.title FROM `mini_department_detail` AS cd WHERE cd.department_id = c.`depart_id` AND cd.language_id=$lang LIMIT 1) AS department_name,
-			(SELECT province_kh_name FROM mini_province WHERE  province_id=c.province_id LIMIT 1) as province_name,c.product,c.status
+			(SELECT province_kh_name FROM mini_province WHERE  province_id=c.province_id LIMIT 1) as province_name,c.product,c.status,
+			(SELECT u.first_name FROM `rms_users` AS u WHERE u.id = c.user_id LIMIT 1) AS user_name
     	 	FROM `mini_company` AS c WHERE com_name!='' ";
     	
 		if(!empty($data['txt_search'])){
@@ -47,40 +48,19 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
-    		$photoname = str_replace(" ", "_", $data['company_name']) . '.jpg';
-    		$upload = new Zend_File_Transfer();
-//     		$upload->addFilter('Rename',
-//     				array('target' => PUBLIC_PATH . '/companylogo/'. $photoname, 'overwrite' => true) ,'document_company');
-    		$receive = $upload->receive();
-    		if($receive)
-    		{
-    			$file = $upload->getFileinfo();
-//     		    echo $file['logo']['name'];exit();//ok
-//     			print_r(count($file));echo"<br /><br />";
-				foreach($file as $index =>$rs){
-					print_r($rs['name'])."<br />";
-// 					echo $rs[$index];exit();
-				}
-				exit();
-    			$filname = $upload->getFileName('name');
-    			print_r($filname);exit();
-    			foreach ($filname as $index =>$rs){
-    				print_r($rs);exit();
-    				echo $rs[$index];exit(); 
+    		$part= PUBLIC_PATH.'/companylogo/';
+    		$name = $_FILES['photo']['name'];
+    		$photo='';
+    		if (!empty($name)){
+    			$tem =explode(".", $name);
+    			$image_name = time()."logo.".end($tem);
+    			$tmp = $_FILES['photo']['tmp_name'];
+    			if(move_uploaded_file($tmp, $part.$image_name)){
+    				$photo = $image_name;
     			}
-    			print_r($file['logo']['document_company_0_']);
-    			print_r($upload->getFileinfo());exit();
-    			$data['logo'] = $photoname;
+    			else
+    				$string = "Image Upload failed";
     		}
-    		else{
-    			$data['logo']="";
-    		}
-//     		if(empty($data['logo'])){
-//     			$photo = @$data['old_photo'];
-//     		}else{
-//     			$photo = $data['photo'];
-//     		}
-    		
 	    	$arr = array(
 	    			'com_code'=>$data['company_code'],
 	    			'com_name'=>$data['company_name'],
@@ -91,21 +71,37 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 	    			'product'=>$data['product_name'],
 	    			'province_id'=>$data["province_id"],
 	    			'note'=>$data["note"],
-	    			'logo'=>$data['logo'],
-	    			'crate_date'=>date("Y-m-d"),
+	    			'logo'=>$photo,
+	    			'create_date'=>date("Y-m-d H:i:s"),
+	    			'modify_date'=>date("Y-m-d H:i:s"),
 	    			'user_id'=>$this->getUserId(),
 	    			'status'=>1,
-	    			'file1'=>$data['note'],
-	    			'file2'=>$data['note'],
-	    			'file3'=>$data['note'],
-	    			'file4'=>$data['note'],
-	    			'file5'=>$data['note'],
-	    			'file6'=>$data['note'],
-	    			'file7'=>$data['note'],
-	    			'file8'=>$data['note'],
 	    			
 	    		);
-// 	    	print_r($arr);exit();
+	    	$identity = $data['identity'];
+	    	$ids = explode(',', $identity);
+	    	$index=1;
+	    	foreach ($ids as $i){
+	    		$name = $_FILES['photo'.$i]['name'];
+	    		if (!empty($name)){
+	    			$ss = 	explode(".", $name);
+	    			$image_name = "file".date("Y").date("m").date("d").time().$i.".".end($ss);
+	    			$tmp = $_FILES['photo'.$i]['tmp_name'];
+	    			if(move_uploaded_file($tmp, $part.$image_name)){
+	    				$photo = $image_name;
+	    			}
+	    			else
+	    				$string = "Image Upload failed";
+	    			if ($index<=8){
+	    				$arr['file'.$index]=$image_name;
+	    			}
+	    			$index++;
+// 	    			if (empty($image_list )){
+// 	    				$image_list=$image_name;
+// 	    			}else{$image_list = $image_list.",".$image_name;
+// 	    			}
+	    		}
+	    	}
 	    	$this->insert($arr);
 	    	$db->commit();
     	}catch(exception $e){
@@ -118,20 +114,20 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$db->beginTransaction();
 		try{
-			$photoname = str_replace(" ", "_", $data['company_name']) . '.jpg';
-			$upload = new Zend_File_Transfer();
-			$upload->addFilter('Rename',
-					array('target' => PUBLIC_PATH . '/companylogo/'. $photoname, 'overwrite' => true) ,'photo');
-			$receive = $upload->receive();
-			if($receive)
-			{
-				$data['logo'] = $photoname;
-			}
-			else{
-				$data['logo']="";
-			}
-    		if(empty($data['logo'])){
-    			$data['logo'] = @$data['old_logo'];
+		$part= PUBLIC_PATH.'/companylogo/';
+    		$name = $_FILES['photo']['name'];
+    		$photo='';
+    		if (!empty($name)){
+    			$tem =explode(".", $name);
+    			$image_name = time()."logo.".end($tem);
+    			$tmp = $_FILES['photo']['tmp_name'];
+    			if(move_uploaded_file($tmp, $part.$image_name)){
+    				$photo = $image_name;
+    			}
+    			else
+    				$string = "Image Upload failed";
+    		}else{
+    			$photo = $data['old_photo'];
     		}
 	
 			$arr = array(
@@ -144,20 +140,39 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 					'product'=>$data['product_name'],
 					'province_id'=>$data["province_id"],
 					'note'=>$data["note"],
-					'logo'=>$data['logo'],
-// 					'crate_date'=>date("Y-m-d"),
+					'logo'=>$photo,
 					'user_id'=>$this->getUserId(),
-					'status'=>1,
-					'file1'=>$data['note'],
-					'file2'=>$data['note'],
-					'file3'=>$data['note'],
-					'file4'=>$data['note'],
-					'file5'=>$data['note'],
-					'file6'=>$data['note'],
-					'file7'=>$data['note'],
-					'file8'=>$data['note'],
+					'status'=>$data["status"],
+					'modify_date'=>date("Y-m-d H:i:s"),
 	
 			);
+			$identity = $data['identity'];
+			$ids = explode(',', $identity);
+			$index=1;
+			foreach ($ids as $i){
+				$files='';
+				$name = $_FILES['photo'.$i]['name'];
+				if (!empty($name)){
+					$ss = 	explode(".", $name);
+					$image_name = "file".date("Y").date("m").date("d").time().$i.".".end($ss);
+					$tmp = $_FILES['photo'.$i]['tmp_name'];
+					if(move_uploaded_file($tmp, $part.$image_name)){
+						$files = $image_name;
+					}
+					else
+						$string = "Image Upload failed";
+					
+				}else{
+					if (!empty($data['old_photo'.$i])){
+						$files = $data['old_photo'.$i];
+					}
+				}
+				if ($index<=8){
+					$arr['file'.$index]=$files;
+				}
+				$index++;
+			}
+			
 			$where = "id = ".$data['id'];
 			$this->update($arr, $where);
 			$db->commit();

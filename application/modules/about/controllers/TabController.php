@@ -22,7 +22,12 @@ class About_TabController extends Zend_Controller_Action {
 			}
 			$rs_rows= $db->getAllTab($search);
 			$this->view->row = $rs_rows;
-			
+			$glClass = new Application_Model_GlobalClass();
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$list = new Application_Form_Frmtable();
+			$collumns = array("TAB_KHMER","TAB_ENGLISH","CREATE_DATE","MODIFY_DATE","STATUS","BY_USER");
+			$link_info=array('module'=>'about','controller'=>'tab','action'=>'edit',);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('title_eng'=>$link_info,'title'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -46,7 +51,8 @@ class About_TabController extends Zend_Controller_Action {
   			if(!empty($_data['save_close'])){
   				$this->_redirect("/about/tab");
   			}else{
-  				Application_Form_FrmMessage::message("INSERT_SUCCESS");
+  				$this->_redirect("/about/tab/add");
+//   				Application_Form_FrmMessage::message("INSERT_SUCCESS");
   			}
   		}
   		$frm = new About_Form_Frmabout();
@@ -68,8 +74,8 @@ class About_TabController extends Zend_Controller_Action {
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
   			$_data['id']=$id;
-//   			print_r($_data);exit();
   			$db->updatTab($_data);
+  			$this->_redirect("/about/tab");
 			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS","/about/tab");
   		}
   		$frm = new About_Form_Frmabout();

@@ -86,7 +86,6 @@ class About_Model_DbTable_Dbtab extends Zend_Db_Table_Abstract
 						'title'=>$data['tab'.$title],
 						'description'=>$data['description'.$title],
 						'language_id'=>$row['id'],
-// 						'alias'=>$last_tab,
 						'status'=>$data['status'],
 						'modify_date'=>date("Y-m-d h:i:s"),
 						'user_id'=>$this->getUserId(),
@@ -101,7 +100,6 @@ class About_Model_DbTable_Dbtab extends Zend_Db_Table_Abstract
 			echo $e->getMessage();exit();
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-	
 		}
 	}
 

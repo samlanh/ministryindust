@@ -68,8 +68,10 @@
 												</td>
 											</tr>
 											<tr>
-												<td  class="bold" style="width:110px"><?php echo $tr->translate('DESCRIPTION')?><?php echo str_replace(' ','',$rs['title']);?></td>
-												<td>
+												<td colspan="2" class="bold" style="width:110px"><?php echo $tr->translate('DESCRIPTION_'.strtoupper($rs['title']));?></td>
+											</tr>
+											<tr>
+												<td colspan="2">
 													<textarea class="ckeditor" height="400px" style="min-height:60px;" id="description<?php echo str_replace(' ','',$rs['title']);?>" name="description<?php echo str_replace(' ','',$rs['title']);?>"></textarea>
 												</td>
 											</tr>

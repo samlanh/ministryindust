@@ -95,7 +95,7 @@ Class About_Form_Frmabout extends Zend_Dojo_Form {
 		$_cate_type->setValue($request->getParam('cate_type'));
 		if($data!=null){
 			//$_cate_type->setValue($data['cate_type']);
-			$_cateory_parent->setValue($data['depart_parentid']);
+			$_cateory_parent->setValue($data['parent_id']);
 			$_status->setValue($data['status']);
 			$id->setValue($data['id']);
 			$_title_alias->setValue($data['alias']);

@@ -12,7 +12,8 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     	 
     	$sql="
     	SELECT d.`id`,d.`title`,
-		(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id =d.`document_type` LIMIT 1) AS doc_type_title,d.`modify_date`,d.`status`
+		(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id =d.`document_type` LIMIT 1) AS doc_type_title,d.`modify_date`,d.`status`,
+		(SELECT u.first_name FROM `rms_users` AS u WHERE u.id = d.`user_id` LIMIT 1) AS user_name
 		 FROM `mini_documentfile` AS d WHERE d.`status`>-1 AND title!='' ";
     	 
     	if(!empty($data['txt_search'])){
