@@ -4,6 +4,7 @@ $this->headTitle($tr->translate('HOT_NEWS'));
 echo $this->headTitle();
 $frm = $this->frm;
 $countlang = count($this->lang);
+$db = new About_Model_DbTable_DbHotNew();
 ?>
 <script type="text/javascript">	
 	dojo.require("dijit.form.ValidationTextBox");
@@ -61,11 +62,13 @@ $countlang = count($this->lang);
 						</tr>
 						<tr>
 							<td align="left" valign="top" width="70%">	
-							<input type="text" dojoType="dijit.form.TextBox" required="required" name="title"  id="title" value="" class="fullside" placeholder="" />
+							<input type="text" dojoType="dijit.form.TextBox" required="required" name="title"  id="title" value="<?php echo $this->row['title'];?>" class="fullside" placeholder="" />
 							<?php if ($countlang>1){?>
 								<div id="mainTabContainer" style=" position:relative; width:800px; display:block; height: 600px;" dojoType="dijit.layout.TabContainer" region="center" >
 					      	<?php }?>		
-					      	<?php $alias=''; foreach($this->lang as $key=> $rs){ if ($key<1){ $alias = str_replace(' ','',$rs['title']);}?>
+					      	<?php $alias=''; foreach($this->lang as $key=> $rs){ if ($key<1){ $alias = str_replace(' ','',$rs['title']);}
+					     		 $data =$db->getHotnewById($rs['id'],$this->id);
+					      	?>
 					      			<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="<?php echo $tr->translate(strtoupper($rs['title']));?>" selected="true">
 										<table cellspacing="5" width="100%">
 											<tr>
@@ -73,7 +76,7 @@ $countlang = count($this->lang);
 											</tr>
 											<tr>
 												<td>
-													<textarea class="ckeditor" height="400px" style="min-height:60px;" id="description<?php echo str_replace(' ','',$rs['title']);?>" name="description<?php echo str_replace(' ','',$rs['title']);?>"></textarea>
+													<textarea class="ckeditor" height="400px" style="min-height:60px;" id="description<?php echo str_replace(' ','',$rs['title']);?>" name="description<?php echo str_replace(' ','',$rs['title']);?>"><?php echo $data['description'];?></textarea>
 												</td>
 											</tr>
 										</table>
