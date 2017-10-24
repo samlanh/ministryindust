@@ -85,6 +85,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 								<?php foreach ($this->company as $company){?>
 								<li class="pb-20">
 									<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+										<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>">
 										<?php 
 										$image = $this->baseUrl()."/images/noimage.jpg";
 										if (!empty($company['logo'])){
@@ -92,6 +93,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 											}
 										?>
 										<img class="img_border" src="<?php echo $image;?>" />
+										</a>
 									</div>
 									<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
 										<div class="result_title">

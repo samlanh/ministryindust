@@ -10,7 +10,7 @@ class About_HotnewsController extends Zend_Controller_Action {
 	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
-			$db = new About_Model_DbTable_Dbabout();
+			$db = new About_Model_DbTable_DbHotNew();
 		    if($this->getRequest()->isPost()){
  				$search = $this->getRequest()->getPost();
  			}
@@ -21,15 +21,21 @@ class About_HotnewsController extends Zend_Controller_Action {
 						'cate_type'=>'',
 						);
 			}
-			$rs_rows= $db->getAllAbout(0,"","",$search);
+			$rs_rows= $db->getAllHotNew($search);
 			$this->view->row = $rs_rows;
+			$glClass = new Application_Model_GlobalClass();
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$list = new Application_Form_Frmtable();
+			$collumns = array("TITLE","DESCRIPTION","CREATE_DATE","MODIFY_DATE","STATUS","BY_USER");
+			$link_info=array('module'=>'about','controller'=>'hotnews','action'=>'edit',);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('title_eng'=>$link_info,'title'=>$link_info),0);
 			
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}	
-		$frm = new About_Form_Frmabout();
-  		$frm_manager=$frm->Frmdepartment();
+		$frm = new About_Form_FrmHotNew();
+  		$frm_manager=$frm->FrmAddHotnew();
   		Application_Model_Decorator::removeAllDecorator($frm_manager);
   		$this->view->frm = $frm_manager;
 		
@@ -40,18 +46,18 @@ class About_HotnewsController extends Zend_Controller_Action {
   }
   public function addAction(){
   	try{
-  		$db = new About_Model_DbTable_Dbabout();
+  		$db = new About_Model_DbTable_DbHotNew();
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
-  			$db->addAboutministry($_data);
+  			$db->addHotNew($_data);
   			if(!empty($_data['save_close'])){
-  				$this->_redirect("/about/index");
+  				$this->_redirect("/about/hotnews/");
   			}else{
-  				Application_Form_FrmMessage::message("INSERT_SUCCESS");
+  				$this->_redirect("/about/hotnews/add");
   			}
   		}
-  		$frm = new About_Form_Frmabout();
-  		$frm_manager=$frm->Frmdepartment();
+  		$frm = new About_Form_FrmHotNew();
+  		$frm_manager=$frm->FrmAddHotnew();
   		Application_Model_Decorator::removeAllDecorator($frm_manager);
   		$this->view->frm = $frm_manager;
   	}catch (Exception $e){
@@ -64,18 +70,18 @@ class About_HotnewsController extends Zend_Controller_Action {
   public function editAction(){
   	$id = $this->getRequest()->getParam('id');
   	try{
-  		$db = new About_Model_DbTable_Dbabout();
+  		$db = new About_Model_DbTable_DbHotNew();
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
   			$_data['id']=$id;
-  			$db->addDepartment($_data);
-			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS","/department/index");
+  			$db->updateHotNew($_data);
+  			$this->_redirect("/about/hotnews/");
   		}
-  		$row = $db->getDepartmentById($id);
+  		$row = $db->getHotnewById(1,$id);
   		$this->view->row = $row;
   		$this->view->id = $id;
-  		$frm = new About_Form_Frmabout();
-  		$frm_manager=$frm->Frmdepartment($row);
+  		$frm = new About_Form_FrmHotNew();
+  		$frm_manager=$frm->FrmAddHotnew($row);
   		Application_Model_Decorator::removeAllDecorator($frm_manager);
   		$this->view->frm = $frm_manager;
   	}catch (Exception $e){
