@@ -172,7 +172,10 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 				}
 				$index++;
 			}
-			
+			while($index <= 8){
+				$arr['file'.$index]="";
+				$index++;
+			}
 			$where = "id = ".$data['id'];
 			$this->update($arr, $where);
 			$db->commit();
