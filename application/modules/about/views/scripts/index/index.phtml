@@ -68,7 +68,6 @@ $imgtick='<img src="'.$this->baseUrl().'/images/icon/apply2.png"/>';
 				<th class="tdheader" style=" width: 50%;"><?php echo $tr->translate("TITLE")?></th>
 				<th class="tdheader"><?php echo $tr->translate("STATUS")?></th>
 				<th class="tdheader"><?php echo $tr->translate("BY_USER")?></th>
-				<th class="tdheader"><?php echo $tr->translate("")?></th>
 			  	</tr>
 			  </thead>
 			  <tbody>
@@ -84,7 +83,6 @@ $imgtick='<img src="'.$this->baseUrl().'/images/icon/apply2.png"/>';
 			  		<td class="items"><a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$row['id']));?>"><?php echo $row['name'];?></a></td>
 			  		<td class="items"><?php if($row['status']==1){echo  $imgtick;} else{echo $imgnone;};?></td>
 			  		<td align="center" class="items"><?php echo $rows['user_name'];?></td>
-			  		<td align="center"><a style="cursor: pointer;"  onclick="showDeleteForm(<?php echo $row['id'];?>)" ><img style="vertical-align: middle; padding: 0 5px;" src="<?php echo $this->baseUrl();?>/images/delete.png" /><?php echo $tr->translate("DELETE");?></a></td>
 			  	</tr>
 			  	<?php }
 			  	?>
