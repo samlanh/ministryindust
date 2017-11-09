@@ -38,6 +38,16 @@
 		//}
 	}); 
     
+	$('.bxslider').bxSlider(
+			{
+            speed: 3000,
+            controls: false,
+            auto: false,
+            autoControls: false,
+            touchEnabled: true,
+            pager: false 
+            }		
+	);
 /*----------------------------------------
     02. Owl Carousel
 ---------------------------------------- */

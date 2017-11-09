@@ -214,6 +214,12 @@
 
 /* small mobile :320px. */
 @media (max-width: 767px) {
+.onpcbrowser{
+	display: none;
+}
+.onphone{
+	display: block;
+}
 .text-content-slide h3.slide-title {
     bottom: 65px;
     font-size: 18px;
@@ -321,7 +327,7 @@
     .slick-slide .feature-image {background: #000000 none repeat scroll 0 0;}
     .about-image > img, .latest-item img, .team-img img {width: 100%;}  
     .slider-two-area {height: 490px;}
-    .section-title, .section-title-light {padding-bottom: 50px;}
+    .section-title, .section-title-light {padding-bottom: 10px;}
     .ptb-150 {padding: 60px 0;}
     .pb-150 {padding-bottom: 60px;}
     .pt-150 {padding-top: 60px;}
