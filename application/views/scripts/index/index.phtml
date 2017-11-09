@@ -55,7 +55,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
          </div>
 		<?php if (!empty($this->gethomearticle)){?>
 		<!-- Blog Two Area Start -->
-        <div class="blog-two-area newsevent ptb-20">
+        <div class="blog-two-area newsevent onpcbrowser ptb-20">
             <div class="container">
            
                 <div class="section-title-light text-center fix">
@@ -90,6 +90,57 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
                         <?php }?>
                      </div>
                 </div>
+				<div class="section-button text-center pt-20">
+					<a href="<?php echo $this->baseUrl()."/page/index?category=".$this->categoryinfo['alias_category'].".html";?>" class="default-btn showall"><span><?php echo $tr->translate("SHOW_ALL");?></span></a>
+				</div>
+             </div>
+         </div>
+        <!-- Blog Two Area End -->
+        <?php }?>
+        <?php if (!empty($this->gethomearticle)){?>
+		<!-- Blog Two Area Start -->
+        <div class="blog-two-area newsevent onphone ptb-20">
+            <div class="container">
+                <div class="section-title-light text-center fix">
+                    <h2><?php echo $this->categoryinfo['title'];?></h2>
+                </div>
+                    <div class="bxslider">
+                        <?php $list=3; $limt=$list; $i=0;   foreach ($this->gethomearticle as  $rs){ $i++;
+                        	?>
+                        	<?php if ($i==1){?>
+							<div class="rows">
+							<?php }?>
+						<div class="col-xs-12 mtb-15">
+                            <div class="single-blog listnews">
+                                <div class="blog-image">
+                                    <a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"?>">
+                                    	<?php if (!empty($rs['image_feature'])){?>
+                                      	  <img src="<?php echo $this->baseUrl()."/images/article/".$rs['image_feature']?>" alt="">
+                                        <?php }else{?>
+                                       	  <img src="<?php echo $this->baseUrl()."/images/noimage.jpg"?>" alt="">
+                                        <?php }?>
+                                    </a>
+                                </div>
+                                <div class="blog-text">
+                                    <h5><a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"?>"><?php echo mb_substr($rs['title'],0,120, "utf-8");?></a></h5>
+                                    <p><?php
+                                    	echo mb_substr($rs['description'],0,100, "utf-8")."...";
+                                    ?></p>
+                                    <div class="readmore">
+										<a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"?>" class="default-btn readmore"><span><?php echo $tr->translate("READ_MORE");?></span></a>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php if (count($this->gethomearticle)==$i){?>
+							</div>
+							<?php }else if ($i==$limt){ $limt = $limt+$list;?>
+							</div>
+							<div class="rows ">
+						<?php }?>
+							
+                        <?php }?>
+                     </div>
 				<div class="section-button text-center pt-20">
 					<a href="<?php echo $this->baseUrl()."/page/index?category=".$this->categoryinfo['alias_category'].".html";?>" class="default-btn showall"><span><?php echo $tr->translate("SHOW_ALL");?></span></a>
 				</div>
@@ -152,7 +203,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 	   </div>
 	   <?php if (!empty($this->document)){?>
         <!-- Blog Two Area Start -->
-        <div class="file_slide ptb-20">
+        <div class="file_slide onpcbrowser ptb-20">
             <div class="container">
                 <div class="row">
                     <div class="blog-file-slide">
@@ -189,6 +240,65 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
                                
                             </div>
                         </div>
+                        <?php }?>
+                    </div>
+					<div class="section-button text-center pt-20">
+						<a href="<?php echo $this->baseUrl()."/documents";?>" class="default-btn showall"><span><?php echo $tr->translate("SHOW_ALL");?></span></a>
+					</div>
+                </div>
+            </div>
+        </div>
+        <!-- Blog Two Area End -->
+        <?php }?>
+        
+        <?php if (!empty($this->document)){?>
+        <!-- Blog Two Area Start -->
+        <div class="file_slide onphone ptb-20">
+            <div class="container">
+                <div class="row">
+                    <div class="bxslider">
+                    <?php $listshow=3; $limtss=$listshow; $k=0; foreach ($this->document as $doc){ $k++;
+                    	if (!empty($doc['image'])){
+                    	$image = $this->baseUrl()."/companylogo/".$doc['image'];
+                    	}else{
+                    		$image = $this->baseUrl()."/template/file.jpg";
+                    	}
+                    	?>
+                    	<?php if ($k==1){?>
+						<div class="rows">
+						<?php }?>
+                        <div class="col-xs-12 mtb-15">
+                            <div class="single-blog">
+								<div class="title_date">
+									<!-- ថ្ងៃច័ន្ទ ២១ មេសា ២០១៧ -->
+									<?php 
+									$date = strtotime($doc['modify_date']);
+									$spp = str_split(date("d",$date));
+									$num="";
+									foreach ($spp as $ss){
+										$num.=$number[$ss];
+									}
+									$year='';
+									$sp_year = str_split(date("Y",$date));
+									foreach ($sp_year as $y){
+										$year.=$number[$y];
+									}
+									echo $day[date("D",$date)]." ".$num." ".$month[date("m",$date)]." ".$year;?>
+								</div>
+                                <div class="blog-image">
+                                    <a href="<?php echo $this->baseUrl()."/file/".$doc['file_name'];?>" target="_blank" download title="<?php echo $doc['title'];?>">
+                                        <img src="<?php echo $image;?>" alt="">
+                                    </a>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <?php if (count($this->document)==$k){?>
+							</div>
+							<?php }else if ($k==$limtss){ $limtss = $limtss+$listshow;?>
+							</div>
+							<div class="rows ">
+						<?php }?>
                         <?php }?>
                     </div>
 					<div class="section-button text-center pt-20">
