@@ -1,11 +1,16 @@
 .moul {
     font-family: 'Rubik', sans-serif,'Moul';
 }
-.blog-two-area a img {
+
+.blog-two-area .eyepublic a img {
     width: 100%;
     padding: 45px;
     background: #ffffff;
     border: 1px solid #ccc
+}
+.blog-two-area a img {
+    width: 100%;
+    
 }
 .breadcrumb-bar p.subtitle {
     color: #fff;
@@ -515,3 +520,5 @@ h2.hotnews{}
     background: hsla(0, 1%, 3%, 0.3);
     box-shadow: 0px 0px 3px #ffffff;
 }
+.copanytitle{font-weight: bold;text-transform: capitalize;}
+.broderimg{ border:1px solid #ccc;min-height: 90px;}
