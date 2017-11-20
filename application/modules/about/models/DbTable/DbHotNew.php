@@ -33,7 +33,7 @@ class About_Model_DbTable_DbHotNew extends Zend_Db_Table_Abstract
     	return $db->fetchAll($sql);
     }
     function getLastHotNew(){
-    	$sql="SELECT COUNT(id)+1 FROM mini_hotnews WHERE language_id=1 ";
+    	$sql="SELECT COUNT(id)+1 FROM mini_hotnews WHERE language_id=1 order BY id DESC";
     	return $this->getAdapter()->fetchOne($sql);
     }
     function addHotNew($data){
@@ -80,7 +80,7 @@ class About_Model_DbTable_DbHotNew extends Zend_Db_Table_Abstract
 						'description'=>$data['description'.$title],
 						'language_id'=>$row['id'],
 						'status'=>$data['status'],
-						'alias'=>$last_hotnews,
+// 						'alias'=>$last_hotnews,
 						'modify_date'=>date("Y-m-d H:i:s"),
 						'create_date'=>date("Y-m-d H:i:s"),
 						'user_id'=>$this->getUserId(),
