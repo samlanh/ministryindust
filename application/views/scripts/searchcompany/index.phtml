@@ -40,7 +40,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 							</div>
 							<div class="blog-right-result col-md-9	 col-sm-9 col-xs-12">
 								<div class="result_title">
-									<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>"><h4><?php echo $company['com_name'];?></h4></a>
+									<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>"><h4 class='copanytitle'><?php echo $company['com_name'];?></h4></a>
 								</div>
 								<div class="result_description">
 									<ul>
@@ -84,7 +84,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 							<ul class="result-list">
 								<?php foreach ($this->company as $company){?>
 								<li class="pb-20">
-									<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+									<div class="blog-left-result col-md-2 col-sm-2 col-xs-2 broderimg">
 										<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>">
 										<?php 
 										$image = $this->baseUrl()."/images/noimage.jpg";
@@ -92,12 +92,12 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 												$image = $this->baseUrl()."/companylogo/".$company['logo'];
 											}
 										?>
-										<img class="img_border" src="<?php echo $image;?>" />
+										<img class="" src="<?php echo $image;?>" />
 										</a>
 									</div>
 									<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
 										<div class="result_title">
-											<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>"><h4><?php echo $company['com_name'];?></h4></a>
+											<a href="<?php echo $this->baseUrl()."/searchcompany?company=".base64_encode($company['id']);?>"><h4 class="copanytitle"><?php echo $company['com_name'];?></h4></a>
 										</div>
 										<div class="result_description">
 											<ul>
