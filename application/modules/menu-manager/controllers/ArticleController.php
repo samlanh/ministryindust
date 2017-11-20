@@ -55,7 +55,8 @@ class MenuManager_ArticleController extends Zend_Controller_Action {
   				$this->_redirect("/menu-manager/article");
 //   				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/menu-manager/article");
   			}else{
-  				Application_Form_FrmMessage::message("INSERT_SUCCESS");
+  				$this->_redirect("/menu-manager/article/add");
+//   				Application_Form_FrmMessage::message("INSERT_SUCCESS");
   			}
   		}
   		$frm = new MenuManager_Form_FrmCategory();
