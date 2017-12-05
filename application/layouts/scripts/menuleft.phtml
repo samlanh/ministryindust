@@ -33,7 +33,18 @@
 			if($rs['controller']=='index' AND $rs['module']=='product' ){
 				$lblcontroller='product';
 			}
-			
+			if($rs['controller']=='index' AND $rs['module']=='department' ){
+				$lblcontroller='department';
+			}
+			if($rs['controller']=='index' AND $rs['module']=='document' ){
+				$lblcontroller='document';
+			}
+			if($rs['controller']=='index' AND $rs['module']=='company' ){
+				$lblcontroller='company';
+			}
+			if($rs['controller']=='index' AND $rs['module']=='about' ){
+				$lblcontroller='about';
+			}
 			if($module!=$rs['module']){
 				$newarray= array($rs['controller']=>'<a href="">'.$tr->translate(strtoupper($lblcontroller)).'</a>');
 				$menu[$rs['module']]= $newarray;
