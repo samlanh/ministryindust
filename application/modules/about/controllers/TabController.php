@@ -25,7 +25,7 @@ class About_TabController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("TAB_KHMER","TAB_ENGLISH","CREATE_DATE","MODIFY_DATE","STATUS","BY_USER");
+			$collumns = array("TITLE_IN_KHMER","TITLE_IN_ENGLISH","CREATE_DATE","MODIFY_DATE","STATUS","BY_USER");
 			$link_info=array('module'=>'about','controller'=>'tab','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('title_eng'=>$link_info,'title'=>$link_info),0);
 		}catch (Exception $e){

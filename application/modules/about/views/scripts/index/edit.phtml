@@ -1,6 +1,6 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$this->headTitle($tr->translate('EDIT_CATEGORY')); 
+$this->headTitle($tr->translate('Edit About Ministry')); 
 echo $this->headTitle();
 $frm = $this->frm;
 $db = new About_Model_DbTable_Dbabout();
@@ -49,7 +49,7 @@ $countlang = count($this->lang);
 		
 	<table  style="margin: 0 auto; width: 100%">
 		<tr class="header">
-			<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('EDIT_CATEGORY')?></strong></td>
+			<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('Edit About Ministry')?></strong></td>
 		</tr>
 			<tr>
 				<td>
