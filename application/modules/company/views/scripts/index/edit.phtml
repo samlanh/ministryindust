@@ -70,7 +70,7 @@ img.image_viewss {
 							<tr>
 								<td><?php echo $tr->translate("ស្ថាប័នក្រោមចំនុះ")?></td>
 								<td>
-									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department" id="department">
+									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department" id="department" onChange="getDepartment" autoComplete="false"​​ queryExpr="*${0}*">
 										<?php if(!empty($this->rsdepartment)){
 												foreach($this->rsdepartment as $rs){
 										?>	
@@ -80,7 +80,9 @@ img.image_viewss {
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2"><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
+								<td  ><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
+								<td> <input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
+								</td>
 							</tr>
 							<tr>
 								<td colspan="2">
@@ -89,7 +91,7 @@ img.image_viewss {
 							</tr>
 						</table>
 					</td>
-					<td width="50%" style="background:#eaeaea; vertical-align: top;">
+					<td width="40%" style="background:#eaeaea; vertical-align: top;">
 						<table style="margin: 0 auto; width: 100%;" cellspacing="10">
 							<tr>
 								<td><?php echo $tr->translate("ផលិតផល")?></td>
@@ -98,7 +100,7 @@ img.image_viewss {
 							<tr>
 								<td><?php echo $tr->translate("រាជធានី/ខេត្ត")?></td>
 								<td>
-									<select class="fullside" name="province_id" id="province_id" dojoType="dijit.form.FilteringSelect">
+									<select class="fullside" name="province_id" id="province_id" dojoType="dijit.form.FilteringSelect" autoComplete="false"​​ queryExpr="*${0}*">
 										<?php if(!empty($this->rsprovince)){
 												foreach($this->rsprovince as $rs){
 										?>	
@@ -286,4 +288,44 @@ function addRow() {
 }?>
 		title=1;
 	}
+
+ function getDepartment(){
+		if( dijit.byId("department").get("value")==-1){
+		    window.open("<?php echo $this->url(array('module'=>'department','controller'=>'index','action'=>'add')); ?>","_blank");
+		}
+}
+
+function getRefreshGroup(){
+		var co_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rsdepartment));?> );
+		getAllDepartment();
+		loading();
+		setTimeout(stopLoading, 1000);
+}
+
+function loading(){
+document.getElementsByClassName("overlay")[0].style.display="block";
+}
+
+function stopLoading(){
+	 document.getElementsByClassName("overlay")[0].style.display="none";
+}
+
+var url_department = '<?php echo $this->url(array('module'=>'company','controller'=>'index','action'=>'get-departmentname')); ?>';
+function getAllDepartment(){
+	dojo.xhrPost({
+		url:url_department,	
+		content:{ 
+		    //'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			depart_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('department').set('store', depart_store);
+		},
+		error: function(err) {
+			//alert(err);
+		}
+	});
+}
+	
 </script>

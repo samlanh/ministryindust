@@ -22,6 +22,7 @@ class About_HotnewsController extends Zend_Controller_Action {
 						);
 			}
 			$rs_rows= $db->getAllHotNew($search);
+			 
 			$this->view->row = $rs_rows;
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);

@@ -37,7 +37,7 @@ dojo.require("dijit.form.Textarea");
 								<tr>
 									<td><?php echo $tr->translate("ប្រភេទឯកសារមេ")?></td>
 									<td>
-										<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_type" id="document_type">
+										<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_type" id="document_type"  autoComplete="false"​​ queryExpr="*${0}*">
 											<?php if(!empty($this->document_type)){
 													foreach($this->document_type as $rs){
 											?>	
@@ -59,7 +59,7 @@ dojo.require("dijit.form.Textarea");
 								<tr>
 									<td><?php echo $tr->translate("ស្ថានការណ៍")?></td>
 									<td>
-											<select name="status" id="status" dojoType="dijit.form.FilteringSelect" required="true" class="fullside">
+											<select name="status" id="status" dojoType="dijit.form.FilteringSelect" required="true" class="fullside" autoComplete="false"​​ queryExpr="*${0}*">
 											    <option value="1" <?php if($this->rs['status']==1){echo"selected";} ?>>ដំណើរការណ៍</option>
 											    <option value="0" <?php if($this->rs['status']==0){echo"selected";} ?>>ផ្អាកដំណើរការណ៍</option>
 											</select></td>

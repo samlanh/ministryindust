@@ -13,7 +13,7 @@ $url_delete ="";//$this->url(array('module'=>'menu-manager','controller'=>'categ
    <tr>
 		<td><input placeHolder="កូដ ឈ្មោះ ទូរសព្ទ ផលិតផល" value="<?php echo $this->rssearch['txt_search'];?>" dojoType="dijit.form.TextBox" class="fullside" name="txt_search" id="txt_search" type="text"><td>
 		<td>
-			<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department" id="department">
+			<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department" id="department" autoComplete="false"​​ queryExpr="*${0}*">
 				<option value="-1">ជ្រើសរើស ស្ថាប័នក្រោមចំនុះ</option>
 				<?php if(!empty($this->rsdepartment)){
 						foreach($this->rsdepartment as $rs){
@@ -22,7 +22,7 @@ $url_delete ="";//$this->url(array('module'=>'menu-manager','controller'=>'categ
 				<?php }}?>
 			</select>
 		<td>
-		<td><select class="fullside" name="province_id" id="province_id" dojoType="dijit.form.FilteringSelect">
+		<td><select class="fullside" name="province_id" id="province_id" dojoType="dijit.form.FilteringSelect" autoComplete="false"​​ queryExpr="*${0}*">
 				<option value="-1">ជ្រើសរើស រាជធានី/ខេត្ត</option>
 				<?php if(!empty($this->rsprovince)){
 						foreach($this->rsprovince as $rs){

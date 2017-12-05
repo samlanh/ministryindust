@@ -55,6 +55,7 @@ class Document_DocumenttypeController extends Zend_Controller_Action {
   		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
   	}
   	$search = array();
+  	$db = new Document_Model_DbTable_Dbdocumenttype();
   	$this->view->document_type = $db->getAllDocumentType($search);
   }
   public function editAction(){

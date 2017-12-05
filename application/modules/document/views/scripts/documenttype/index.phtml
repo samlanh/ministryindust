@@ -16,7 +16,7 @@ $url_delete ="";//$this->url(array('module'=>'menu-manager','controller'=>'categ
    <tr>
 		<td><input placeHolder="ឈ្មោះឯកសារ" value="<?php echo $this->rssearch['txt_search'];?>" dojoType="dijit.form.TextBox" class="fullside" name="txt_search" id="txt_search" type="text"><td>
 		<td>
-			<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_type" id="document_type">
+			<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_type" id="document_type"​​  autoComplete="false"​​ queryExpr="*${0}*">
 				<option value="-1">ជ្រើសរើស ប្រភេទឯកសារ</option>
 				<?php if(!empty($this->document_type)){
 						foreach($this->document_type as $rs){

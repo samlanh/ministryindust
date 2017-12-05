@@ -37,10 +37,17 @@ dojo.require("dijit.form.Textarea");
 								<td><?php echo $tr->translate("ឈ្មោះឯកសារ")?></td>
 								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_name" id="document_name" type="text"></td>
 							</tr>
+						<!-- 
+							<tr>
+								<td> </td>
+								<td> <input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
+								</td>
+							</tr>
+							 -->
 							<tr>
 								<td><?php echo $tr->translate("ប្រភេទឯកសារ")?></td>
 								<td>
-									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_type" id="document_type">
+									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_type" id="document_type" onChange="getPopupDoc();" autoComplete="false"​​ queryExpr="*${0}*">
 										<?php if(!empty($this->document_type)){
 												foreach($this->document_type as $rs){
 										?>	
@@ -94,8 +101,178 @@ dojo.require("dijit.form.Textarea");
 </tr>
 </table>
 <script type="text/javascript">
+function showAddBlock(){
+	block_id=dijit.byId("block_id").get("value");
+	if(block_id==-1){
+		dijit.byId('pop_block').show();
+	}
+}
+										
 var district_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));?> );
 dojo.ready(function(){	
 	
 });
+
+
+///
+
+function getPopupDoc(){
+	if(block_id=dijit.byId("document_type").get("value")==-1){
+		 dijit.byId('pop_frmpopupdoc').show();
+	   // window.open("<?php //echo $this->url(array('module'=>'document','controller'=>'documenttype','action'=>'add')); ?>","_blank");
+	}
+}
+
+var url_add_document = '<?php echo $this->url(array('module'=>'document','controller'=>'index','action'=>'add-document')); ?>';
+var cat_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->document_type))?>);
+function addNewDoc(){
+	alert(1);
+	dojo.xhrPost({
+		url:url_add_document,	
+		content:{ 
+		    //'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			//co_store  = getDataStorefromJSON('id','name', data);		
+		    //dijit.byId('document_type').set('value', co_store);
+		},
+		error: function(err) {
+			//alert(err);
+		}
+	});	 
+}
+
+function getRefreshGroup(){
+	var co_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->document_type));?> );
+	//addDataToSelectbox(dijit.byId('document_type'), co_store, co_store,co_store );
+	//dijit.byId( 'document_type' ).attr( 'value',co_store);
+	//filterClient();
+	getAllCo();
+	loading();
+	setTimeout(stopLoading, 1000);
+}
+
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+
+function stopLoading(){
+	 document.getElementsByClassName("overlay")[0].style.display="none";
+}
+
+var url_co = '<?php echo $this->url(array('module'=>'document','controller'=>'index','action'=>'get-coname')); ?>';
+function getAllCo(){
+	dojo.xhrPost({
+		url:url_co,	
+		content:{ 
+		    //'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			co_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('document_type').set('value', co_store);
+		},
+		error: function(err) {
+			//alert(err);
+		}
+	});
+}
+
+var district_url = '<?php echo $this->url(array('module'=>'document','controller'=>'index','action'=>'add-document'));?>';
+var doc_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->document_type));?> );
+function addNewDoc(){
+	if(dijit.byId('frm_popupdoc').validate()) {
+		dojo.xhrPost({
+			url:district_url,	
+			form:dojo.byId('frm_popupdoc'),
+			handleAs:"json",
+			load: function(data) {	
+				var myNewItem1 = {					
+						id: data,
+						name: dijit.byId('document_typekh').get('value'),
+				};			
+				addDataToSelectbox(dijit.byId('document_type'), doc_store, myNewItem1, data);	
+				dijit.byId('frm_popupdoc').reset();
+				dijit.byId('pop_frmpopupdoc').hide(); 
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});	
+	}
+}
+
 </script>
+
+
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" data-dojo-type="dijit.Dialog" id="pop_frmpopupdoc" >
+		<form id='frm_popupdoc'  name='frm_popupdoc'  dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+		 <table cellspacing="10" width="70%" style="margin: 0 auto; ">
+			<tr>
+				<td>
+					<fieldset>
+						<legend align="center" ><strong style="font-size: 18px;"><?php echo $tr->translate("ADD_DOCUMENT")?></strong></legend>
+						<table style="margin: 0 auto; width: 100%;text-align: right;" cellspacing="10"  >
+						    <tr>
+								<td nowrap="nowrap"><?php echo $tr->translate("ប្រភេទឯកសារមេ")?></td>
+								<td>
+									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="document_types" id="document_types" autoComplete="false"​​ queryExpr="*${0}*">
+										<?php if(!empty($this->document_types)){
+												foreach($this->document_types as $rs){
+										?>	
+												<option value="<?php echo $rs['id'];?>"><?php echo $rs['title'];?></option>
+										<?php }}?>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("ឈ្មោះឯកសារ")?></td>
+								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_typekh" id="document_typekh" type="text"></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("ឈ្មោះឯកសារ")?></td>
+								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_typeen" id="document_typeen" type="text"></td>
+							</tr>
+							<tr>
+								<td nowrap="nowrap"><?php echo $tr->translate("STATUS")?></td>
+								<td>
+									<select name="block_status" id="block_status" dojoType="dijit.form.FilteringSelect" autoComplete="false"​​ queryExpr="*${0}*">
+									    <option value="1" label="ប្រើប្រាស់">ប្រើប្រាស់</option>
+									    <option value="0" label="មិនប្រើប្រាស់">មិនប្រើប្រាស់</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4" align="center" style="padding-left:40px;">
+									<input iconClass="dijitIconClear" type="reset" value="clear" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"/>
+									<input type="button" value="btn_save_close" name="btn_save_close" label="<?php echo $tr->translate('SAVE_CLOSE');?>" dojoType="dijit.form.Button" 
+										onclick="addNewDoc();" iconClass="dijitEditorIcon dijitEditorIconSave" />
+								</td>
+							</tr>
+						</table>	
+					</fieldset>		
+				</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+
+<div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>	
+
+<style>
+.overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
+.overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
+           border: solid 1px #060522;text-align: center;
+           background: #fff url("<?php echo $this->baseUrl()?>/images/loading.gif") 50% 25%;
+           background-repeat: no-repeat;          
+}
+.overlay-msg{margin-bottom: 10px;bottom: 0px;position: absolute;font-style: italic;color: rgb(19, 19, 19);} 
+</style>

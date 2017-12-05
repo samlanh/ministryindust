@@ -55,6 +55,21 @@ class Document_Model_DbTable_Dbdocumenttype extends Zend_Db_Table_Abstract
     		$db->rollBack();
     	}
 	}
+	
+	function addDocumenttypeAjax($data){
+		$db = $this->getAdapter();
+			$arr = array(
+					'title'=>$data['document_typekh'],
+					'title_en'=>$data['document_typeen'],
+					'parent_id'=>$data["document_types"],
+					'create_date'=>date("Y-m-d"),
+					'user_id'=>$this->getUserId(),
+					'status'=>$data['block_status'],
+			);
+			$id=$this->insert($arr);
+			return $id;
+	}
+	
 	function editDocumenttype($data){
 		$db = $this->getAdapter();
 		$db->beginTransaction();

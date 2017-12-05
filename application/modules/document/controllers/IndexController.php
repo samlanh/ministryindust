@@ -1,10 +1,12 @@
 <?php
 class Document_IndexController extends Zend_Controller_Action {
+	protected $tr;
 	public function init()
     {    	
      /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
+    	$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function indexAction(){
 		$db = new Document_Model_DbTable_Dbdocument();
@@ -56,8 +58,16 @@ class Document_IndexController extends Zend_Controller_Action {
   		Application_Form_FrmMessage::message("Application Error");
   		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
   	}
-  	$this->view->document_type = $db->getAllDocumentType();
+  	$row_duc= $db->getAllDocumentType();
+  	array_unshift($row_duc, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+  	array_unshift($row_duc, array ( 'id' =>'','name' => $this->tr->translate("SELECT_DOCUMENT")));
+  	$this->view->document_type =$row_duc;
+  	
+  	$search = array();
+  	$db = new Document_Model_DbTable_Dbdocumenttype();
+  	$this->view->document_types = $db->getAllDocumentType($search);
   }
+  
   public function editAction(){
   	$db = new Document_Model_DbTable_Dbdocument();
   	$id = $this->getRequest()->getParam('id');
@@ -75,8 +85,52 @@ class Document_IndexController extends Zend_Controller_Action {
   	$result =  $db->getDocumentById($id);
   	if(empty($result)){Application_Form_FrmMessage::Sucessfull("NO_RECORD", "/document/index");}
   	$this->view->rs = $result;
-  	$this->view->document_type = $db->getAllDocumentType();
+  	$row_duc = $db->getAllDocumentType();
+  	
+  	array_unshift($row_duc, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+  	array_unshift($row_duc, array ( 'id' =>'','name' => $this->tr->translate("SELECT_DOCUMENT")));
+  	$this->view->document_type =$row_duc;
+  	 
+  	$search = array();
+  	$db = new Document_Model_DbTable_Dbdocumenttype();
+  	$this->view->document_types = $db->getAllDocumentType($search);
   	
   }
+  
+  function getConameAction(){
+  	if($this->getRequest()->isPost()){
+  		$_data = $this->getRequest()->getPost();
+  		$db = new Document_Model_DbTable_Dbdocument();
+  		$rs_rows= $db->getAllDocument($search);
+  		$this->view->row = $rs_rows;
+  		array_unshift($rs_rows,array(
+  				'id' => -1,
+  				'name' => '---Add New ---',
+  		) );
+  		print_r(Zend_Json::encode($rs_rows));
+  		exit();
+  	}
+  }
+  
+  function getstaffcodeAction(){
+  	if($this->getRequest()->isPost()){
+  		$db = new Application_Model_DbTable_DbGlobal();
+  		$_data = $this->getRequest()->getPost();
+  		$id = $db->getStaffNumberByBranch($_data['branch_id']);
+  		print_r(Zend_Json::encode($id));
+  		exit();
+  	}
+  }
+  
+  function addDocumentAction(){
+  	if($this->getRequest()->isPost()){
+  		$_data = $this->getRequest()->getPost();
+  		$db = new Document_Model_DbTable_Dbdocumenttype();
+  		$rs_rows= $db->addDocumenttypeAjax($_data);
+  		print_r(Zend_Json::encode($rs_rows));
+  		exit();
+  	}
+  }
+  
 }
 

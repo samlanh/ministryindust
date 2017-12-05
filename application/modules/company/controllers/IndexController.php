@@ -1,10 +1,12 @@
 <?php
 class Company_IndexController extends Zend_Controller_Action {
+	protected $tr;
 	public function init()
     {    	
      /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
+    	$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function indexAction(){
 		try{
@@ -59,7 +61,12 @@ class Company_IndexController extends Zend_Controller_Action {
   	$this->view->rsprovince = $db->getAllProvince();
   	
   	$db = new Application_Model_DbTable_DbVdGlobal();
-  	$this->view->rsdepartment = $db->getAllDepartment();
+  	$row = $db->getAllDepartment();
+  	 
+  	array_unshift($row, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+  	array_unshift($row, array ( 'id' =>'','name' => $this->tr->translate("SELECT_DEPARTMENT")));
+  	$this->view->rsdepartment=$row;
+  	
   }
   public function editAction(){
   	$db = new Company_Model_DbTable_Dbcompany();
@@ -83,8 +90,26 @@ class Company_IndexController extends Zend_Controller_Action {
   	$this->view->rsprovince = $db->getAllProvince();
   	 
   	$db = new Application_Model_DbTable_DbVdGlobal();
-  	$this->view->rsdepartment = $db->getAllDepartment();
+  	$row= $db->getAllDepartment();
+  	array_unshift($row, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+  	array_unshift($row, array ( 'id' =>'','name' => $this->tr->translate("SELECT_DEPARTMENT")));
+  	$this->view->rsdepartment =$row;
   	
   }
+  
+  function  getDepartmentnameAction(){
+  	if($this->getRequest()->isPost()){
+  		$_data = $this->getRequest()->getPost();
+  		$db = new Application_Model_DbTable_DbVdGlobal();
+  		$row = $db->getAllDepartment();
+  		array_unshift($row,array(
+  				'id' => -1,
+  				'name' => '---Add New ---',
+  		) );
+  		print_r(Zend_Json::encode($row));
+  		exit();
+  	}
+  }
+  
 }
 

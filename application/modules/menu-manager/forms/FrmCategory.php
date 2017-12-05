@@ -35,6 +35,9 @@ Class MenuManager_Form_FrmCategory extends Zend_Dojo_Form {
 				""=>$this->tr->translate("SELECT_STATUS"),
 				"1"=>$this->tr->translate("ACTIVE"),
 				"0"=>$this->tr->translate("DACTIVE"),
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+				
 		);
 		$_status_search->setMultiOptions($_arrsearch);
 		$_status_search->setAttribs(array(
@@ -60,6 +63,8 @@ Class MenuManager_Form_FrmCategory extends Zend_Dojo_Form {
 		$_arr=array(
 				"1"=>$this->tr->translate("ACTIVE"),
 				"0"=>$this->tr->translate("DACTIVE"),
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		);
 		$_status->setMultiOptions($_arr);
 		$_status->setAttribs(array(
@@ -72,7 +77,10 @@ Class MenuManager_Form_FrmCategory extends Zend_Dojo_Form {
 		$_cateory_parent->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
-				'class'=>'fullside'));
+				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+				));
 		$option = array("0"=>$this->tr->translate("NO_PARENT"));
 		$result = $db->getCategory();
 		if(!empty($result))foreach($result AS $row){
@@ -86,6 +94,8 @@ Class MenuManager_Form_FrmCategory extends Zend_Dojo_Form {
 		$_arr=array(
 				"1"=>$this->tr->translate("FOR_PRODUCT"),
 				"2"=>$this->tr->translate("FOR_MENU_MANAGER"),
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		);
 		$_cate_type->setMultiOptions($_arr);
 		$_cate_type->setAttribs(array(
@@ -138,6 +148,8 @@ Class MenuManager_Form_FrmCategory extends Zend_Dojo_Form {
 				""=>$this->tr->translate("SELECT_STATUS"),
 				"1"=>$this->tr->translate("ACTIVE"),
 				"0"=>$this->tr->translate("DACTIVE"),
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		);
 		$_status_search->setMultiOptions($_arrsearch);
 		$_status_search->setAttribs(array(
@@ -157,6 +169,8 @@ Class MenuManager_Form_FrmCategory extends Zend_Dojo_Form {
 		$_arr=array(
 				"1"=>$this->tr->translate("ACTIVE"),
 				"0"=>$this->tr->translate("DACTIVE"),
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		);
 		$_status->setMultiOptions($_arr);
 		$_status->setAttribs(array(
@@ -169,6 +183,8 @@ Class MenuManager_Form_FrmCategory extends Zend_Dojo_Form {
 		$_category->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				'class'=>'fullside'));
 		$option = array("0"=>$this->tr->translate("CHOOSE_CATEGORY"));
 		$result = $db->getCategoryForMenu();
