@@ -12,10 +12,10 @@ class Other_slideController extends Zend_Controller_Action {
 			$db = new Other_Model_DbTable_DbSlide();
 			if($this->getRequest()->isPost()){
 				$data=$this->getRequest()->getPost();
-				$data['slideshow']="slideshow";
-				$db->updateSlide($data,"slideshow");
+				$db->updateslideshow($data);
+				$this->_redirect("/other/slide");
 			}
-			$this->view->slide = $db->getWebsiteSetting("slideshow");
+			$this->view->slide = $db->getSlideShow("slideshow");
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

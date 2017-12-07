@@ -20,7 +20,11 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		}
 	}
 
-	
+	function getSlideShow(){
+		$db = $this->getAdapter();
+		$sql="SELECT * FROM `mini_slideshow` AS ws";
+		return $db->fetchAll($sql);
+	}
 	public function getWebsiteSetting($label){
 		$db = $this->getAdapter();
 		$sql="SELECT * FROM `mini_website_setting` AS ws WHERE ws.`label`='$label' AND ws.`status`=1 limit 1";

@@ -22,7 +22,7 @@ div.cke_contents.cke_reset {
 <style>
 
 img.image_view {
-    width:auto;
+    width:250px;
     height: 120px;
 }
 
@@ -122,7 +122,7 @@ function addRow() {
 			title=1;
 		}
 			template+='<td style="text-align: center; "><img class="image_view" id="image_view'+col+'" src="<?php echo $this->baseUrl().'/images/slide/no-photo.png';?>" alt=""  /></td>';
-			template+='<td><div class="button_browse"><span>Upload <span><i class="fa fa-camera" aria-hidden="true"></i></span></span><input class="btn_borwse_image" required="true" type="file" id="photo'+col+'" name="photo'+col+'" onchange="loadImage('+col+')"></div></td>';
+			template+='<td><input type="text" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="title'+col+'" id="title'+col+'" value="" placeholder="Title" style="text-align: center;" ><br/><div class="button_browse"><span>Upload <span><i class="fa fa-camera" aria-hidden="true"></i></span></span><input class="btn_borwse_image" required="true" type="file" id="photo'+col+'" name="photo'+col+'" onchange="loadImage('+col+')"></div></td>';
 			template+='<td width="3%" align="center" style="padding: 10px 25px;"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
 		tmp='<tr id="row'+col+'" style="background: #fff; border: solid 1px #bac;">';
 		tmp+="</tr>";
@@ -135,11 +135,8 @@ function addRow() {
 		     parseContent: true,
 		});
  }
-<?php $image = explode(",", $this->slide['value']);
-
-?>
 function initailize() {
-	<?php if (!empty($image)) foreach ($image as $rs){?>
+	<?php if (!empty($this->slide)) foreach ($this->slide as $rs){?>
 	col++;no++;
 	template='';
 	if(title!=1){
@@ -149,9 +146,9 @@ function initailize() {
 		dojo.query("#head-title").append(temp);
 		title=1;
 	}
-		template+='<td style="text-align: center;"><input type="hidden" id="old_phoyto'+col+'" name="old_photo'+col+'" value="<?php echo $rs;?>"><img class="image_view" id="image_view'+col+'" src="<?php echo $this->baseUrl().'/images/slide/'.$rs;?>" alt=""  /></td>';
-		template+='<td><div class="button_browse"><span>Upload <span><i class="fa fa-camera" aria-hidden="true"></i></span></span><input class="btn_borwse_image" type="file" id="photo'+col+'" name="photo'+col+'" onchange="loadImage('+col+')"></div></td>';
-		template+='<td width="3%" align="center" style="padding: 10px 25px;"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+		template+='<td style="text-align: center;"><input type="hidden" id="old_phoyto'+col+'" name="old_photo'+col+'" value="<?php echo $rs['images'];?>"><img class="image_view" id="image_view'+col+'" src="<?php echo $this->baseUrl().'/images/slide/'.$rs['images'];?>" alt=""  /></td>';
+		template+='<td><input type="text" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="title'+col+'" id="title'+col+'" value="<?php echo $rs['title'];?>" placeholder="Title" style="text-align: center;" ><br/><div class="button_browse"><span>Upload <span><i class="fa fa-camera" aria-hidden="true"></i></span></span><input class="btn_borwse_image" type="file" id="photo'+col+'" name="photo'+col+'" onchange="loadImage('+col+')"></div></td>';
+		template+='<td width="3%" align="center" style="padding: 10px 25px;"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"><input type="hidden" id="detail_id'+col+'" name="detail_id'+col+'" value="<?php echo $rs['id'];?>"></td>';
 	tmp='<tr id="row'+col+'" style="background: #fff; border: solid 1px #bac;"">';
 	tmp+="</tr>";
 	dojo.query("#table_row").append(tmp);

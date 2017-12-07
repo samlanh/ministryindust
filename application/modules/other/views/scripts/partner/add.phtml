@@ -1,0 +1,255 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$this->headTitle($tr->translate('ADD_NEW_PARTNER')); 
+echo $this->headTitle();
+$frm = $this->frm;
+$countlang = count($this->lang);
+?>
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.FilteringSelect');
+	dojo.require("dijit.Dialog");
+	require(["dijit/form/CheckBox","dijit/Dialog","dijit/layout/TabContainer"]);
+</script>
+<style>
+.choose_file{
+    position: relative;
+    display: inline-block;
+    border-radius: 8px;
+    border: #b1badf solid 1px;
+    width: 100%;
+    padding: 4px 6px 4px 8px;
+    font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+    color: #7f7f7f;
+    margin-top: 2px;
+    background: #edf7f8;
+}
+.choose_file input[type="text"]{
+    -webkit-appearance:none; 
+    position:absolute;cursor: pointer;
+    top:0; right:0;    width: 100%;
+    opacity:0; 
+}
+</style>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.js"></script>
+<link href="<?php echo $this->baseUrl();?>/ckeditor/samples/sample.css" rel="stylesheet">
+<form action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				if(alias_require==0){ alert("Please check your title alias again.");return false;}
+				loading();
+				return true;
+			}
+
+			return false;
+	</script>
+		
+	<table style="margin: 0 auto; width: 100%">
+		<tr class="header">
+				<td><strong><i class="fa fa-cubes" aria-hidden="true"></i><?php echo $tr->translate('ADD_NEW_ABOUT')?></strong></td>
+			</tr>
+		<tr>
+			<td>
+					<table  width="100%">
+						<tr>
+							<td align="left" valign="top" width="70%">
+							<?php if ($countlang>1){?>
+								<div id="mainTabContainer" style=" position:relative; width:800px; display:block; height: 600px;" dojoType="dijit.layout.TabContainer" region="center" >
+					      	<?php }?>		
+					      	<?php $alias=''; foreach($this->lang as $key=> $rs){ if ($key<1){ $alias = str_replace(' ','',$rs['title']);}?>
+					      			<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="<?php echo $tr->translate(strtoupper($rs['title']));?>" selected="true">
+										<table cellspacing="5" width="100%">
+											<tr>
+												<td  class="bold"><?php echo $tr->translate('TITLE')?></td>
+												<td>
+													<input type="text" onChange="generateAlias('<?php echo $alias;?>');" dojoType="dijit.form.TextBox" required="required" name="title<?php echo str_replace(' ','',$rs['title']);?>"  id="title<?php echo str_replace(' ','',$rs['title']);?>" value="" class="fullside" placeholder="<?php echo $tr->translate("TITLE_IN_".strtoupper($rs['title']));?>" />
+												</td>
+											</tr>
+											<tr>
+												<td  class="bold" style="width:110px"><?php echo $tr->translate('DESCRIPTION')?><?php echo str_replace(' ','',$rs['title']);?></td>
+												<td>
+													<textarea class="ckeditor" height="400px" style="min-height:60px;" id="description<?php echo str_replace(' ','',$rs['title']);?>" name="description<?php echo str_replace(' ','',$rs['title']);?>"></textarea>
+												</td>
+											</tr>
+										</table>
+									</div>
+								<?php }?>
+							<?php if ($countlang>1){?>
+								</div>
+							<?php }?>
+								
+							</td>
+							<td width="30%" class="blog-right">
+								<table cellspacing="5" width="100%">
+									<tr>
+										<td><label id="message" style="color: red;"></label>
+										<?php echo $frm->getElement('title_alias');?></td>
+									</tr>
+									<tr>
+										<td  class="bold"><?php echo $tr->translate('CHOOSE_PARENT')?></td>
+									</tr>
+									<tr>
+										<td><?php echo $frm->getElement('parent');?></td>
+									</tr>
+									<tr><td  class="bold"><?php echo $tr->translate('STATUS')?></td></tr>
+									<tr>
+										<td><?php echo $frm->getElement('status');?></td>
+									</tr>
+									<!--<tr><td  class="bold"><?php //echo $tr->translate('CATE_TYPE')?></td></tr>
+									<tr>
+										<td><?php //echo $frm->getElement('cate_type');?></td>
+									</tr>
+									<tr><td  class="bold"><?php //echo $tr->translate('CHOOSE_ICON')?></td></tr>
+									<tr>
+										<td>
+										 <div class="choose_file">
+								       		 <span>Choose File</span>
+								       		 <input type="text" id="icon_img" name="icon_img" onClick="dijit.byId('directory').show();" />
+								 		 </div>
+								 		 </td>
+									</tr>-->
+									<tr>
+									
+									</tr>
+								</table>
+							</td>								
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
+									iconClass="dijitIconUndo" onclick="window.history.back();" />
+								<input class="button_success" type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="save_close" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 	
+								<input class="button_success" type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate('SAVE_NEW');?>" id="save_new" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+							</td>
+						</tr>
+					</table>	
+			</td>			
+		</tr>
+	</table>	
+	<input type="hidden" id="agent" name="agent" value="0" />	
+</form>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'Directory'"  id="directory" style="width:850px; height:250px; overflow-y: auto;" >
+		<div id="block_all_image" style=" text-align: center;">
+			<?php
+			$dir=opendir(PUBLIC_PATH.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."directory");
+				while(@$entitys=readdir($dir))
+				{
+					$arraydir[]=$entitys;
+				}
+				closedir($dir);
+				$contarray=count($arraydir);
+				for($all=0;$all<$contarray;$all++){
+				if($arraydir[$all] !=='..' and $arraydir[$all]!=="." ){
+				$type=@filetype($arraydir[$all]);
+				$file_parts = pathinfo($arraydir[$all]);
+					if(empty($file_parts['extension']))
+					{?>
+					<div onClick="loadImageFromDirectory('<?php echo $arraydir[$all];?>');" class='blockimagelink'style="cursor: pointer; display: inline-block;border: solid 1px #ccc;text-align: center;padding: 10px;width: 100px;">
+						<img style=" width: 55px; height: 52px;" src='<?php echo $this->baseUrl()."/images/folder.png";?>' width='30px' />
+						<p><?php echo $arraydir[$all];?></p>
+					</div>
+				<?php }
+					else{
+				?>
+					<div onClick="getImageLink('<?php echo $arraydir[$all];?>');" class='blockimagelink'style="cursor: pointer; display: inline-block;border: solid 1px #ccc;text-align: center;padding: 10px;width: 100px;">
+							<img style=" height: 50px;border:1px solid #ccc;" title="<?php echo $arraydir[$all];?>" src="<?php echo $this->baseUrl()."/images/directory/".$arraydir[$all];?>" />
+							<p><?php echo substr($arraydir[$all],0,15);?></p>
+					</div>	
+				<?php	}    
+		          }
+		        }
+			?>
+		</div>
+	</div>
+</div>
+<script>
+dojo.ready(function(){
+	$(window).keydown(function(event){
+		if(event.keyCode == 13) {
+		  event.preventDefault();
+		  return false;
+		}
+	  });
+});
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+var alias_require=0;
+var specialcharalias = [" ",",",".","?",";","/","{","}","|","[","]","~","!","@","#","$","%","^","&","*","(",")","+","=","`","<",">"];
+	var mainDir = '<?php echo PUBLIC_PATH.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."directory";?>';
+	function getImageLink(image){
+		alert(image);
+		 //if(menutype==4){
+			 //$("#controlbytype").css("display", "block");
+		// }
+	}
+	var	url_load_image = '<?php echo $this->url(array('module'=>'menu-manager','controller'=>'category','action'=>'loadimg'));?>';
+	function loadImageFromDirectory(dir){
+		if(dir==""){
+			return false;
+		}
+		dojo.xhrPost({
+			url:url_load_image,	
+			content:{ 
+				'mainDir':mainDir,'dir': dir
+			},
+			handleAs:"json",
+			load: function(data) {	
+				alert(data.image);
+				//sale_client_store  = getDataStorefromJSON('id','name', data);		
+			    //dijit.byId('sale_client').set('store', sale_client_store);
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+	}
+	var old_alias="";
+	function generateAlias(alias){
+		title = dijit.byId('title'+alias).get('value');
+		var title_alias = title.split(' ').join('-');
+		//title_alias = ((title_alias.split('?').join('-')).split('"').join('-')).split('&').join('');
+		for(var i=0; i<specialcharalias.length;i++){
+			title_alias = title_alias.split(specialcharalias[i]).join('');
+		}
+		dijit.byId("title_alias").attr('value',title_alias.toLowerCase());
+		checkTitle();
+	}
+	url_CheckTitle = '<?php echo $this->url(array('module'=>'menu-manager','controller'=>'category','action'=>'check-title-alias'));?>';
+	function checkTitle(){
+		title_alias = dijit.byId('title_alias').get('value');
+		dojo.xhrPost({
+			url:url_CheckTitle,	
+			content:{ 
+				'title_alias': title_alias
+			},
+			handleAs:"json",
+			load: function(data) {	
+				if(data !== false ){
+			   		document.getElementById('message').innerHTML ='Alias is duplicated you can set new alias or clear alias will auto generate.';
+			   		dijit.byId('title_alias').focus();
+			   		alias_require=0;
+				}else{
+					document.getElementById('message').innerHTML ='';
+					alias_require=1;
+				}
+				old_alias =dijit.byId('title_alias').get('value');
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+	}
+	
+	 function checkSpcialChar(event){
+         if(((event.keyCode > 64 && event.keyCode < 91) || event.keyCode == 45 || (event.keyCode > 96 && event.keyCode < 123) || event.keyCode == 8 || (event.keyCode >= 48 && event.keyCode <= 57))){
+             event.returnValue = true;
+             return;
+          }
+          event.returnValue = false;
+       }
+</script>

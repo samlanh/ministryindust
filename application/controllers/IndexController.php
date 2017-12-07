@@ -24,31 +24,17 @@ class IndexController extends Zend_Controller_Action
 			}			
 		}
 		$this->view->document_type = $db->getAllDocumentType();
-// 		$video = $db->getWebsiteSetting("youtubeframe");
-// 		if(!empty($video)){
-// 			if(!empty($video['value'])){
-// 				$this->view->videos = $video;
-// 			}			
-// 		}
 		
 		$homecategory = $db->getWebsiteSetting("homecategorycontent");
 		if (!empty($homecategory['value'])){
 			$this->view->categoryinfo = $db->getCategoryByID($homecategory['value']);
 			$this->view->gethomearticle = $db->getArcticleByCateLastesArticle($homecategory['value']);
 		}
-		
-		$slideshow = $db->getWebsiteSetting("slideshow");
-		if(!empty($slideshow)){
-			if(!empty($slideshow['value'])){
-				$image = explode(",", $slideshow['value']);
-				$this->view->slideshow = $image;
-			}
-		}
+		$this->view->slideshow = $db->getSlideShow();
 		
 		$document = $db->getHomeDocument();
 		$this->view->document = $document;
 		$this->view->home_article = $db->getWebsiteSetting("home_article");
-// 		$this->view->getAllDepart = $db->getAllDepartment();
 		$this->view->tab = $db->getAllTab();
 		
 		$db = new Application_Model_DbTable_DbGlobal();
