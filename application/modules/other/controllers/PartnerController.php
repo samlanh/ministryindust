@@ -61,6 +61,7 @@ class Other_partnerController extends Zend_Controller_Action {
   			if(!empty($_data['save_close'])){
   				$this->_redirect("/other/partner");
   			}else{
+  				$this->_redirect("/other/partner/add");
   				Application_Form_FrmMessage::message("INSERT_SUCCESS");
   			}
   		}

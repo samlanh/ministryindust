@@ -61,6 +61,7 @@ class Other_bannerController extends Zend_Controller_Action {
   			if(!empty($_data['save_close'])){
   				$this->_redirect("other/banner");
   			}else{
+  				$this->_redirect("other/banner/add");
   				Application_Form_FrmMessage::message("INSERT_SUCCESS");
   			}
   		}
