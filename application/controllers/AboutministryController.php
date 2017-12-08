@@ -14,6 +14,10 @@ class AboutministryController extends Zend_Controller_Action
 		$db = new Department_Model_DbTable_Dbdepartment();
     	$this->view->rsfirst = $db->getAboutFirstRecord($param);
     	
+        $db = new Application_Model_DbTable_DbGlobalSelect();
+        $bannerlist = $db->getWebsiteSetting("banner");
+        $this->view->banner = $bannerlist;//explode(",", $bannerlist['value']);
+
     	$db = new Application_Model_DbTable_DbVdGlobal();
     	$this->view->rsdepartment = $db->getAllParentAbout();
     }  

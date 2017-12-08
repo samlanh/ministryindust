@@ -63,7 +63,7 @@ class SearchcompanyController extends Zend_Controller_Action
     	}
     	
     	$bannerlist = $db->getWebsiteSetting("banner");
-    	$this->view->banner = explode(",", $bannerlist['value']);
+        $this->view->banner = $bannerlist;//explode(",", $bannerlist['value']);
     	$this->view->param = $param;
     	
     }  

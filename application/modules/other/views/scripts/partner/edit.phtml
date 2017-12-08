@@ -3,6 +3,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $this->headTitle($tr->translate('ADD_NEW_PARTNER')); 
 echo $this->headTitle();
 $frm = $this->frm;
+$row = $this->row;
 $countlang = count($this->lang);
 ?>
 <script type="text/javascript">	
@@ -108,13 +109,22 @@ img.image_viewss {
 								<tr>
 								
 								<td style="text-align: center;background: #fff;">
-									<img class="image_viewss" id="image_view" src="<?php echo $this->baseUrl().'/images/no-image.png';?>" alt=""  />
+									<?php if (!empty($row['image'])){?>
+										<img class="image_viewss" id="image_view" src="<?php echo $this->baseUrl()."/images/slide/partner/".$row['image'];?>" alt=""  />
+									<?php }else{?>
+										<img class="image_viewss" id="image_view" src="<?php echo $this->baseUrl().'/images/no-image.png';?>" alt=""  />
+									<?php }?>
 									<div class="button_browse">
+										<input type="hidden" id="old_photo" name="old_photo" value="<?php echo $row['image'];?>">
 										<span><?php echo $tr->translate("ឡូហ្គូក្រុមហ៊ុន/Logo")?> (jpg, .jpeg, .png)<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
 										<input class="btn_borwse_image"  type="file" id="photo" name="photo" onchange="loadImagess()">
 									</div>
 								</td>
 							</tr>
+
+									<tr>
+										<td><input type="hidden" name="id" value="<?= $row['id'] ?>"></td>
+									</tr>
 
 								</table>
 							</td>								
@@ -131,7 +141,7 @@ img.image_viewss {
 			</td>			
 		</tr>
 	</table>	
-	<input type="hidden" id="agent" name="agent" value="0" />	
+
 </form>
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'Directory'"  id="directory" style="width:850px; height:250px; overflow-y: auto;" >

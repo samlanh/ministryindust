@@ -387,7 +387,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 				 </div>
 			</div>
 		</div>
-		<?php if (!empty($this->partner)){?>
+	<!--	<?php if (!empty($this->partner)){?>
 		<div class="partner ptb-20">
 			<div class="container">
 				 <div class="section-title-light text-center fix">
@@ -404,5 +404,33 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 				 </div>
 			 </div>
 	   </div>  
+	   <?php }?> -->
+
+
+	   <?php if (!empty($this->partner2)){?>
+		<div class="partner ptb-20">
+			<div class="container">
+				 <div class="section-title-light text-center fix">
+                    <h2><?php echo $tr->translate("PARTNER");?></h2>
+                </div>
+				<div class="row">
+					<div class="partner_list_content">
+						<ul class="partner_list">
+						<?php foreach ($this->partner2 as $rs){
+							if($rs['image'] == ''){
+									//no image
+							}else{
+							?>
+							<li class="col-md-2 col-sm-3 col-xs-6 partnerlist">
+							<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/internal/index/partner/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img src="<?php echo $this->baseUrl()."/images/slide/partner/".$rs['image']?>" /></a><li>
+						<?php
+							}
+						 }?>
+						</ul>
+					</div>
+				 </div>
+			 </div>
+	   </div>  
 	   <?php }?>
+ 
  

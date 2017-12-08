@@ -80,9 +80,9 @@ $imgtick='<img src="'.$this->baseUrl().'/images/icon/apply2.png"/>';
 			  	<tr class="<?php echo $attb; ?>">
 			  		<td class="items-no"><?php echo $r;?></td>
 			  		<td class="items"><a href="<?php echo $this->url(array('controller'=>'partner','action'=>'edit','id'=>$row['id']));?>"><?php echo $row['title'];?></a></td>
-			  		<td class="items"><img src="<?php echo $this->baseUrl()."/images/partner".$row['image'];?>" /></td>
+			  		<td class="items"><img style="max-height:50px;" src="<?php echo $this->baseUrl()."/images/slide/partner/".$row['image'];?>" /></td>
 			  		<td class="items"><?php if($row['status']==1){echo  $imgtick;} else{echo $imgnone;};?></td>
-			  		<td align="center" class="items"><?php echo $rows['user_name'];?></td>
+			  		<td align="center" class="items"><?php echo $row['user_name'];?></td>
 			  	</tr>
 			  	<?php }
 			  	?>

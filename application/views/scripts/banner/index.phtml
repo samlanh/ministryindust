@@ -1,0 +1,76 @@
+<?php 
+$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("SEARCH_ORG");?></title>
+	<!-- Breadcrumb Area Start-->
+		<div class="breadcrumb-area bgimage" style="background-image: url('<?php echo $this->baseUrl()."/template/search.jpg"?>');">	
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="breadcrumb-text text-left">
+							<h2><?php echo $tr->translate("SEARCH_ORG");?></h2>
+							<div class="breadcrumb-bar">
+							<p class="subtitle"><?php echo $tr->translate("Find a small enterprise, small enterprise, water resources and other institutions that are officially registered in the ministry");?></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb Area End -->
+		<div class="blog-two-area ptb-20">
+			<div class="container">
+                 <div class="row">
+					<div class="col-md-8 col-sm-12 col-xs-12">
+						<?php  if (!empty($this->param['ads'])){ 
+							$banner = $this->banner_info;?>
+						<div class="page_title">
+							<h3><?php echo $tr->translate("BANNER");?></h3>
+						</div>
+						<div class="result-blog ptb-20">
+							<div class="blog-left-result col-md-3 col-sm-3 col-xs-12">
+								<?php 
+								 $image = $this->baseUrl()."/images/noimage.jpg";
+							   if (!empty($banner['image'])){
+								$image = $this->baseUrl()."/images/banner/".$banner['image'];
+									}
+								?>
+								<img src="<?php echo $image;?>" />
+							</div>
+							<div class="blog-right-result col-md-9	 col-sm-9 col-xs-12">
+								<div class="result_title">
+									<a href="<?php echo $this->baseUrl()."/banner/index/ads/=".base64_encode($banner['id']);?>"><h4 class='copanytitle'><?php echo $banner['title'];?></h4></a>
+								</div>
+								<div class="result_description">
+									
+								
+								</div>
+							</div>
+							<div class="clearboth"></div>
+							<div class="ptb-20">
+								
+								<p class="banner_desc">
+									<?php echo $banner['description'] ;?>									
+								</p>
+							</div>
+						
+						</div>
+				<?php } ?>
+					</div>
+
+					<div class="col-md-4 col-sm-12 col-xs-12">
+				<?php if (!empty($this->banner)){?>
+						<div class="blog-advertise" style="margin-top:30px;">
+							<?php foreach ($this->banner as $rs){?>
+							<div class="row_advertise pb-20"> 
+								<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/banner/index/ads/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img src="<?php echo $this->baseUrl()."/images/banner/".$rs['image']?>" /></a>
+							</div>
+							<?php }?>
+						</div>
+				<?php }?>
+		 			</div>
+
+				</div>
+			</div>
+		</div>	

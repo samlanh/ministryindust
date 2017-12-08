@@ -105,16 +105,16 @@ if ($currentlang==1){
 	                        <?php }?>
 					</div>
 					<div class="col-md-4 col-sm-12 col-xs-12">
-						<?php if (!empty($this->banner)){?>
-							<div class="blog-advertise" style="margin-top:30px;">
-								<?php foreach ($this->banner as $rs){?>
-								<div class="row_advertise pb-20"> 
-									<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
-								</div>
-								<?php }?>
+				<?php if (!empty($this->banner)){?>
+						<div class="blog-advertise" style="margin-top:30px;">
+							<?php foreach ($this->banner as $rs){?>
+							<div class="row_advertise pb-20"> 
+								<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/banner/index/ads/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img style="width:100%" src="<?php echo $this->baseUrl()."/images/banner/".$rs['image']?>" /></a>
 							</div>
-						<?php }?>
-				 	</div>
+							<?php }?>
+						</div>
+				<?php }?>
+		 			</div>
 				 </div>
 			</div>
 		</div>

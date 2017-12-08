@@ -204,7 +204,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 						<div class="blog-advertise" style="margin-top:30px;">
 							<?php foreach ($this->banner as $rs){?>
 							<div class="row_advertise pb-20"> 
-								<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
+								<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/banner/index/ads/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img src="<?php echo $this->baseUrl()."/images/banner/".$rs['image']?>" /></a>
 							</div>
 							<?php }?>
 						</div>

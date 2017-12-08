@@ -26,9 +26,14 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 		return $db->fetchAll($sql);
 	}
 	public function getWebsiteSetting($label){
+	$db = $this->getAdapter();
+	$sql="SELECT * FROM `mini_website_setting` AS ws WHERE ws.`label`='$label' AND ws.`status`=1 limit 1";
+	if($label=='banner'){
 		$db = $this->getAdapter();
-		$sql="SELECT * FROM `mini_website_setting` AS ws WHERE ws.`label`='$label' AND ws.`status`=1 limit 1";
-		return $db->fetchRow($sql);
+		$sql="SELECT * FROM `mini_banner` WHERE `status` = 1 ORDER BY id DESC";
+		return $db->fetchAll($sql);
+	}	
+	return $db->fetchRow($sql);
 	}
 	
 	public function getCateIdByAlias($cate_alias){
@@ -413,6 +418,16 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 	    	FROM `mini_tab` WHERE language_id=$lang ORDER BY id ASC";
     	return $db->fetchAll($sql);
     
+    }
+
+    public function  getPartnerInfoById($id){    	
+    	$sql="SELECT * FROM mini_partner WHERE id = $id LIMIT 1";
+    	return  $this->getAdapter()->fetchRow($sql);
+    }
+
+     public function  getBannerInfoById($id){    	
+    	$sql="SELECT * FROM mini_banner WHERE id = $id LIMIT 1";
+    	return  $this->getAdapter()->fetchRow($sql);
     }
 }
 ?>

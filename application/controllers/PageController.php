@@ -41,6 +41,11 @@ class PageController extends Zend_Controller_Action
 		}else{
 			$this->_redirect("/index");
 		}
+
+		$db = new Application_Model_DbTable_DbGlobalSelect();
+		$bannerlist = $db->getWebsiteSetting("banner");
+        $this->view->banner = $bannerlist;//explode(",", $bannerlist['value']);
+
 		$this->view->menuright= $db->getMenuRight();
 		$this->view->param = $param;
     }  

@@ -20,7 +20,7 @@ class DocumentsController extends Zend_Controller_Action
     	
     	$this->view->document_type = $db->getAllDocumentType();
     	$bannerlist = $db->getWebsiteSetting("banner");
-    	$this->view->banner = explode(",", $bannerlist['value']);
+        $this->view->banner = $bannerlist;//explode(",", $bannerlist['value']);
     	$doc=1;
     	if (!empty($param['dctype'])){
     		$this->view->param = $param['dctype'];

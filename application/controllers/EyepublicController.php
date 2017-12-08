@@ -19,7 +19,7 @@ class EyepublicController extends Zend_Controller_Action
     	$db = new Application_Model_DbTable_DbGlobalSelect();
     	
     	$bannerlist = $db->getWebsiteSetting("banner");
-    	$this->view->banner = explode(",", $bannerlist['value']);
+        $this->view->banner = $bannerlist;//explode(",", $bannerlist['value']);
     	
     	$documents = $db->getEyepublicDocument();
     	

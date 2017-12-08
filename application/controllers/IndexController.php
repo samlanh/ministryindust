@@ -23,6 +23,13 @@ class IndexController extends Zend_Controller_Action
 				$this->view->partner = $partner;
 			}			
 		}
+
+		$dbP = new Other_Model_DbTable_DbPartner();
+		$slidepartner2 = $dbP->getAll();
+		if(!empty($slidepartner2)){	
+				$this->view->partner2 = $slidepartner2;				
+		}
+
 		$this->view->document_type = $db->getAllDocumentType();
 		
 		$homecategory = $db->getWebsiteSetting("homecategorycontent");

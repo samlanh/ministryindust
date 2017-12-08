@@ -1,7 +1,7 @@
 <?php 
 $db = new Application_Model_DbTable_DbGlobalSelect();
-$bannerlist = $db->getWebsiteSetting("banner");
-$banner = explode(",", $bannerlist['value']);
+//$bannerlist = $db->getWebsiteSetting("banner");
+//$banner = explode(",", $bannerlist['value']);
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <title><?php echo $this->rsfirst['title'];?></title>
@@ -45,15 +45,17 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 							<li <?php if($this->param==$rs['alias'] OR ($this->param=='' AND $key==0)){echo "class='activemenu'";}?>><a href="<?php echo $this->url(array('controller'=>'departments','action'=>'index','dept'=>$rs['alias']));?>"><?php echo $rs['name'];?></a></li>
 							<?php }?>
 						</ul>
-					<?php if (!empty($banner)){?>
-							<div class="blog-advertise" style="margin-top:30px;">
-								<?php foreach ($banner as $rs){?>
-								<div class="row_advertise pb-20"> 
-									<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
+						
+						<?php if (!empty($this->banner)){?>
+								<div class="blog-advertise" style="margin-top:30px;">
+									<?php foreach ($this->banner as $rs){?>
+									<div class="row_advertise pb-20"> 
+										<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/banner/index/ads/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img style="width:100%" src="<?php echo $this->baseUrl()."/images/banner/".$rs['image']?>" /></a>
+									</div>
+									<?php }?>
 								</div>
-								<?php }?>
-							</div>
-					<?php }?>
+						<?php }?>
+		 			
 					</div>
 				</div>
 			</div>

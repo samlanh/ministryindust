@@ -7,12 +7,11 @@
 	//$base_url = Application_Form_FrmMessage::getUrl("/");
 	$menu_info = $this->menu_info; 
 	$db = new Application_Model_DbTable_DbGlobalSelect();
-	$articleperpage = $db->getWebsiteSetting("items_per_page");
-	$bannerlist = $db->getWebsiteSetting("banner");
-	
+	$articleperpage = $db->getWebsiteSetting("items_per_page");	
+
 	$loadmordata= $articleperpage['value'];
 	
-	$banner = explode(",", $bannerlist['value']);
+	
 if(!empty($this->param['param'])){
 ?>
 <title><?php echo $menu_info['title_menu'];?></title>
@@ -155,11 +154,11 @@ if(!empty($this->param['param'])){
 						                        <?php }?>
 						                    </div>
 						                    <div class="col-md-4 col-sm-12 col-xs-12">
-						                 	   <?php if (!empty($banner)){?>
+						                 	   <?php if (!empty($this->banner)){?>
 												<div class="blog-advertise">
-													<?php foreach ($banner as $rs){?>
+													<?php foreach ($this->banner as $rs){?>
 													<div class="row_advertise pb-20"> 
-														<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
+														<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/banner/index/ads/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img style="width:100%" src="<?php echo $this->baseUrl()."/images/banner/".$rs['image']?>" /></a>
 													</div>
 													<?php }?>
 												</div>
@@ -213,13 +212,14 @@ if(!empty($this->param['param'])){
 					                               </div>
 					                            </div>
 					                        </div>
-					                    </div>
+					                    </div>					      
+
 				                      	<div class="col-md-4 col-sm-12 col-xs-12">
-				                   			<?php if (!empty($banner)){?>
+				                   			<?php if (!empty($this->banner)){?>
 											<div class="blog-advertise">
-												<?php foreach ($banner as $rs){?>
+												<?php foreach ($this->banner as $rs){?>
 												<div class="row_advertise pb-20"> 
-													<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
+													<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/banner/index/ads/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img style="width:100%" src="<?php echo $this->baseUrl()."/images/banner/".$rs['image']?>" /></a>
 												</div>
 												<?php }?>
 											</div>
@@ -514,13 +514,14 @@ if(!empty($this->param['param'])){
 	                                            <h6><a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"; ?>"><?php echo $rs['title'];?></a></h6>
 	                                        </div>
 	                                    </div>
-	                                    <?php }?>
+	                                    <?php }?>          
+
 	                                    <div class="blog-advertise">
-											<?php foreach ($banner as $rs){?>
-											<div class="row_advertise pb-20"> 
-												<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
-											</div>
-											<?php }?>
+											<?php foreach ($this->banner as $rs){?>
+										<div class="row_advertise pb-20"> 
+											<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/banner/index/ads/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img style="width:100%" src="<?php echo $this->baseUrl()."/images/banner/".$rs['image']?>" /></a>
+										</div>
+										<?php }?>
 										</div>
 	                                </div>
 	                            </div>
@@ -662,17 +663,17 @@ if(!empty($this->param['param'])){
                         </div>
                         <?php }?>
                     </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                 	   <?php if (!empty($banner)){?>
-					<div class="blog-advertise">
-						<?php foreach ($banner as $rs){?>
-						<div class="row_advertise pb-20"> 
-							<img src="<?php echo $this->baseUrl()."/images/banner/".$rs;?>" class="ad_img" />
+                  <div class="col-md-4 col-sm-12 col-xs-12">
+				<?php if (!empty($this->banner)){?>
+						<div class="blog-advertise" style="margin-top:30px;">
+							<?php foreach ($this->banner as $rs){?>
+							<div class="row_advertise pb-20"> 
+								<?php if($rs['option_link']==1){ echo '<a href="'.$this->baseUrl().'/banner/index/ads/'.base64_encode($rs['id']).'">'; }else{ echo '<a href="'.$rs['link'].'" target="_blank">'; } ?><img style="width:100%" src="<?php echo $this->baseUrl()."/images/banner/".$rs['image']?>" /></a>
+							</div>
+							<?php }?>
 						</div>
-						<?php }?>
-					</div>
-					<?php }?>
-					</div>
+				<?php }?>
+		 			</div>
                 </div>
             </div>
         </div>
