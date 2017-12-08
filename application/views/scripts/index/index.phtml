@@ -35,10 +35,10 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 		<div class="slider-three-area">
 		    <div class="slider-wrapper">
 		    <?php if(!empty($this->slideshow))  foreach($this->slideshow as $key => $ss){?>
-		        <div  data-dot="<?php echo $key+1;?>" class="single-slide" style="background-image: url('<?php echo $this->baseUrl()."/images/slide/".$ss; ?>');">
+		        <div  data-dot="<?php echo $key+1;?>" class="single-slide" style="background-image: url('<?php echo $this->baseUrl()."/images/slide/".$ss['images']; ?>');">
                     <div class="banner-content">
                         <div class="text-content-slide">
-                                        <h3 class="slide-title">ទិដ្ឋភាពមួយផ្នែកនៃឧស្សាហកម្ម</h3>
+                                        <h3 class="slide-title"><?php echo $ss['title'];?></h3>
                                   </div>
                     </div>
 		        </div>
