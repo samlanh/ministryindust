@@ -122,7 +122,7 @@ class Other_Model_DbTable_DbSlide extends Zend_Db_Table_Abstract
 						$image_name = "";
 					}
 					$_arr=array(
-							'title'      => "",
+							'title'      => $_data['title'.$i],
 							'images'      => $image_name,
 							'link'  =>"",
 							'create_date'=>date("Y-m-d H:i:s"),
