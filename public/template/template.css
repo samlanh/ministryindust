@@ -170,6 +170,8 @@ img.img_border {
     width: 100%;
     padding: 10px;
     text-align: center;
+    font-weight: 600;
+	font-size: 14px;
 }
 .tap-area .tapfeature ul li a:hover,
 .tap-area .tapfeature ul li.active a {
@@ -177,6 +179,7 @@ img.img_border {
 }
 .tap-area  .content-tap {
     padding: 30px 0;
+    font-size: 15px;
 }
 .tap-area .content-tap ul.list_compay {
     list-style: disc;
