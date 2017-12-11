@@ -65,7 +65,7 @@ $module=$request->getModuleName();
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>template.css">
         <link rel="stylesheet" href="<?php echo $this->baseUrl()."/template/"?>css/responsive.css">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="<?php echo $this->baseUrl()."/template/"?>js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <script>		
 			var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';

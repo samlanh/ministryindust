@@ -38,6 +38,7 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+    		$dbg = new Application_Model_DbTable_DbGlobal();
     		$part= PUBLIC_PATH.'/companylogo/';
     		$photoname = str_replace(" ", "_", $data['document_name']);
     		$name = $_FILES['photo']['name'];
@@ -45,15 +46,8 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     		$photo='';
     		if (!empty($name)){
     			$tem =explode(".", $name);
-    			$image_name = date("Y").date("m").date("d").time().".".end($tem);
-//     			$image_name =iconv('ISO-8859-1', 'UTF-8//IGNORE', $image_name);
-    			$tmp = $_FILES['photo']['tmp_name'];
-    			
-    			if(move_uploaded_file($tmp, $part.$image_name)){
-    				$photo = $image_name;
-    			}
-    			else
-    				$string = "Image Upload failed";
+					$new_image_name = date("Y").date("m").date("d").time().".".end($tem);
+					$photo = $dbg->resizeImase($_FILES['photo'], $part,$new_image_name);
     				
     		}
     		
@@ -98,6 +92,7 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$db->beginTransaction();
 		try{
+			$dbg = new Application_Model_DbTable_DbGlobal();
 			$part= PUBLIC_PATH.'/companylogo/';
 			$photoname = str_replace(" ", "_", $data['document_name']);
 			$name = $_FILES['photo']['name'];
@@ -105,15 +100,8 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
 			$photo='';
 			if (!empty($name)){
 				$tem =explode(".", $name);
-				$image_name = date("Y").date("m").date("d").time().".".end($tem);
-// 				$image_name =iconv('ISO-8859-1', 'UTF-8//IGNORE', $image_name);
-				$tmp = $_FILES['photo']['tmp_name'];
-				 
-				if(move_uploaded_file($tmp, $part.$image_name)){
-					$photo = $image_name;
-				}
-				else
-					$string = "Image Upload failed";
+				$new_image_name = date("Y").date("m").date("d").time().".".end($tem);
+				$photo = $dbg->resizeImase($_FILES['photo'], $part,$new_image_name);
 		
 			}else{
 				$photo = $data['old_photo'];
@@ -152,7 +140,7 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
 			$this->update($arr, $where);
 			$db->commit();
 		}catch(exception $e){
-			echo $e->getMessage();exit();
+// 			echo $e->getMessage();exit();
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			$db->rollBack();

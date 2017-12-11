@@ -53,6 +53,9 @@ dojo.require("dijit.form.Textarea");
 								<tr>
 									<td><?php echo $tr->translate("រូបតំណាង")?></td>
 									<td>
+										<?php if (!empty($this->rs['image'])){?>
+										<img src="/ministryindust/trunk/public/companylogo/<?php echo $this->rs['image'];?>" style=" width: 70px;">
+										<?php }?>
 										<input class="fullside" name="photo" id="photo" type="file" accept=".jpg, .jpeg, .png">
 										<input class="fullside" name="old_photo" id="old_photo" type="hidden" value="<?php echo $this->rs['image'];?>" >
 									</td>
