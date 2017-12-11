@@ -97,6 +97,25 @@ img.img_border {
 /*================================================
 	Start News & Event Home
 ========================================*/
+.owl-carousel .owl-item .single-blog.listnews a {/* new 11-12-2017*/
+    text-align: center; 
+}
+.owl-carousel .owl-item .single-blog.listnews img { /* new 11-12-2017*/
+    max-height: 220px;
+    min-height: 220px;
+    width: initial;
+    display: initial;
+}
+.owl-carousel .owl-item .single-blog.listnews .blog-text h5 {/* new 11-12-2017*/
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
+}
+.owl-carousel .owl-item .single-blog.listnews .blog-text p {/* new 11-12-2017*/
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
+}
 .blog-two-area.newsevent {
     background: #00a859;
 }
@@ -125,6 +144,13 @@ img.img_border {
     background: none;
     color: #00a859;
 	    margin-top: 0;
+}
+.single-blog.listnews .blog-text .readmore a.readmore {/* new 11-12-2017*/
+    box-shadow: 0px 0px 3px #868585;
+    background: -webkit-linear-gradient(#ffffff, #f3f2f2);
+    background: -o-linear-gradient(#ffffff, #f3f2f2);
+    background: -moz-linear-gradient(#ffffff, #f3f2f2);
+    background: linear-gradient(#ffffff, #f3f2f2);
 }
 .single-blog.listnews .blog-text .readmore:after {
     background: none;
@@ -402,6 +428,18 @@ End Result company search
     box-shadow: 0px 1px 3px #868585;
   
 }
+.list .blog-image {
+   /*  min-height: 235px; */
+    margin-bottom: 10px;
+}
+.list .blog-image a{
+	text-align: center;
+}
+.list .blog-image img {
+    max-height: 220px;
+    min-height: 220px;
+    /* width: 100%; */
+}
 .single-blog-post .list .blog-post-text {
     padding: 10px;
 }
@@ -417,6 +455,9 @@ End Result company search
     font-size: 14px;
     margin-bottom: 10px;
     color: #000;
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
 }
 .blog-post-text p.shordescription {
     line-height: 1.5em;
