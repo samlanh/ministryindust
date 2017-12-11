@@ -109,7 +109,7 @@ if(!empty($this->param['param'])){
 								                                </div> -->  
 							                                    <p>
 							                                     <?php
-																		echo mb_substr($article['description'],0,100, "utf-8")."...";
+																		echo mb_substr(strip_tags($article['description']),0,100, "utf-8")."...";
 																	?> 
 																</p>
 																<div class="readmore">

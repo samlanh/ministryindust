@@ -79,7 +79,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
                                 <div class="blog-text">
                                     <h5><a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"?>"><?php echo mb_substr($rs['title'],0,120, "utf-8");?></a></h5>
                                     <p><?php
-                                    	echo mb_substr($rs['description'],0,100, "utf-8")."...";
+                                    	echo mb_substr(strip_tags($rs['description']),0,100, "utf-8")."...";
                                     ?></p>
                                     <div class="readmore">
 										<a href="<?php echo $this->baseUrl()."/page/index?article=".$rs['alias_article'].".html"?>" class="default-btn readmore"><span><?php echo $tr->translate("READ_MORE");?></span></a>
