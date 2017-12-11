@@ -58,8 +58,10 @@
         loop:true,
         animateOut: 'fadeOut',
         animateIn: 'fadeIn',
-        smartSpeed: 2500,
+        smartSpeed: 3000,
         items:1,
+        autoplay:true,
+        nav:false,
         dotData:true,
         responsive:{
             0:{

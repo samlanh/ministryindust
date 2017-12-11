@@ -214,6 +214,9 @@
 
 /* small mobile :320px. */
 @media (max-width: 767px) {
+.blog-left-result {
+    padding: 0;
+}
 .onpcbrowser{
 	display: none;
 }

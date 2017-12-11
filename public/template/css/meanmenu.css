@@ -9,7 +9,7 @@
 ####################################################################### */
 
 /* hide the link until viewport size is reached */
-@font-face{font-family:'khmer os battambang';src:url("../font/KHMEROSBATTAMBANG.TTF");}
+@font-face{font-family:'khmer os battambang';src:url("../fonts/KH-BATTAMBANG.TTF");}
 a.meanmenu-reveal {display: none;}
 /* when under viewport size, .mean-container is added to body */
 .mean-container .mean-bar {
