@@ -48,18 +48,14 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+    		$dbg = new Application_Model_DbTable_DbGlobal();
     		$part= PUBLIC_PATH.'/companylogo/';
     		$name = $_FILES['photo']['name'];
     		$photo='';
     		if (!empty($name)){
     			$tem =explode(".", $name);
-    			$image_name = time()."logo.".end($tem);
-    			$tmp = $_FILES['photo']['tmp_name'];
-    			if(move_uploaded_file($tmp, $part.$image_name)){
-    				$photo = $image_name;
-    			}
-    			else
-    				$string = "Image Upload failed";
+    			$new_image_name = date("Y").date("m").date("d").time().".".end($tem);
+    			$photo = $dbg->resizeImase($_FILES['photo'], $part,$new_image_name);
     		}
 	    	$arr = array(
 	    			'com_code'=>$data['company_code'],
@@ -82,24 +78,17 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 	    	$ids = explode(',', $identity);
 	    	$index=1;
 	    	foreach ($ids as $i){
-	    		$name = $_FILES['photo'.$i]['name'];
-	    		if (!empty($name)){
-	    			$ss = 	explode(".", $name);
-	    			$image_name = "file".date("Y").date("m").date("d").time().$i.".".end($ss);
-	    			$tmp = $_FILES['photo'.$i]['tmp_name'];
-	    			if(move_uploaded_file($tmp, $part.$image_name)){
-	    				$photo = $image_name;
-	    			}
-	    			else
-	    				$string = "Image Upload failed";
+	    		if (!empty($_FILES['photo'.$i]['name'])){
+	    			$ss = 	explode(".", $_FILES['photo'.$i]['name']);
+	    			$new_image_name = date("Y").date("m").date("d").time().$i."file.".end($ss);
+	    			$image_name = $dbg->resizeImase($_FILES['photo'.$i], $part,$new_image_name);
+	    			
 	    			if ($index<=8){
 	    				$arr['file'.$index]=$image_name;
 	    			}
 	    			$index++;
-// 	    			if (empty($image_list )){
-// 	    				$image_list=$image_name;
-// 	    			}else{$image_list = $image_list.",".$image_name;
-// 	    			}
+	    		}else{
+	    			$image_name = "";
 	    		}
 	    	}
 	    	$this->insert($arr);
@@ -114,18 +103,14 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$db->beginTransaction();
 		try{
+			$dbg = new Application_Model_DbTable_DbGlobal();
 		$part= PUBLIC_PATH.'/companylogo/';
     		$name = $_FILES['photo']['name'];
     		$photo='';
     		if (!empty($name)){
     			$tem =explode(".", $name);
-    			$image_name = time()."logo.".end($tem);
-    			$tmp = $_FILES['photo']['tmp_name'];
-    			if(move_uploaded_file($tmp, $part.$image_name)){
-    				$photo = $image_name;
-    			}
-    			else
-    				$string = "Image Upload failed";
+    			$new_image_name = date("Y").date("m").date("d").time().".".end($tem);
+    			$photo = $dbg->resizeImase($_FILES['photo'], $part,$new_image_name);
     		}else{
     			$photo = $data['old_photo'];
     		}
@@ -151,17 +136,15 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 			$index=1;
 			foreach ($ids as $i){
 				$files='';
-				$name = $_FILES['photo'.$i]['name'];
-				if (!empty($name)){
-					$ss = 	explode(".", $name);
-					$image_name = "file".date("Y").date("m").date("d").time().$i.".".end($ss);
-					$tmp = $_FILES['photo'.$i]['tmp_name'];
-					if(move_uploaded_file($tmp, $part.$image_name)){
-						$files = $image_name;
-					}
-					else
-						$string = "Image Upload failed";
-					
+				if (!empty($_FILES['photo'.$i]['name'])){
+	    			$ss = 	explode(".", $_FILES['photo'.$i]['name']);
+	    			$new_image_name = date("Y").date("m").date("d").time().$i."file.".end($ss);
+	    			$image_name = $dbg->resizeImase($_FILES['photo'.$i], $part,$new_image_name);
+	    			
+	    			if ($index<=8){
+	    				$arr['file'.$index]=$image_name;
+	    			}
+	    			$index++;
 				}else{
 					if (!empty($data['old_photo'.$i])){
 						$files = $data['old_photo'.$i];

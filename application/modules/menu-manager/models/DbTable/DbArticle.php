@@ -44,21 +44,20 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
     	try{
 			$valid_formats = array("jpg", "png", "gif", "bmp","jpeg");
+			$dbg = new Application_Model_DbTable_DbGlobal();
 			$part= PUBLIC_PATH.'/images/article/';
 			$name = $_FILES['photo']['name'];
 			$size = $_FILES['photo']['size'];
 			$photo='';
 			if (!empty($name)){
 					$tem =explode(".", $name);
-					$image_name = date("Y").date("m").date("d").time()."logo.".end($tem);
-					$tmp = $_FILES['photo']['tmp_name'];
-					if(move_uploaded_file($tmp, $part.$image_name)){
-						$photo = $image_name;
-					}
-					else
-						$string = "Image Upload failed";
+					$new_image_name = date("Y").date("m").date("d").time().".".end($tem);
+					$photo = $dbg->resizeImase($_FILES['photo'], $part,$new_image_name);
 					
+			}else{
+				$photo = "";
 			}
+			
     		$dbglobal = new Application_Model_DbTable_DbVdGlobal();
     		$lang = $dbglobal->getLaguage();
     		if (!empty(trim($data['title_alias']))){
@@ -107,8 +106,6 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
 		    		 					'articleId'=>$article_id,
 		    		 					'title'=>$data['title'.$title],
 		    		 					'description'=>$data['description'.$title],
-		    		 					//'short_descript'=>strip_tags($data['description'.$title]),
-		    		 					//'description_forweb'=>strip_tags($data['description'.$title]),
 		    		 					'language_id'=>$row['id'],
 		    		 			);
 		    		 			$this->_name="mini_article_detail";
@@ -119,8 +116,6 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
 			    		 				'articleId'=>$article_id,
 			    		 				'title'=>$data['title'.$title],
 			    		 				'description'=>$data['description'.$title],
-			    		 				//'short_descript'=>strip_tags($data['description'.$title]),
-			    		 				//'description_forweb'=>strip_tags($data['description'.$title]),
 			    		 				'language_id'=>$row['id'],
 			    		 		);
 			    		 		$this->_name="mini_article_detail";
@@ -140,8 +135,6 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
 	    						'articleId'=>$article_id,
 	    						'title'=>$data['title'.$title],
 	    						'description'=>$data['description'.$title],
-	    						//'short_descript'=>strip_tags($data['description'.$title]),
-	    						//'description_forweb'=>strip_tags($data['description'.$title]),
 	    						'language_id'=>$row['id'],
 	    				);
 	    				$this->_name="mini_article_detail";
