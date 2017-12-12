@@ -75,7 +75,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 							</div>
 							<?php }?>
 						</div>
-						<?php }else if (!empty($this->param['oranization'])){?>
+						<?php }else if (!empty($this->param['type'])){?>
 						<div class="page_title">
 							<h3><?php echo $tr->translate("Result Search");?> <a href="<?php echo $this->baseUrl()."/searchcompany";?>" class="search_again right"><?php echo $tr->translate("Search Again");?></a></h3>
 						</div>
@@ -159,44 +159,61 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 									</div>
 								</div>
 								<div class="row-form-home">
-									<div class="label_title"><?php echo $tr->translate("Organize_under");?></div>
+									<div class="label_title"><?php echo $tr->translate("TYPE");?></div>
 									<div class="field_value" >
-										<select name="oranization" id="oranization" class="js-select2" >
-											<option value="-1"><?php echo $tr->translate("CHOOSE_Organize_under");?></option>
-											<?php if(!empty($this->rsdepartment)){
-										foreach($this->rsdepartment as $rs){
-									?>	
-										<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
-								<?php }}?>
-								</select>
+										<select name="type" id="type" class="js-select2" onChange="getCompanyType();" >
+											<option value="-1"><?php echo $tr->translate("Select Type");?></option>
+											<option value="1"><?php echo $tr->translate("For Handicrafts,SME");?></option>
+											<option value="2"><?php echo $tr->translate("For The Water Supply Sector");?></option>
+										</select>
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="label_title"><?php echo $tr->translate("COMPANYTYPE");?></div>
+									<div class="field_value" >
+										<select name="company_type" id="company_type" class="js-select2"  >
+											<option value="0"><?php echo $tr->translate("Select Company Type");?></option>
+											<?php //if(!empty($this->rscompanytype)){
+												//foreach($this->rscompanytype as $rs){
+											?>	
+											<!-- <option value="<?php //echo $rs['id'];?>"><?php //echo $rs['name'];?></option> -->
+											<?php //}}?>
+										</select>
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="label_title"><?php echo $tr->translate("PRODUCT");?></div>
+									<div class="field_value" >
+										<select name="product" id="product" class="js-select2" >
+											<option value="0"><?php echo $tr->translate("Select Product");?></option>
+											<?php if(!empty($this->rsproduct)){
+												foreach($this->rsproduct as $rs){
+											?>	
+											<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+											<?php }}?>
+										</select>
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="label_title"><?php echo $tr->translate("City_Province");?></div>
+									<div class="field_value" >
+										<select name="province" id="province" class="js-select2" >
+											<option value="-1"><?php echo $tr->translate("Choose_City_Province");?></option>
+											<?php if(!empty($this->rsprovince)){
+													foreach($this->rsprovince as $rs){
+											?>	
+													<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+											<?php }}?>
+										</select>
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="button_submit" >
+										<input type="submit" value="<?php echo $tr->translate("SEARCH_ORG");?>"  class="btu_submit"/>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="row-form-home">
-							<div class="label_title"><?php echo $tr->translate("PRODUCT");?></div>
-							<div class="field_value" >
-								<input type="text" name="product" id="product" placeholder="<?php echo $tr->translate("PLEASE_ENTER_PRODUCT_OF_OGR");?>">
-							</div>
-						</div>
-						<div class="row-form-home">
-							<div class="label_title"><?php echo $tr->translate("City_Province");?></div>
-							<div class="field_value" >
-								<select name="province" id="province" class="js-select2" >
-									<option value="-1"><?php echo $tr->translate("Choose_City_Province");?></option>
-									<?php if(!empty($this->rsprovince)){
-											foreach($this->rsprovince as $rs){
-									?>	
-											<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
-									<?php }}?>
-								</select>
-							</div>
-						</div>
-						<div class="row-form-home">
-							<div class="button_submit" >
-								<input type="submit" value="<?php echo $tr->translate("SEARCH_ORG");?>"  class="btu_submit"/>
-							</div>
-						</div>
-					</div>
-				</form>
+						</form>
 				<?php }?>
 			</div>
 			<div class="col-md-4 col-sm-12 col-xs-12">
@@ -213,3 +230,34 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		 </div>
 	</div>
 </div>
+<script>
+	var url_companytype = '<?php echo $this->url(array('controller'=>'searchcompany','action'=>'getcompanytype')); ?>';
+	function getCompanyType(){
+		type =  $('#type').val();
+		 if(type==0){
+			 document.getElementById('company_type').innerHTML= "";
+			 $("#product").select2('val','0');
+			 $('#product').attr('disabled','disabled');
+			 return false;
+		}
+			 
+		 jQuery.ajax({
+				url: url_companytype,
+				type: "post",
+				data: {'type':type},
+				success: function(data){
+					arrays = jQuery.parseJSON(data);
+					document.getElementById('company_type').innerHTML= arrays;
+					if(type==1){
+						$('#product').removeAttr('disabled');
+					}else{
+						$("#product").select2('val','0');
+						$('#product').attr('disabled','disabled');
+					}
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});	
+	}
+</script>

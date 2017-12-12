@@ -209,7 +209,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
                     <div class="blog-file-slide">
                     <?php foreach ($this->document as $doc){
                     	if (!empty($doc['image'])){
-                    	$image = $this->baseUrl()."/companylogo/".$doc['image'];
+                    	$image = $this->baseUrl()."/file/image_feature/".$doc['image'];
                     	}else{
                     		$image = $this->baseUrl()."/template/file.jpg";
                     	}
@@ -259,7 +259,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
                     <div class="bxslider">
                     <?php $listshow=3; $limtss=$listshow; $k=0; foreach ($this->document as $doc){ $k++;
                     	if (!empty($doc['image'])){
-                    	$image = $this->baseUrl()."/companylogo/".$doc['image'];
+                    	$image = $this->baseUrl()."/file/image_feature/".$doc['image'];
                     	}else{
                     		$image = $this->baseUrl()."/template/file.jpg";
                     	}
@@ -343,22 +343,39 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 									</div>
 								</div>
 								<div class="row-form-home">
-									<div class="label_title"><?php echo $tr->translate("Organize_under");?></div>
+									<div class="label_title"><?php echo $tr->translate("TYPE");?></div>
 									<div class="field_value" >
-										<select name="oranization" id="oranization" class="js-select2" >
-											<option value="-1"><?php echo $tr->translate("CHOOSE_Organize_under");?></option>
-											<?php if(!empty($this->rsdepartment)){
-										foreach($this->rsdepartment as $rs){
-									?>	
-										<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
-										<?php }}?>
+										<select name="type" id="type" class="js-select2" onChange="getCompanyType();" >
+											<option value="-1"><?php echo $tr->translate("Select Type");?></option>
+											<option value="1"><?php echo $tr->translate("For Handicrafts,SME");?></option>
+											<option value="2"><?php echo $tr->translate("For The Water Supply Sector");?></option>
+										</select>
+									</div>
+								</div>
+								<div class="row-form-home">
+									<div class="label_title"><?php echo $tr->translate("COMPANYTYPE");?></div>
+									<div class="field_value" >
+										<select name="company_type" id="company_type" class="js-select2"  >
+											<option value="0"><?php echo $tr->translate("Select Company Type");?></option>
+											<?php //if(!empty($this->rscompanytype)){
+												//foreach($this->rscompanytype as $rs){
+											?>	
+											<!-- <option value="<?php //echo $rs['id'];?>"><?php //echo $rs['name'];?></option> -->
+											<?php //}}?>
 										</select>
 									</div>
 								</div>
 								<div class="row-form-home">
 									<div class="label_title"><?php echo $tr->translate("PRODUCT");?></div>
 									<div class="field_value" >
-										<input type="text" name="product" id="product" placeholder="<?php echo $tr->translate("PLEASE_ENTER_PRODUCT_OF_OGR");?>">
+										<select name="product" id="product" class="js-select2" >
+											<option value="0"><?php echo $tr->translate("Select Product");?></option>
+											<?php if(!empty($this->rsproduct)){
+												foreach($this->rsproduct as $rs){
+											?>	
+											<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+											<?php }}?>
+										</select>
 									</div>
 								</div>
 								<div class="row-form-home">
@@ -433,4 +450,34 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 	   </div>  
 	   <?php }?>
  
- 
+ <script>
+	var url_companytype = '<?php echo $this->url(array('controller'=>'searchcompany','action'=>'getcompanytype')); ?>';
+	function getCompanyType(){
+		type =  $('#type').val();
+		 if(type==0){
+			 document.getElementById('company_type').innerHTML= "";
+			 $("#product").select2('val','0');
+			 $('#product').attr('disabled','disabled');
+			 return false;
+		}
+			 
+		 jQuery.ajax({
+				url: url_companytype,
+				type: "post",
+				data: {'type':type},
+				success: function(data){
+					arrays = jQuery.parseJSON(data);
+					document.getElementById('company_type').innerHTML= arrays;
+					if(type==1){
+						$('#product').removeAttr('disabled');
+					}else{
+						$("#product").select2('val','0');
+						$('#product').attr('disabled','disabled');
+					}
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});	
+	}
+</script>

@@ -64,7 +64,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 									<?php 
 									$image = $this->baseUrl()."/images/noimage.jpg";
 									if (!empty($document['image'])){
-											$image = $this->baseUrl()."/companylogo/".$document['image'];
+											$image = $this->baseUrl()."/file/image_feature/".$document['image'];
 										}
 									?>
 									<a target="_blank" href="<?php echo $this->baseUrl()."/file/".$document['file_name'];?>">
