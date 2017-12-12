@@ -46,6 +46,8 @@ class IndexController extends Zend_Controller_Action
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$this->view->rsprovince = $db->getAllProvince();
+		$this->view->rsproduct = $db->getProduct();
+		
 		$db = new Application_Model_DbTable_DbVdGlobal();
 		$this->view->rsdepartment = $db->getAllDepartment();
 		$this->view->rsmessage = $db->getMessageHomepage();

@@ -17,8 +17,9 @@ class Company_IndexController extends Zend_Controller_Action {
 			else{
 				$search= array(
 						'txt_search' => '',
-						'department'=>-1,
 						'province_id'=>-1,
+						'company_type_search'=>0,
+						'product_search'=>0,
 						);
 			}
 			$rs_rows= $db->getAllCompany($search);
@@ -26,7 +27,7 @@ class Company_IndexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("លេខកូដ","ឈ្មោះក្រុមហ៊ុន","លេខទូរសព្ទ","ថ្ងៃចុះបញ្ជី","ស្ថាប័នក្រោមចំនុះ","រាជធានី/ខេត្ត","ផលិតផល","ស្ថានការ","BY_USER");
+			$collumns = array("Company Code","Company Name","PHONE","Date Register","COMPANYTYPE","City_Province","PRODUCT","STATUS","BY_USER");
 			$link_info=array('module'=>'company','controller'=>'index','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('com_code'=>$link_info,'com_name'=>$link_info),0);
 			
@@ -38,8 +39,10 @@ class Company_IndexController extends Zend_Controller_Action {
 	$db = new Application_Model_DbTable_DbGlobal();
   	$this->view->rsprovince = $db->getAllProvince();
   	
-  	$db = new Application_Model_DbTable_DbVdGlobal();
-  	$this->view->rsdepartment = $db->getAllDepartment();
+  	$fm = new Company_Form_FrmCompany();
+  	$frm = $fm->FrmAddCompany();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_company = $frm;
   }
   public function addAction(){
   	try{
@@ -57,15 +60,21 @@ class Company_IndexController extends Zend_Controller_Action {
   		Application_Form_FrmMessage::message("Application Error");
   		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
   	}
-  	$db = new Application_Model_DbTable_DbGlobal();
-  	$this->view->rsprovince = $db->getAllProvince();
   	
-  	$db = new Application_Model_DbTable_DbVdGlobal();
-  	$row = $db->getAllDepartment();
+  	$fm = new Company_Form_FrmCompany();
+  	$frm = $fm->FrmAddCompany();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_company = $frm;
+  	
+//   	$db = new Application_Model_DbTable_DbGlobal();
+//   	$this->view->rsprovince = $db->getAllProvince();
+  	
+//   	$db = new Application_Model_DbTable_DbVdGlobal();
+//   	$row = $db->getAllDepartment();
   	 
-  	array_unshift($row, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
-  	array_unshift($row, array ( 'id' =>'','name' => $this->tr->translate("SELECT_DEPARTMENT")));
-  	$this->view->rsdepartment=$row;
+//   	array_unshift($row, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+//   	array_unshift($row, array ( 'id' =>'','name' => $this->tr->translate("SELECT_DEPARTMENT")));
+//   	$this->view->rsdepartment=$row;
   	
   }
   public function editAction(){
@@ -74,10 +83,8 @@ class Company_IndexController extends Zend_Controller_Action {
   	try{
   		if($this->getRequest()->isPost()){
   			$_data = $this->getRequest()->getPost();
-  			$_data['id']=$id;
   			$db->editCompany($_data);
   			$this->_redirect("/company/index");
-//   			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS", "/company");
   		}
   	}catch (Exception $e){
   		Application_Form_FrmMessage::message("Application Error");
@@ -86,30 +93,37 @@ class Company_IndexController extends Zend_Controller_Action {
   	$result =  $db->getCompanyById($id);
   	if(empty($result)){Application_Form_FrmMessage::Sucessfull("NO_RECORD", "/company/index");}
   	$this->view->rs = $result;
-  	$db = new Application_Model_DbTable_DbGlobal();
-  	$this->view->rsprovince = $db->getAllProvince();
-  	 
-  	$db = new Application_Model_DbTable_DbVdGlobal();
-  	$row= $db->getAllDepartment();
-  	array_unshift($row, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
-  	array_unshift($row, array ( 'id' =>'','name' => $this->tr->translate("SELECT_DEPARTMENT")));
-  	$this->view->rsdepartment =$row;
+  	
+  	$fm = new Company_Form_FrmCompany();
+  	$frm = $fm->FrmAddCompany($result);
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_company = $frm;
+  	
   	
   }
   
-  function  getDepartmentnameAction(){
-  	if($this->getRequest()->isPost()){
-  		$_data = $this->getRequest()->getPost();
-  		$db = new Application_Model_DbTable_DbVdGlobal();
-  		$row = $db->getAllDepartment();
-  		array_unshift($row,array(
-  				'id' => -1,
-  				'name' => '---Add New ---',
-  		) );
-  		print_r(Zend_Json::encode($row));
-  		exit();
-  	}
-  }
+//   function  getDepartmentnameAction(){
+//   	if($this->getRequest()->isPost()){
+//   		$_data = $this->getRequest()->getPost();
+//   		$db = new Application_Model_DbTable_DbVdGlobal();
+//   		$row = $db->getAllDepartment();
+//   		array_unshift($row,array(
+//   				'id' => -1,
+//   				'name' => '---Add New ---',
+//   		) );
+//   		print_r(Zend_Json::encode($row));
+//   		exit();
+//   	}
+//   }
+	function getcompanytypeinfoAction(){
+		if($this->getRequest()->isPost()){
+	  		$_data = $this->getRequest()->getPost();
+	  		$db = new Company_Model_DbTable_Dbcompanytype();
+	  		$row = $db->getCompanyTypeById($_data['company_type']);
+	  		print_r(Zend_Json::encode($row));
+	  		exit();
+	  	}
+	}
   
 }
 

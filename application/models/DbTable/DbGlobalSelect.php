@@ -298,18 +298,27 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
 			$s_where[] = " com_code LIKE '%{$s_search}%'";
 			$sql.=' AND ('.implode(' OR ',$s_where).')';
 		}
-		if ($data['oranization']>0){
-			$sql.=" AND c.`depart_id`=".$data['oranization'];
+// 		if ($data['oranization']>0){
+// 			$sql.=" AND c.`depart_id`=".$data['oranization'];
+// 		}
+		if ($data['type']>0){
+			$sql.=" AND (SELECT com_t.type  FROM `mini_company_type` AS com_t WHERE com_t.id= c.`company_type` LIMIT 1) =".$data['type'];
+		}
+		if ($data['company_type']>0){
+			$sql.=" AND c.`company_type`=".$data['company_type'];
+		}
+		if (!empty($data['product']) && $data['product']>0){
+			$sql.=" AND c.`product_id`=".$data['product'];
 		}
 		if ($data['province']>0){
 			$sql.=" AND c.`province_id`=".$data['province'];
 		}
-		if(!empty($data['product'])){
-			$s_where = array();
-			$s_search = addslashes(trim($data['product']));
-			$s_where[] = " product LIKE '%{$s_search}%'";
-			$sql.=' AND ('.implode(' OR ',$s_where).')';
-		}
+// 		if(!empty($data['product'])){
+// 			$s_where = array();
+// 			$s_search = addslashes(trim($data['product']));
+// 			$s_where[] = " product LIKE '%{$s_search}%'";
+// 			$sql.=' AND ('.implode(' OR ',$s_where).')';
+// 		}
 		return $db->fetchAll($sql);
 	}
 	function getCompanyDetailById($id){
@@ -428,6 +437,26 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
      public function  getBannerInfoById($id){    	
     	$sql="SELECT * FROM mini_banner WHERE id = $id LIMIT 1";
     	return  $this->getAdapter()->fetchRow($sql);
+    }
+    
+    public function getCompanyType($type,$cs=null){
+    	$db = $this->getAdapter();
+    	$lang = $this->getCurrentLang();
+    	$sql="
+    		SELECT ct.`id`,
+			(SELECT ctd.title FROM `mini_company_type_detail` AS ctd WHERE ctd.languageId= $lang AND ctd.company_type_id = ct.`id`) AS `name`
+			 FROM `mini_company_type` AS ct WHERE ct.`type`=$type AND ct.`status`=1";
+    	$rows = $db->fetchAll($sql);
+    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    	if(!empty($cs)){
+    		$options = '<option value="0">'.$tr->translate("Select Company Type").'</option>';
+    		if(!empty($rows))foreach($rows as $value){
+    			$options.= '<option value="'.$value['id'].'" >'.htmlspecialchars($value['name'], ENT_QUOTES).'</option>';
+    		}
+    		return $options;
+    	}else{
+    		return $rows;
+    	}
     }
 }
 ?>

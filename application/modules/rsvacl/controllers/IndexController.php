@@ -11,6 +11,7 @@ class Rsvacl_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
+    	$this->_redirect("/rsvacl/user");
     	Application_Form_FrmMessage::redirector('/rsvacl/user/index');
 	}		 
     

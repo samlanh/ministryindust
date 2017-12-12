@@ -39,7 +39,11 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
     	try{
     		$dbg = new Application_Model_DbTable_DbGlobal();
-    		$part= PUBLIC_PATH.'/companylogo/';
+    		
+    		$part= PUBLIC_PATH.'/file/image_feature/';
+    		if (!file_exists($part)) {
+    			mkdir($part, 0777, true);
+    		}
     		$photoname = str_replace(" ", "_", $data['document_name']);
     		$name = $_FILES['photo']['name'];
     		$size = $_FILES['photo']['size'];
@@ -93,7 +97,10 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
 		$db->beginTransaction();
 		try{
 			$dbg = new Application_Model_DbTable_DbGlobal();
-			$part= PUBLIC_PATH.'/companylogo/';
+			$part= PUBLIC_PATH.'/file/image_feature/';
+    		if (!file_exists($part)) {
+    			mkdir($part, 0777, true);
+    		}
 			$photoname = str_replace(" ", "_", $data['document_name']);
 			$name = $_FILES['photo']['name'];
 			$size = $_FILES['photo']['size'];

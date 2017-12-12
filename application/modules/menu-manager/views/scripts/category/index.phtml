@@ -11,7 +11,7 @@ $url_delete =$this->url(array('module'=>'menu-manager','controller'=>'category',
  <form id="list" name="list" action="<?php echo $this->url(array('module'=>'menu-manager','controller'=>'category','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
    <table width="100%">
    <tr>
-		<td><?php echo $frms->getElement('adv_search');?>
+		<td><?php echo $frms->getElement('adv_search');?></td>
    		<td><?php echo $frm->getElement('status_search');?>
    		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
    		</td>

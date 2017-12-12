@@ -18,8 +18,10 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
     	
     	$sql="
     	SELECT c.id,c.com_code,c.com_name,c.com_phone,c.register_date,
-			(SELECT cd.title FROM `mini_department_detail` AS cd WHERE cd.department_id = c.`depart_id` AND cd.language_id=$lang LIMIT 1) AS department_name,
-			(SELECT province_kh_name FROM mini_province WHERE  province_id=c.province_id LIMIT 1) as province_name,c.product,c.status,
+			(SELECT ctd.title FROM `mini_company_type_detail` AS ctd WHERE ctd.languageId=$lang AND ctd.company_type_id = c.`company_type` LIMIT 1) AS company_type,
+			(SELECT province_kh_name FROM mini_province WHERE  province_id=c.province_id LIMIT 1) as province_name,
+			(SELECT pd.title FROM `mini_product_detail` AS pd WHERE pd.languageId=$lang AND pd.product_id = c.`product_id` LIMIT 1) AS product,
+			c.status,
 			(SELECT u.first_name FROM `rms_users` AS u WHERE u.id = c.user_id LIMIT 1) AS user_name
     	 	FROM `mini_company` AS c WHERE com_name!='' ";
     	
@@ -34,8 +36,11 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 			$s_where[] = " address LIKE '%{$s_search}%'";
 			$sql.=' AND ('.implode(' OR ',$s_where).')';
 		}
-    	if ($data['department']>0){
-    		$sql.=" AND c.`depart_id`=".$data['department'];
+    	if ($data['company_type_search']>0){
+    		$sql.=" AND c.`company_type`=".$data['company_type_search'];
+    	}
+    	if ($data['product_search']>0){
+    		$sql.=" AND c.`product_id`=".$data['product_search'];
     	}
     	if ($data['province_id']>0){
     		$sql.=" AND c.`province_id`=".$data['province_id'];
@@ -63,8 +68,10 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 					'com_phone'=>$data["phone"],
 	    			'address'=>$data["address"],
 	    			'register_date'=>$data['date_register'],
-	    			'depart_id'=>$data['department'],
-	    			'product'=>$data['product_name'],
+// 	    			'depart_id'=>$data['department'],
+// 	    			'product'=>$data['product_name'],
+	    			'company_type'=>$data['company_type'],
+	    			'product_id'=>$data['product_name'],
 	    			'province_id'=>$data["province_id"],
 	    			'note'=>$data["note"],
 	    			'logo'=>$photo,
@@ -121,8 +128,10 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 					'com_phone'=>$data["phone"],
 					'address'=>$data["address"],
 					'register_date'=>$data['date_register'],
-					'depart_id'=>$data['department'],
-					'product'=>$data['product_name'],
+// 					'depart_id'=>$data['department'],
+// 					'product'=>$data['product_name'],
+					'company_type'=>$data['company_type'],
+					'product_id'=>$data['product_name'],
 					'province_id'=>$data["province_id"],
 					'note'=>$data["note"],
 					'logo'=>$photo,
@@ -173,31 +182,6 @@ class Company_Model_DbTable_Dbcompany extends Zend_Db_Table_Abstract
 		$sql="SELECT * FROM `mini_company` WHERE id =".$id;
 		return $db->fetchRow($sql);
 	}
-// 	function getDepartmentTitleByLang($cate_id,$lang){
-// 		$db = $this->getAdapter();
-// 		$sql="SELECT cd.id,cd.`title`,cd.description,cd.`language_id` FROM `mini_department_detail` AS cd WHERE cd.`department_id`=$cate_id AND cd.`language_id`=$lang";
-// 		return $db->fetchRow($sql);
-// 	}
-// 	public function CheckTitleAlias($alias){
-// 		$db =$this->getAdapter();
-// 		$sql = "SELECT c.`id` FROM `mini_department` AS c WHERE c.`alias_category`= '$alias'";
-// 		return $db->fetchRow($sql);
-// 	}
-// 	function deleteCategory($id){
-// 		$db = $this->getAdapter();
-// 		$db->beginTransaction();
-// 		try{
-// 			$arr = array(
-// 					'status'=>-1,
-// 			);
-// 				$where = " id =".$id;
-// 				$this->update($arr, $where);
-// 			$db->commit();
-// 		}catch(exception $e){
-// 			Application_Form_FrmMessage::message("Application Error");
-// 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-// 			$db->rollBack();
-// 		}
-// 	}
+
 }
 

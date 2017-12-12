@@ -1,7 +1,7 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("DEPARTMENT_LIST"));
-$frm = $this->frm;
+$frm = $this->frm_company;
 $frms = $this->frm_search;
 $url_delete ="";//$this->url(array('module'=>'menu-manager','controller'=>'category','action'=>'delete'));
 ?>
@@ -12,16 +12,8 @@ $url_delete ="";//$this->url(array('module'=>'menu-manager','controller'=>'categ
    <table width="70%">
    <tr>
 		<td><input placeHolder="កូដ ឈ្មោះ ទូរសព្ទ ផលិតផល" value="<?php echo $this->rssearch['txt_search'];?>" dojoType="dijit.form.TextBox" class="fullside" name="txt_search" id="txt_search" type="text"><td>
-		<td>
-			<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department" id="department" autoComplete="false"​​ queryExpr="*${0}*">
-				<option value="-1">ជ្រើសរើស ស្ថាប័នក្រោមចំនុះ</option>
-				<?php if(!empty($this->rsdepartment)){
-						foreach($this->rsdepartment as $rs){
-				?>	
-						<option <?php if($this->rssearch['department']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
-				<?php }}?>
-			</select>
-		<td>
+		<td><?php echo $frm->getElement('company_type_search');?></td>
+		<td><?php echo $frm->getElement('product_search');?></td>
 		<td><select class="fullside" name="province_id" id="province_id" dojoType="dijit.form.FilteringSelect" autoComplete="false"​​ queryExpr="*${0}*">
 				<option value="-1">ជ្រើសរើស រាជធានី/ខេត្ត</option>
 				<?php if(!empty($this->rsprovince)){
@@ -29,7 +21,7 @@ $url_delete ="";//$this->url(array('module'=>'menu-manager','controller'=>'categ
 				?>	
 						<option <?php if($this->rssearch['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
 				<?php }}?>
-			</select>
+			</select></td>
 		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
    		</td>
    </tr>
@@ -64,6 +56,36 @@ dojo.require("dijit.Dialog");
 	function closeForm(){
 		dijit.byId('deleteForm').hide();
 	}
+	var url_companytype = '<?php echo $this->url(array('module'=>'company','controller'=>'index','action'=>'getcompanytypeinfo')); ?>';
+	function getCompanyTypeInfor(){
+		 company_type =  dijit.byId("company_type_search").get("value");
+		 if(company_type==0){
+			 return false;
+		 }
+			dojo.xhrPost({
+				url: url_companytype,	
+				content:{ 
+				    'company_type':company_type
+				},		    
+				handleAs:"json",
+				load: function(data) {
+					//alert(data.type);
+					if(data.type==1){
+						dijit.byId('product_search').set('readonly',false); 
+						dijit.byId('product_search').set('required',true);
+						dijit.byId('product_search').disabled=false; 
+					}else{
+						dijit.byId('product_search').reset();
+						dijit.byId('product_search').set('readonly',true); 
+						dijit.byId('product_search').set('required',false);
+						dijit.byId('product_search').disabled=true; 
+					}
+				},
+				error: function(err) {
+					//alert(err);
+				}
+			});
+	}	
 </script> 
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'តើអ្នកពិតជាលុបទិន្នន័យនេះមែនទេ?'"  id="deleteForm" style="width:350px;" >

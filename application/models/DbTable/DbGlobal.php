@@ -45,9 +45,24 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 			imagejpeg($im, $uploadimage, 80);
 		}
 	//	imagedestroy($uploadimage);
-		
 		return $new_name;
 			
+	}
+	function getProduct(){
+		$db = $this->getAdapter();
+		$lang_id = $this->getCurrentLang();
+		$sql="SELECT ct.`id`,
+		(SELECT ctd.title FROM `mini_product_detail` AS ctd WHERE ctd.languageId= $lang_id AND ctd.product_id = ct.`id`) AS name
+		 FROM `mini_product` AS ct WHERE ct.`status`=1";
+		return $db->fetchAll($sql);
+	}
+	function getCompanyType(){
+		$db = $this->getAdapter();
+		$lang_id = $this->getCurrentLang();
+		$sql="SELECT ct.`id`,
+		(SELECT ctd.title FROM `mini_company_type_detail` AS ctd WHERE ctd.languageId= $lang_id AND ctd.company_type_id = ct.`id`) AS `name`
+		 FROM `mini_company_type` AS ct WHERE ct.`status`=1";
+		return $db->fetchAll($sql);
 	}
 	public function getReceiptnumber($branch_id=1){
 		$this->_name='ln_client_receipt_money';

@@ -2,8 +2,8 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	echo $this->headTitle($tr->translate('EDIT_COMPANY'));
 	$rsdata = $this->rs;
+	$frm = $this->frm_company;
 ?>	
-<?php  $frm = $this->frm_client;?>
 <script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <script>
 dojo.require("dojo.data.ItemFileWriteStore");  
@@ -48,45 +48,47 @@ img.image_viewss {
 				<td align="left" valign="top">
 						<table style="margin: 0 auto; width: 100%;" cellspacing="10">
 							<tr>
-								<td><?php echo $tr->translate("លេខកូដ")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['com_code']?>" class="fullside" name="company_code" id="company_code" type="text"></td>
+								<td><?php echo $tr->translate("Company Code")?></td>
+								<td><?php echo $frm->getElement('company_code');?><input type="hidden" name="id" id="id" dojoType="dijit.form.TextBox"   value="<?php echo $this->rs['id'];?>" ></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("ឈ្មោះក្រុមហ៊ុន")?></td>
-								<td><input dojoType="dijit.form.ValidationTextBox" value="<?php echo $rsdata['com_name']?>" required="1" class="fullside" name="company_name" id="company_name" type="text"></td>
+								<td><?php echo $tr->translate("Company Name")?></td>
+								<td><?php echo $frm->getElement('company_name');?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("លេខទូរសព្ទ")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['com_phone']?>" class="fullside" name="phone" id="phone" type="text"></td>
+								<td><?php echo $tr->translate("PHONE")?></td>
+								<td><?php echo $frm->getElement('phone');?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("អាស័យដ្ឋាន")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['address']?>" class="fullside" name="address" id="address" type="text"></td>
+								<td><?php echo $tr->translate("ADDRESS")?></td>
+								<td><?php echo $frm->getElement('address');?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("ថ្ងៃចុះបញ្ជី")?></td>
-								<td><input dojoType="dijit.form.DateTextBox" value="<?php echo $rsdata['register_date']?>" constraints="{datePattern:'dd/MM/yyyy'}" class="fullside" name="date_register" id="date_register"  type="text"></td>
+								<td><?php echo $tr->translate("Date Register")?></td>
+								<td><?php echo $frm->getElement('date_register');?></td>
 							</tr>
-							<tr>
-								<td><?php echo $tr->translate("ស្ថាប័នក្រោមចំនុះ")?></td>
+							<!-- <tr>
+								<td><?php //echo $tr->translate("ស្ថាប័នក្រោមចំនុះ")?></td>
 								<td>
-									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department" id="department" onChange="getDepartment" autoComplete="false"​​ queryExpr="*${0}*">
-										<?php if(!empty($this->rsdepartment)){
-												foreach($this->rsdepartment as $rs){
+									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department" id="department"  onChange="getDepartment"​​ autoComplete="false"​​ queryExpr="*${0}*">
+										<?php //if(!empty($this->rsdepartment)){
+												//foreach($this->rsdepartment as $rs){
 										?>	
-												<option <?php if($rsdata['depart_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
-										<?php }}?>
+												<option value="<?php //echo $rs['id'];?>"><?php //echo $rs['name'];?></option>
+										<?php //}}?>
 									</select>
 								</td>
-							</tr>
+							</tr> -->
 							<tr>
-								<td  ><?php echo $tr->translate("អំពីក្រុមហ៊ុន")?></td>
-								<td> <input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
-								</td>
+								<td  ><?php echo $tr->translate("About Company")?></td>
+								<!-- <td> 
+								<input iconClass="dijitIconUndo" type="button" label="<?php //echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
+								</td>-->
 							</tr>
+							 
 							<tr>
 								<td colspan="2">
-									<textarea class="ckeditor" height="200px" style="min-height:60px;" id="note" name="note"><?php echo $rsdata['note']?></textarea>
+									<?php echo $frm->getElement('note');?>
 								</td>
 							</tr>
 						</table>
@@ -94,28 +96,23 @@ img.image_viewss {
 					<td width="40%" style="background:#eaeaea; vertical-align: top;">
 						<table style="margin: 0 auto; width: 100%;" cellspacing="10">
 							<tr>
-								<td><?php echo $tr->translate("ផលិតផល")?></td>
-								<td><input dojoType="dijit.form.TextBox" value="<?php echo $rsdata['product']?>" class="fullside" name="product_name" id="product_name" type="text"></td>
+								<td><?php echo $tr->translate("COMPANYTYPE")?></td>
+								<td><?php echo $frm->getElement('company_type');?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("រាជធានី/ខេត្ត")?></td>
+								<td><?php echo $tr->translate("PRODUCT")?></td>
+								<td><?php echo $frm->getElement('product_name');?></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("City_Province")?></td>
 								<td>
-									<select class="fullside" name="province_id" id="province_id" dojoType="dijit.form.FilteringSelect" autoComplete="false"​​ queryExpr="*${0}*">
-										<?php if(!empty($this->rsprovince)){
-												foreach($this->rsprovince as $rs){
-										?>	
-												<option <?php if($rsdata['province_id']==$rs['id']){echo "selected";}?> value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
-										<?php }}?>
-									</select>
+									<?php echo $frm->getElement('province_id');?>
 								</td>
 							</tr>
 							<tr>
 								<td><?php echo $tr->translate("STATUS")?></td>
 								<td>
-									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="status" id="status">
-										<option <?php if($rsdata['status']==1){echo "selected";}?> value="1"><?php echo $tr->translate("ACTIVE")?></option>
-										<option <?php if($rsdata['status']==0){echo "selected";}?> value="0"><?php echo $tr->translate("DEACTIVE")?></option>
-									</select>
+									<?php echo $frm->getElement('status');?>
 								</td>
 							</tr>
 							<tr>
@@ -190,9 +187,10 @@ img.image_viewss {
 	</div>
 </div>
 <script type="text/javascript">
-var district_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));?> );
+//var district_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));?> );
 dojo.ready(function(){	
 	initailize();
+	getCompanyTypeInfor();
 	dijit.byId("province_id").attr("value",12);
 });
 function closeForm(){
@@ -289,18 +287,18 @@ function addRow() {
 		title=1;
 	}
 
- function getDepartment(){
-		if( dijit.byId("department").get("value")==-1){
-		    window.open("<?php echo $this->url(array('module'=>'department','controller'=>'index','action'=>'add')); ?>","_blank");
-		}
-}
+// function getDepartment(){
+	//	if( dijit.byId("department").get("value")==-1){
+	//	    window.open("<?php echo $this->url(array('module'=>'department','controller'=>'index','action'=>'add')); ?>","_blank");
+	//	}
+//}
 
-function getRefreshGroup(){
-		var co_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rsdepartment));?> );
-		getAllDepartment();
-		loading();
-		setTimeout(stopLoading, 1000);
-}
+//function getRefreshGroup(){
+	//	var co_store  = getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->rsdepartment));?> );
+	//	getAllDepartment();
+	//	loading();
+	//	setTimeout(stopLoading, 1000);
+//}
 
 function loading(){
 document.getElementsByClassName("overlay")[0].style.display="block";
@@ -310,22 +308,51 @@ function stopLoading(){
 	 document.getElementsByClassName("overlay")[0].style.display="none";
 }
 
-var url_department = '<?php echo $this->url(array('module'=>'company','controller'=>'index','action'=>'get-departmentname')); ?>';
-function getAllDepartment(){
-	dojo.xhrPost({
-		url:url_department,	
-		content:{ 
-		    //'branch_id':branch_id
-		},		    
-		handleAs:"json",
-		load: function(data) {
-			depart_store  = getDataStorefromJSON('id','name', data);		
-		    dijit.byId('department').set('store', depart_store);
-		},
-		error: function(err) {
-			//alert(err);
-		}
-	});
-}
-	
+//var url_department = '<?php echo $this->url(array('module'=>'company','controller'=>'index','action'=>'get-departmentname')); ?>';
+//function getAllDepartment(){
+	//dojo.xhrPost({
+		//url:url_department,	
+		//content:{ 
+		//    //'branch_id':branch_id
+	//	},		    
+		//handleAs:"json",
+		//load: function(data) {
+		//	depart_store  = getDataStorefromJSON('id','name', data);		
+		//    dijit.byId('department').set('store', depart_store);
+		//},
+		//error: function(err) {
+		//	//alert(err);
+	//	}
+	//});
+//}
+var url_companytype = '<?php echo $this->url(array('module'=>'company','controller'=>'index','action'=>'getcompanytypeinfo')); ?>';
+function getCompanyTypeInfor(){
+	 company_type =  dijit.byId("company_type").get("value");
+	 if(company_type==0){
+		 return false;
+	 }
+		dojo.xhrPost({
+			url: url_companytype,	
+			content:{ 
+			    'company_type':company_type
+			},		    
+			handleAs:"json",
+			load: function(data) {
+				//alert(data.type);
+				if(data.type==1){
+					dijit.byId('product_name').set('readonly',false); 
+					dijit.byId('product_name').set('required',true);
+					dijit.byId('product_name').disabled=false; 
+				}else{
+					dijit.byId('product_name').reset();
+					dijit.byId('product_name').set('readonly',true); 
+					dijit.byId('product_name').set('required',false);
+					dijit.byId('product_name').disabled=true; 
+				}
+			},
+			error: function(err) {
+				//alert(err);
+			}
+		});
+}	
 </script>

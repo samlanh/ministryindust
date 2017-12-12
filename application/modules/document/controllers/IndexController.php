@@ -49,7 +49,7 @@ class Document_IndexController extends Zend_Controller_Action {
   			$_data = $this->getRequest()->getPost();
   			$db->addDocument($_data);
   			if (!empty($_data['save_new'])){
-  				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/document/index/add");
+  				//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/document/index/add");
   			}else{
   				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/document/index");
   			}

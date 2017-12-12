@@ -20,7 +20,7 @@ class SearchcompanyController extends Zend_Controller_Action
     	if (!empty($param['company'])){
     		$com_id =  base64_decode($param['company']);
     		$this->view->company_info = $db->getCompanyDetailById($com_id);
-    	}else if (!empty($param['oranization'])){
+    	}else if (!empty($param['type'])){
     		$company = $db->getAllCompanySearch($param);
     		
     		$limits = $db->getWebsiteSetting("items_per_page");
@@ -58,8 +58,10 @@ class SearchcompanyController extends Zend_Controller_Action
     		}
     	}else{
 	    	$this->view->rsprovince = $dbgb->getAllProvince();
-	    	$this->view->rsdepartment = $dbvg->getAllDepartment();
+// 	    	$this->view->rsdepartment = $dbvg->getAllDepartment();
 	    	
+	    	$this->view->rsproduct = $dbgb->getProduct();
+	    	$this->view->rscompanytype = $dbgb->getCompanyType();
     	}
     	
     	$bannerlist = $db->getWebsiteSetting("banner");
@@ -67,4 +69,13 @@ class SearchcompanyController extends Zend_Controller_Action
     	$this->view->param = $param;
     	
     }  
+    function getcompanytypeAction(){
+    	if($this->getRequest()->isPost()){
+    		$_data = $this->getRequest()->getPost();
+    		$db = new Application_Model_DbTable_DbGlobalSelect();
+    		$row = $db->getCompanyType($_data['type'],1);
+    		print_r(Zend_Json::encode($row));
+    		exit();
+    	}
+    }
 }
