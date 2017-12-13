@@ -522,8 +522,25 @@ End Result company search
 .blog-details .blog-post-text p {
     color: #000;
 }
-.popular-post img {
-    width: 99px;
+.popular-post-img-blog {
+    width: 30%;
+    float: left;
+    text-align: center;
+    border-right: solid 1px #eee;
+}
+.popular-post-img-blog img {
+    height: 65px;
+}
+.popular-post .post-text {
+    display: inline-block;
+    width: 70%;
+}
+.social-icons a.label_title {
+    background: none;
+    color: #000;
+    margin-right: 10px;
+    font-weight: 600;
+	width: initial;
 }
 /*================================================
 	End Sigle Article
@@ -536,6 +553,9 @@ End Result company search
 .popular-post .post-text h6 {
     font-size: 12px;
     font-weight: 600;
+    line-height: 1.5em;
+    height: 4.5em;
+    overflow: hidden;
 }
 ul.department {
     margin: 10px 0;
@@ -569,3 +589,6 @@ h2.hotnews{}
 }
 .copanytitle{font-weight: bold;text-transform: capitalize;}
 .broderimg{ border:1px solid #ccc;min-height: 90px;}
+
+
+
