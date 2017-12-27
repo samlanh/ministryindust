@@ -47,7 +47,7 @@ NOTE: This is Header style file. All Header related style included in this file.
     transition: all 0.4s ease 0s;
 }
 .main-menu li a i {font-size: 9px; padding-left: 5px;}
-.main-menu > nav > ul > li:hover > a, .main-menu > nav > ul > li.active > a {color: #00ab59;}
+.main-menu > nav > ul > li:hover > a, .main-menu > nav > ul > li.active > a {color: #00a859;}
 .main-menu ul li ul {
     background: #ffffff none repeat scroll 0 0;
     left: 0;
