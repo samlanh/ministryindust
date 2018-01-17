@@ -44,13 +44,17 @@ class DepartmentsController extends Zend_Controller_Action
 // 		$this->view->menuright= $db->getMenuRight();
 		$this->view->param = $param;
         
+		$db = new Department_Model_DbTable_Dbdepartment();
+		$rs = $db->getDepartmentFirstRecord($param);
+		$this->view->rsfirst = $rs;
+		
         $db = new Application_Model_DbTable_DbGlobalSelect();
+        $this->view->rs_article = $db->getArcticleByDepartmentid($rs['dept_id']);//អត្តបទរបស់ News
+        $this->view->rs_doc = $db->getDocumentByDeptid($rs['dept_id']);
+        
         $bannerlist = $db->getWebsiteSetting("banner");
         $this->view->banner = $bannerlist;//explode(",", $bannerlist['value']);
-
-		$db = new Department_Model_DbTable_Dbdepartment();
-    	$this->view->rsfirst = $db->getDepartmentFirstRecord($param);
-    	
+        		
     	$db = new Application_Model_DbTable_DbVdGlobal();
     	$this->view->rsdepartment = $db->getAllDepartment();
     }  

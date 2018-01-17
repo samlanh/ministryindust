@@ -93,6 +93,33 @@ $countlang = count($this->lang);
 									<tr>
 										<td><?php echo $frm->getElement('category');?></td>
 									</tr>
+									<tr>
+										<td><strong><?php echo $tr->translate("បង្ហាញ")?></strong></td>
+									</tr>
+									<tr>
+										<td>
+											<select class="fullside" dojoType="dijit.form.FilteringSelect" name="show_page" id="show_page" autoComplete="false"​​ queryExpr="*${0}*">
+												<option value="1">បង្ហាញទាំងអស់</option>
+												<option value="2">តែទំព័រព័ត៌មាន</option>
+												<option value="3">ទំព័រព័ត៌មាននិង នាយកដ្ឋានណាមួយ</option>
+												<option value="4">បង្ហាញតែតាមនាយកដ្ឋានណាមួយ</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td><strong><?php echo $tr->translate("ជ្រើសរើសនាយកដ្ឋាន")?></strong></td>
+									</tr>
+									<tr>
+										<td>
+											<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department_id" id="department_id" autoComplete="false"​​ queryExpr="*${0}*">
+												<?php if(!empty($this->rsdepartment)){
+														foreach($this->rsdepartment as $rs){
+												?>	
+													<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+												<?php }}?>
+											</select>
+										</td>
+									</tr>
 									<tr><td class="bold"><?php echo $tr->translate('STATUS')?></td></tr>
 									<tr>
 										<td class="bold"><?php echo $frm->getElement('status');?></td>

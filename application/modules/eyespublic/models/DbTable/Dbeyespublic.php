@@ -1,8 +1,8 @@
 <?php
 
-class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
+class Eyespublic_Model_DbTable_Dbeyespublic extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'mini_documentfile';
+    protected $_name = 'mini_eyespublic';
     public static function getUserId(){
     	$session_user=new Zend_Session_Namespace('auth');
     	return $session_user->user_id;
@@ -19,31 +19,23 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     public function getAllDocument($data){
     	$db=$this->getAdapter();
     	$lang = $this->getCurrentLang();
-    	$sql="
-    	SELECT d.`id`,d.`title`,
-		(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id =d.`document_type` LIMIT 1) AS doc_type_title,
-		(SELECT name_en FROM `ln_view` WHERE type=1 AND key_code=d.show_page LIMIT 1) show_page,
-		(SELECT cd.title FROM `mini_department_detail` AS cd WHERE cd.department_id = d.`dept_id` AND cd.language_id=$lang LIMIT 1) AS department_name,
-		d.`modify_date`,d.`status`,
+    	$sql="SELECT d.`id`,d.`title`,d.file_size,d.description,d.key_word,
+		d.`create_date`,d.`status`,
 		(SELECT u.first_name FROM `rms_users` AS u WHERE u.id = d.`user_id` LIMIT 1) AS user_name
-		 FROM `mini_documentfile` AS d WHERE d.`status`>-1 AND title!='' ";
-    	 
+		 FROM `mini_eyespublic` AS d WHERE d.`status`>-1 AND title!='' ";    	 
     	if(!empty($data['txt_search'])){
-    	$s_where = array();
-    	$s_search = addslashes(trim($data['txt_search']));
-    	$s_where[] = " title LIKE '%{$s_search}%'";
-    	$s_where[] = " (SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id =d.`document_type` LIMIT 1) LIKE '%{$s_search}%'";
-    	$sql.=' AND ('.implode(' OR ',$s_where).')';
-    	}
-    	if ($data['document_type']>0){
-    	$sql.=" AND d.`document_type`=".$data['document_type'];
+	    	$s_where = array();
+	    	$s_search = addslashes(trim($data['txt_search']));
+	    	$s_where[] = " title LIKE '%{$s_search}%'";
+	    	$s_where[] = " description LIKE '%{$s_search}%'";
+	    	$s_where[] = " title LIKE '%{$s_search}%'";$sql.=' AND ('.implode(' OR ',$s_where).')';
     	}
     	$sql.=" ORDER BY d.id DESC";
     	return $db->fetchAll($sql);
     }
     function getDocumentById($id){
     	$db = $this->getAdapter();
-    	$sql="SELECT df.* FROM `mini_documentfile` AS df WHERE df.`id`=$id LIMIT 1";
+    	$sql="SELECT df.* FROM `mini_eyespublic` AS df WHERE df.`id`=$id LIMIT 1";
     	return $db->fetchRow($sql);
     }
     function addDocument($data){
@@ -51,21 +43,20 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
     	try{
     		$dbg = new Application_Model_DbTable_DbGlobal();
-    		
-    		$part= PUBLIC_PATH.'/file/image_feature/';
-    		if (!file_exists($part)) {
-    			mkdir($part, 0777, true);
-    		}
-    		$photoname = str_replace(" ", "_", $data['document_name']);
-    		$name = $_FILES['photo']['name'];
-    		$size = $_FILES['photo']['size'];
-    		$photo='';
-    		if (!empty($name)){
-    			$tem =explode(".", $name);
-					$new_image_name = date("Y").date("m").date("d").time().".".end($tem);
-					$photo = $dbg->resizeImase($_FILES['photo'], $part,$new_image_name);
+//     		$part= PUBLIC_PATH.'/file/image_feature/';
+//     		if (!file_exists($part)) {
+//     			mkdir($part, 0777, true);
+//     		}
+//     		$photoname = str_replace(" ", "_", $data['document_name']);
+//     		$name = $_FILES['photo']['name'];
+//     		$size = $_FILES['photo']['size'];
+//     		$photo='';
+//     		if (!empty($name)){
+//     			$tem =explode(".", $name);
+// 					$new_image_name = date("Y").date("m").date("d").time().".".end($tem);
+// 					$photo = $dbg->resizeImase($_FILES['photo'], $part,$new_image_name);
     				
-    		}
+//     		}    		
     		
     		$document='';
     		$partfile= PUBLIC_PATH.'/file/';
@@ -85,15 +76,10 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
     		
 	    	$arr = array(
 	    			'title'=>$data['document_name'],
-	    			'show_page'=>$data['show_page'],
-	    			'dept_id'=>$data['department_id'],
 	    			'key_word'=>$data['key_word'],
-					'document_type'=>$data["document_type"],
-	    			'image'=>$photo,
 	    			'file_name'=>$document,
 	    			'file_size'=>$filesize,
 	    			'create_date'=>date("Y-m-d"),
-	    			'modify_date'=>$data['date_register'],
 	    			'user_id'=>$this->getUserId(),
 	    			'status'=>1,
 	    		);
@@ -110,22 +96,7 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
 		$db->beginTransaction();
 		try{
 			$dbg = new Application_Model_DbTable_DbGlobal();
-			$part= PUBLIC_PATH.'/file/image_feature/';
-    		if (!file_exists($part)) {
-    			mkdir($part, 0777, true);
-    		}
-			$photoname = str_replace(" ", "_", $data['document_name']);
-			$name = $_FILES['photo']['name'];
-			$size = $_FILES['photo']['size'];
-			$photo='';
-			if (!empty($name)){
-				$tem =explode(".", $name);
-				$new_image_name = date("Y").date("m").date("d").time().".".end($tem);
-				$photo = $dbg->resizeImase($_FILES['photo'], $part,$new_image_name);
-		
-			}else{
-				$photo = $data['old_photo'];
-			}
+			
 			$document='';
 			$partfile= PUBLIC_PATH.'/file/';
 			$filename = $_FILES['document']['name'];
@@ -146,14 +117,10 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
 			
 			$arr = array(
 					'title'=>$data['document_name'],
-					'show_page'=>$data['show_page'],
-					'dept_id'=>$data['department_id'],
 					'key_word'=>$data['key_word'],
-					'document_type'=>$data["document_type"],
-					'image'=>$photo,
+// 					'document_type'=>$data["document_type"],
 					'file_name'=>$document,
 					'file_size'=>$filesize,
-// 					'create_date'=>date("Y-m-d"),
 					'modify_date'=>$data['date_register'],
 					'user_id'=>$this->getUserId(),
 					'status'=>1,
@@ -162,15 +129,14 @@ class Document_Model_DbTable_Dbdocument extends Zend_Db_Table_Abstract
 			$this->update($arr, $where);
 			$db->commit();
 		}catch(exception $e){
-// 			echo $e->getMessage();exit();
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			$db->rollBack();
 		}
 	}
-    function getAllDocumentType(){
-    	$sql="SELECT id,title AS name FROM `mini_document_type` WHERE title!=''";
-    	return  $this->getAdapter()->fetchAll($sql);
-    }
+//     function getAllDocumentType(){
+//     	$sql="SELECT id,title AS name FROM `mini_document_type` WHERE title!=''";
+//     	return  $this->getAdapter()->fetchAll($sql);
+//     }
 }
 

@@ -22,6 +22,9 @@ class Other_slideController extends Zend_Controller_Action {
 		}
 	}
 	
+	public function addAction(){
+		$this->_redirect("/other/slide");
+	}
 	public function iconAction(){
 		
 	}

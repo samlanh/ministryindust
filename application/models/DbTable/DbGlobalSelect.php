@@ -401,6 +401,7 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
     	if (!empty($doc_type)){
     		$sql.=" AND d.`document_type`=".$doc_type;
     	}
+    	$sql.=" AND show_page!=4 ";
     	$sql.=" ORDER BY d.id DESC ";
     	return $db->fetchAll($sql);
     }
@@ -457,6 +458,44 @@ class Application_Model_DbTable_DbGlobalSelect extends Zend_Db_Table_Abstract
     	}else{
     		return $rows;
     	}
+    }
+    function getArcticleByDepartmentid($cate_id){//អត្តបទ តាមនាយកដ្ឋាន
+    	$db = $this->getAdapter();
+    	$lang = $this->getCurrentLang();
+    	$sql="SELECT arc.*,
+    	(SELECT arcd.title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS title,
+    	(SELECT arcd.sub_title FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS sub_title,
+    	(SELECT arcd.description FROM `mini_article_detail` AS arcd WHERE arcd.articleId = arc.`id` AND arcd.language_id=$lang LIMIT 1) AS description
+    	FROM `mini_article` AS arc WHERE arc.`status`=1   ";
+    	$where='';
+    	if (!empty($cate_id)){// for get article by category
+    		$condiction = $this->getCliCate($cate_id);
+    		if (!empty($condiction)){
+    			$where=" AND (show_page!=4 OR arc.`category_id` IN ($condiction))";
+    		}else{
+    			$where.=" AND arc.`category_id`=$cate_id";
+    		}
+    	}
+    	$order = ' ORDER BY arc.`id` DESC ';
+    
+    	$row =  $db->fetchAll($sql.$where.$order);
+    	return $row;
+    }
+    function getDocumentByDeptid($dept_id,$doc_type=null){
+    	$db = $this->getAdapter();
+    	$lang = $this->getCurrentLang();
+    	$arraytitle = array(1=>"title_en",2=>"title");
+    	$sql="
+    	SELECT d.*,
+    	(SELECT dt.title FROM `mini_document_type` AS dt WHERE dt.id = d.`document_type` LIMIT 1) AS doc_type_title,
+    	d.".$arraytitle[$lang]." as title
+    	FROM `mini_documentfile` AS d WHERE d.`status`=1 AND title!='' ";
+    	$sql.=" AND (show_page!=4 OR dept_id=".$dept_id.")";
+//     	if (!empty($doc_type)){
+//     		$sql.=" AND d.`document_type`=".$doc_type;
+//     	}
+    	$sql.=" ORDER BY d.id DESC ";
+    	return $db->fetchAll($sql);
     }
 }
 ?>

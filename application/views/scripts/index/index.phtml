@@ -46,6 +46,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
 		    </div>
 		</div>
 		<!-- Slider Three Area End -->
+		<?php if(!empty($this->rsmessage['description'])){?>
 		 <div class="blog-two-area messageblog ptb-20">
               <div class="container">
             	<h2 class="hotnews">
@@ -53,6 +54,7 @@ if(!empty($this->document_type)) foreach($this->document_type as $key =>$rs){
             	</h2>
             </div>
          </div>
+         <?php }?>
 		<?php if (!empty($this->gethomearticle)){?>
 		<!-- Blog Two Area Start -->
         <div class="blog-two-area newsevent onpcbrowser ptb-20">

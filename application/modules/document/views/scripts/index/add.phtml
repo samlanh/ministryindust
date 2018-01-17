@@ -57,6 +57,29 @@ dojo.require("dijit.form.Textarea");
 								</td>
 							</tr>
 							<tr>
+								<td><?php echo $tr->translate("បង្ហាញ")?></td>
+								<td>
+									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="show_page" id="show_page" autoComplete="false"​​ queryExpr="*${0}*">
+										<option value="1">បង្ហាញទាំងអស់</option>
+										<option value="2">តែទំព័រឯកសារ</option>
+										<option value="3">ទំព័រឯកសារនិង នាយកដ្ឋានណាមួយ</option>
+										<option value="4">បង្ហាញតែតាមនាយកដ្ឋានណាមួយ</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("នាយកដ្ឋាន")?></td>
+								<td>
+									<select class="fullside" dojoType="dijit.form.FilteringSelect" name="department_id" id="department_id" autoComplete="false"​​ queryExpr="*${0}*">
+										<?php if(!empty($this->rsdepartment)){
+												foreach($this->rsdepartment as $rs){
+										?>	
+											<option value="<?php echo $rs['id'];?>"><?php echo $rs['name'];?></option>
+										<?php }}?>
+									</select>
+								</td>
+							</tr>
+							<tr>
 								<td><?php echo $tr->translate("រូបតំណាង")?></td>
 								<td><input class="fullside" name="photo" id="photo" type="file" accept=".jpg, .jpeg, .png"></td>
 							</tr>

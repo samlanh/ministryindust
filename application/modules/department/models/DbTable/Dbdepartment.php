@@ -161,7 +161,7 @@ class Department_Model_DbTable_Dbdepartment extends Zend_Db_Table_Abstract
 			$lang = $this->getCurrentLang();
 		}
 		$db = $this->getAdapter();
-		$sql="SELECT cd.id,cd.`title`,cd.description,cd.`language_id` 
+		$sql="SELECT d.id AS dept_id,cd.id,cd.`title`,cd.description,cd.`language_id` 
 			FROM `mini_department_detail` AS cd,mini_department as d
 		WHERE 
 			d.id=cd.department_id

@@ -25,7 +25,7 @@ class Document_IndexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("ឈ្មោះឯកសារ","ប្រភេទឯកសារ","កាលបរិច្ឆទ","ស្ថានការ","BY_USER");
+			$collumns = array("ឈ្មោះឯកសារ","ប្រភេទឯកសារ","បង្ហាញ","នាយកដ្ឋាន","កាលបរិច្ឆទ","ស្ថានការ","BY_USER");
 			$link_info=array('module'=>'document','controller'=>'index','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('title'=>$link_info,'doc_type_title'=>$link_info),0);
 				
@@ -41,6 +41,8 @@ class Document_IndexController extends Zend_Controller_Action {
   	
 //   	$db = new Application_Model_DbTable_DbVdGlobal();
 //   	$this->view->rsdepartment = $db->getAllDepartment();
+//   	print_r($db->getAllDepartment());
+  	
   }
   public function addAction(){
   	$db = new Document_Model_DbTable_Dbdocument();
@@ -66,6 +68,9 @@ class Document_IndexController extends Zend_Controller_Action {
   	$search = array();
   	$db = new Document_Model_DbTable_Dbdocumenttype();
   	$this->view->document_types = $db->getAllDocumentType($search);
+  	
+  	$db = new Application_Model_DbTable_DbVdGlobal();
+  	$this->view->rsdepartment = $db->getAllDepartment();
   }
   
   public function editAction(){
@@ -94,6 +99,9 @@ class Document_IndexController extends Zend_Controller_Action {
   	$search = array();
   	$db = new Document_Model_DbTable_Dbdocumenttype();
   	$this->view->document_types = $db->getAllDocumentType($search);
+  	
+  	$db = new Application_Model_DbTable_DbVdGlobal();
+  	$this->view->rsdepartment = $db->getAllDepartment();
   	
   }
   

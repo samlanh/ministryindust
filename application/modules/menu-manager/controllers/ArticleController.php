@@ -27,7 +27,7 @@ class MenuManager_ArticleController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("CATEGORY","TITLE","STATUS");
+			$collumns = array("CATEGORY","TITLE","បង្ហាញ","នាយកដ្ឋាន","STATUS");
 			$link_info=array('module'=>'menu-manager','controller'=>'article','action'=>'edit',);
 			$this->view->list=$list->getCheckList(4, $collumns, $rs_rows,array('title'=>$link_info,'category'=>$link_info),0);
 			
@@ -69,6 +69,9 @@ class MenuManager_ArticleController extends Zend_Controller_Action {
   	}
   	$dbglobal = new Application_Model_DbTable_DbVdGlobal();
   	$this->view->lang = $dbglobal->getLaguage();
+  	
+  	$db = new Application_Model_DbTable_DbVdGlobal();
+  	$this->view->rsdepartment = $db->getAllDepartment();
   }
   public function editAction(){
   	$id = $this->getRequest()->getParam('id');
@@ -98,6 +101,9 @@ class MenuManager_ArticleController extends Zend_Controller_Action {
   	}
   	$dbglobal = new Application_Model_DbTable_DbVdGlobal();
   	$this->view->lang = $dbglobal->getLaguage();
+  	
+  	$db = new Application_Model_DbTable_DbVdGlobal();
+  	$this->view->rsdepartment = $db->getAllDepartment();
   }
   public function deleteAction(){
   	try{

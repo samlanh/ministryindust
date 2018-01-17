@@ -3,6 +3,17 @@ $db = new Application_Model_DbTable_DbGlobalSelect();
 //$bannerlist = $db->getWebsiteSetting("banner");
 //$banner = explode(",", $bannerlist['value']);
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$session_lang=new Zend_Session_Namespace('lang');
+$currentlang = $session_lang->lang_id;
+if ($currentlang==1){
+	$day = array("Mon"=>"Monday", "Tue"=>"Tuesday", "Wed"=>"Wednesday","Thu"=>"Thursday", "Fri"=>"Friday", "Sat"=>"Saturday", "Sun"=>"Sunday");
+	$number = array("0","1","2","3","4","5","6","7","8","9");
+	$month = array("01"=>"Jan", "02"=>"Feb", "03"=>"Mar","04"=>"Apr", "05"=>"May", "06"=>"Jun", "07"=>"Jul","08"=>"Aug", "09"=>"September", "10"=>"Oct","11"=>"Nov", "12"=>"Dec");
+}else{
+	$day = array("Mon"=>"ថ្ងៃច័ន្ទ", "Tue"=>"ថ្ងៃអង្គារ", "Wed"=>"ថ្ងៃពុធ","Thu"=>"ថ្ងៃព្រហស្បត្តិ៍", "Fri"=>"ថ្ងៃសុក្រ", "Sat"=>"ថ្ងៃសៅរ៍", "Sun"=>"ថ្ងៃអាទិត្យ");
+	$number = array("០","១","២","៣","៤","៥","៦","៧","៨","៩");
+	$month = array("01"=>"មករា", "02"=>"កុម្ភៈ", "03"=>"មិនា", "04"=>"មេសា", "05"=>"ឧសភា", "06"=>"មិថុនា", "07"=>"កក្កដា","08"=>"សីហា", "09"=>"កញ្ញា", "10"=>"តុលា","11"=>"វិច្ឆិកា", "12"=>"ធ្នូ");
+}
 ?>
 <title><?php echo $this->rsfirst['title'];?></title>
 	<!-- Breadcrumb Area Start-->
@@ -58,6 +69,87 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		 			
 					</div>
 				</div>
+				
+				<div class="row">
+                   <div class="col-md-8 col-sm-12 col-xs-12">
+                        <div class="single-blog-post-wrapper">
+	                        <?php
+	                        if(!empty($this->rs_article)) foreach($this->rs_article as $article){ ?>
+	                            <div class="single-blog-post col-md-6 col-sm-12 col-xs-12">
+	                            	<div class="list">
+		                                <div class="blog-image">
+		                                    <a href="<?php echo $this->baseUrl()."/page/index?article=".$article['alias_article'].".html"; ?>">
+		                                    <?php if(!empty($article['image_feature'])){?>
+												<img src="<?php echo $this->baseUrl()."/images/article/".$article['image_feature'];?>"/>
+											<?php }else{?>
+												<img src="<?php echo $this->baseUrl()."/images/noimage.jpg";?>"/>
+											<?php }?>
+		                                    </a>
+		                                </div>
+		                                <div class="blog-post-text">
+		                                    <h4><a href="<?php echo $this->baseUrl()."/page/index?article=".$article['alias_article'].".html"; ?>"><?php echo $article['title'];?></a></h4>
+		                                    <p>
+		                                     <?php
+													echo mb_substr(strip_tags($article['description']),0,100, "utf-8")."...";
+												?> 
+											</p>
+											<div class="readmore">
+		                                    <a href="<?php echo $this->baseUrl()."/page/index?article=".$article['alias_article'].".html"; ?>" class="default-btn"><span><?php echo $tr->translate("READ_MORE")?></span></a>
+		                               		</div>
+		                                </div>
+	                                </div>
+	                            </div>
+	                            <?php }?>
+                         </div>
+                    </div>
+				</div>
+				
+				<div class="col-md-8 col-sm-12 col-xs-12">
+					<h1>ឯកសារផ្សេងៗ</h1>
+					<ul class="result-list ">
+						<?php if(!empty($this->rs_doc)){foreach ($this->rs_doc as $document){?>
+						<li class="pb-20">
+							<div class="blog-left-result col-md-2 col-sm-2 col-xs-2">
+								<?php 
+								$image = $this->baseUrl()."/images/noimage.jpg";
+								if (!empty($document['image'])){
+										$image = $this->baseUrl()."/file/image_feature/".$document['image'];
+									}
+								?>
+								<a target="_blank" href="<?php echo $this->baseUrl()."/file/".$document['file_name'];?>">
+								<img src="<?php echo $image;?>" />
+								</a>
+							</div>
+							<div class="blog-right-result col-md-10 col-sm-10 col-xs-10">
+								<div class="post_date">
+									<span class="date">
+									<?php 
+									$date = strtotime($document['modify_date']);
+									$spp = str_split(date("d",$date));
+									$num="";
+									foreach ($spp as $ss){
+										$num.=$number[$ss];
+									}
+									$year='';
+									$sp_year = str_split(date("Y",$date));
+									foreach ($sp_year as $y){
+										$year.=$number[$y];
+									}
+									echo $day[date("D",$date)]." ".$num." ".$month[date("m",$date)]." ".$year;
+									?>
+									</span>
+								</div>
+								<div class="result_title doc">
+									<a target="_blank" href="<?php echo $this->baseUrl()."/file/".$document['file_name'];?>"><?php echo $document['title'];?></a>
+								</div>
+								<div class="result_description">
+								</div>
+							</div>
+								<div class="clearboth"></div>
+							</li>
+							<?php }}?>
+						</ul>
+				 </div>
 			</div>
 		</div>
 	</div>

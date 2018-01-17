@@ -19,6 +19,8 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
 			act.`id`,
 			(SELECT cd.title FROM `mini_category_detail` AS cd WHERE cd.category_id = act.`category_id` AND languageId=$lang LIMIT 1) AS category,
 			(SELECT ad.title FROM `mini_article_detail` AS ad WHERE ad.articleId = act.`id` AND language_id=$lang LIMIT 1) AS title,
+			(SELECT name_en FROM `ln_view` WHERE type=1 AND key_code=act.show_page LIMIT 1) show_page,
+		    (SELECT cd.title FROM `mini_department_detail` AS cd WHERE cd.department_id = act.`dept_id` AND cd.language_id=$lang LIMIT 1) AS department_name,
 			act.`status`
 			 FROM `mini_article` AS act 
 			 WHERE act.`status`>-1";
@@ -67,6 +69,8 @@ class MenuManager_Model_DbTable_DbArticle extends Zend_Db_Table_Abstract
     		}
 	    	$arr = array(
 	    			'category_id'=>$data['category'],
+	    			'show_page'=>$data['show_page'],
+	    			'dept_id'=>$data['department_id'],
 					'alias_article'=>$alias,
 	    			'status'=>$data['status'],
 					'modify_date'=>date("Y-m-d H:i:s"),

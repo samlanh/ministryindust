@@ -59,8 +59,6 @@ class Application_Model_DbTable_DbVdGlobal extends Zend_Db_Table_Abstract
 		$sql="SELECT mt.`id`,mt.`title` AS name FROM `mini_menu_type` AS mt WHERE mt.`status`=1";
 		return $db->fetchAll($sql);
 	}
-	
-	
 	public function getCategory($parent = 0, $spacing = '', $cate_tree_array = ''){
 		$db=$this->getAdapter();
 		if (!is_array($cate_tree_array))
@@ -232,10 +230,6 @@ class Application_Model_DbTable_DbVdGlobal extends Zend_Db_Table_Abstract
 					echo '<ul class="level3 groupmenu-drop">';
 				}
 			}
-// 			if ($count==1){
-// 				echo '<li>';
-// 				echo '<a href="'.$base_url.'/index/all-items">View All Items</a></li>';
-// 			}
 			$seemore=0;
 			foreach ($array[$parent_id] as $key=> $rs){
 				$class='';
@@ -338,9 +332,8 @@ class Application_Model_DbTable_DbVdGlobal extends Zend_Db_Table_Abstract
 	function getMessageHomepage(){
 		$db = $this->getAdapter();
 		$lang = $this->getCurrentLang();
-		$sql="SELECT description,title FROM `mini_hotnews` WHERE language_id=".$lang;
+		$sql="SELECT description,title FROM `mini_hotnews` WHERE status=1 AND language_id=".$lang;
 		return $db->fetchRow($sql);
 	}
-
 }
 ?>

@@ -139,6 +139,7 @@
 	            			if(!empty($rs) OR $action=='changepassword'){
 	            				echo $this->layout()->content;
 	            			}else{
+	            				//echo $this->layout()->content;
 	            				echo $this->render('pagenotfund.phtml');
 	            			}
             			 ?>
@@ -152,11 +153,10 @@
     </body>
 	<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 <?php }else{
-		echo $this->render('headerfront.phtml');
-		echo $this->layout()->content;
-		echo $this->render('footerfront.phtml');
+	echo $this->render('headerfront.phtml');
+	echo $this->layout()->content;
+	echo $this->render('footerfront.phtml');
 }?>
-
 <?php if($module=='report' AND $controller!='index'){?>
 <script type="text/javascript">
 function doPrint() {
