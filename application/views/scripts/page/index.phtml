@@ -145,7 +145,7 @@ if(!empty($this->param['param'])){
 		                                   					 </li>
 		                                                 <?php }}?>
 		                                                 <li class="<?php if($countPages==$currentPage){ echo "active"; }?>">
-							                               	  	<a "href="<?php echo $this->baseUrl()."/page/index?param=".$this->param['param']."&pages=".$nextPage;?>"><i class="fa fa-angle-right"></i></a>
+							                               	  	<a href="<?php echo $this->baseUrl()."/page/index?param=".$this->param['param']."&pages=".$nextPage;?>"><i class="fa fa-angle-right"></i></a>
 							                                 </li>
 						                                </ul>
 						                           		<?php }?>
@@ -627,7 +627,7 @@ if(!empty($this->param['param'])){
 	                                </div> -->  
                                     <p>
 	                                    <?php
-											echo mb_substr($article['description'],0,100, "utf-8")."...";
+											echo mb_substr(strip_tags($article['description']),0,100, "utf-8")."...";
 										?> 
 										</p>
 									<div class="readmore">
@@ -654,16 +654,16 @@ if(!empty($this->param['param'])){
                             <?php if($countPages>1){ ?>
                                 <ul class="pagination">
 	                                 <li class="<?php if($currentPage==1){ echo "active";}?>">
-                               	  	<a href="<?php echo $this->baseUrl()."/page/index?param=".$this->param['param']."&pages=".$previousPage;?>"><i class="fa fa-angle-left"></i></a>
+                               	  	<a href="<?php echo $this->baseUrl()."/page/index?category=".$this->cate['alias_category']."&pages=".$previousPage;?>"><i class="fa fa-angle-left"></i></a>
 	                                 </li>
                                     <?php  $i=0; for( $i=1; $i<=$countPages; $i++){?>
 		           			 	<?php if ($statpage<=$i && $endpage>=$i){?>
                                    					 <li class="<?php if($i==$currentPage){ echo "active";}?>">
-                                   					 	<a href="<?php echo $this->baseUrl()."/page/index?param=".$this->param['param']."&pages=".$i;?>"><?php echo $i;?></a>
+                                   					 	<a href="<?php echo $this->baseUrl()."/page/index?category=".$this->cate['alias_category']."&pages=".$i;?>"><?php echo $i;?></a>
                                    					 </li>
                                                  <?php }}?>
-                                                 <li class="<?php if($countPages==$currentPage){ echo "active"; }?>">
-                               	  	<a "href="<?php echo $this->baseUrl()."/page/index?param=".$this->param['param']."&pages=".$nextPage;?>"><i class="fa fa-angle-right"></i></a>
+                                    <li class="<?php if($countPages==$currentPage){ echo "active"; }?>">
+                               	  	<a href="<?php echo $this->baseUrl()."/page/index?category=".$this->cate['alias_category']."&pages=".$nextPage;?>"><i class="fa fa-angle-right"></i></a>
 	                                 </li>
                                 </ul>
                            		<?php }?>
