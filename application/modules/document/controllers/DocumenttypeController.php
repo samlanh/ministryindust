@@ -23,7 +23,7 @@ class Document_DocumenttypeController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("ឈ្មោះឯកសារ","ឈ្មោះឯកសារអង់គ្លេស","ប្រភេទមេ","កាលបរិច្ឆទ","BY_USER","ស្ថានការ");
+			$collumns = array("ឈ្មោះឯកសារ","ឈ្មោះឯកសារអង់គ្លេស","ORDERING","ប្រភេទមេ","កាលបរិច្ឆទ","BY_USER","ស្ថានការ");
 			$link_info=array('module'=>'document','controller'=>'documenttype','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('title'=>$link_info,'doc_type_title'=>$link_info),0);
 		}catch (Exception $e){

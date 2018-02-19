@@ -21,6 +21,7 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
     	$sql="SELECT am.`id`, 
 		(SELECT amd.title FROM `mini_aboutministry_detail` AS amd WHERE amd.ministy_id = am.`id`
 		 AND amd.language_id=$lang LIMIT 1) AS name, 
+		 am.ordering,
 		 am.`parent_id`,
 		 status,user_id 
     	FROM `mini_aboutministry` AS am WHERE am.`status`>-1  AND am.`parent_id`=$parent ";
@@ -42,7 +43,7 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
     	$id='';
     	if ($rowCount > 0) {
     		foreach ($query as $row){
-    			$cate_tree_array[] = array("id" => $row['id'], "name" => $spacing . $row['name'], "status" =>$row['status']);
+    			$cate_tree_array[] = array("id" => $row['id'], "name" => $spacing . $row['name'], "ordering" =>$row['ordering'],"status" =>$row['status']);
     			$cate_tree_array = $this->getAllAbout($id=$row['id'], $spacing . ' - ', $cate_tree_array,$data);
     		}
     	}
@@ -62,6 +63,7 @@ class About_Model_DbTable_Dbabout extends Zend_Db_Table_Abstract
 	    	$arr = array(
 	    			'parent_id'=>$data['parent'],
 					'alias'=>$alias,
+	    			'ordering'=>$data['ordering'],
 	    			'status'=>$data['status'],
 					'modify_date'=>date("Y-m-d H:i:s"),
 // 	    			'create_date'=>date("Y-m-d"),

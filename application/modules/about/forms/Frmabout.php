@@ -19,6 +19,13 @@ Class About_Form_Frmabout extends Zend_Dojo_Form {
 		));
 		$_title->setValue($request->getParam("title"));
 		
+		$ordering = new Zend_Dojo_Form_Element_NumberTextBox('ordering');
+		$ordering->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required'=>'true',
+		));
+		
 		$_title_alias = new Zend_Dojo_Form_Element_TextBox('title_alias');
 		$_title_alias->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -107,9 +114,10 @@ Class About_Form_Frmabout extends Zend_Dojo_Form {
 			$_status->setValue($data['status']);
 			$id->setValue($data['id']);
 			$_title_alias->setValue($data['alias']);
+			$ordering->setValue($data['ordering']);
 		}
 		
-		$this->addElements(array($id,$_btn_search,$_title,$_status,$note,$_status_search,$_title_alias,
+		$this->addElements(array($ordering,$id,$_btn_search,$_title,$_status,$note,$_status_search,$_title_alias,
 				$_cateory_parent,$_cate_type
 				));
 		return $this;

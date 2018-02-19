@@ -66,6 +66,7 @@ $imgtick='<img src="'.$this->baseUrl().'/images/icon/apply2.png"/>';
 				<tr>
 				<th class="tdheader"><?php echo $tr->translate("NUM")?></th>
 				<th class="tdheader" style=" width: 50%;"><?php echo $tr->translate("TITLE")?></th>
+				<th class="tdheader"><?php echo $tr->translate("ORDERING")?></th>
 				<th class="tdheader"><?php echo $tr->translate("STATUS")?></th>
 				<th class="tdheader"><?php echo $tr->translate("BY_USER")?></th>
 			  	</tr>
@@ -81,6 +82,7 @@ $imgtick='<img src="'.$this->baseUrl().'/images/icon/apply2.png"/>';
 			  	<tr class="<?php echo $attb; ?>">
 			  		<td class="items-no"><?php echo $r;?></td>
 			  		<td class="items"><a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$row['id']));?>"><?php echo $row['name'];?></a></td>
+			  		<td class="items"><a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$row['id']));?>"><?php echo $row['ordering'];?></a></td>
 			  		<td class="items"><?php if($row['status']==1){echo  $imgtick;} else{echo $imgnone;};?></td>
 			  		<td align="center" class="items"><?php echo $rows['user_name'];?></td>
 			  	</tr>

@@ -66,6 +66,7 @@ $imgtick='<img src="'.$this->baseUrl().'/images/icon/apply2.png"/>';
 				<tr>
 				<th class="tdheader"><?php echo $tr->translate("NUM")?></th>
 				<th class="tdheader" style=" width: 60%;"><?php echo $tr->translate("TITLE")?></th>
+				<th class="tdheader"><?php echo $tr->translate("ORDERING")?></th>
 				<th class="tdheader"><?php echo $tr->translate("MENU_TYPE")?></th>
 				<th class="tdheader"><?php echo $tr->translate("STATUS")?></th>
 				<th class="tdheader"><?php echo $tr->translate("")?></th>
@@ -82,6 +83,7 @@ $imgtick='<img src="'.$this->baseUrl().'/images/icon/apply2.png"/>';
 			  	<tr class="<?php echo $attb; ?>">
 			  		<td class="items-no"><?php echo $r;?></td>
 			  		<td class="items"><a href="<?php echo $this->url(array('controller'=>'menu-items','action'=>'edit','id'=>$row['id']));?>"><?php echo $row['name'];?></a></td>
+			  		<td class="items" style="width:50px !important;"><a style="width:50px !important;" href="<?php echo $this->url(array('controller'=>'menu-items','action'=>'edit','id'=>$row['id']));?>"><?php echo $rs['ordering'];?></a></td>
 			  		<td class="items"><a href="<?php echo $this->url(array('controller'=>'menu-items','action'=>'edit','id'=>$row['id']));?>"><?php echo $rs['menu_type'];?></a></td>
 			  		<td class="items"><?php if($rs['status']==1){echo  $imgtick;} else{echo $imgnone;};?></td>
 			  		<td align="center"><a style="cursor: pointer;"  onclick="showDeleteForm(<?php echo $row['id'];?>)" ><img style="vertical-align: middle; padding: 0 5px;" src="<?php echo $this->baseUrl();?>/images/delete.png" /><?php echo $tr->translate("DELETE");?></a></td>

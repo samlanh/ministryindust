@@ -80,6 +80,7 @@ class Eyespublic_Model_DbTable_Dbeyespublic extends Zend_Db_Table_Abstract
 	    			'file_name'=>$document,
 	    			'file_size'=>$filesize,
 	    			'create_date'=>date("Y-m-d"),
+	    			'modify_date'=>date("Y-m-d"),
 	    			'user_id'=>$this->getUserId(),
 	    			'status'=>1,
 	    		);

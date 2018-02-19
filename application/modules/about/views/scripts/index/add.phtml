@@ -7,6 +7,7 @@ $countlang = count($this->lang);
 ?>
 <script type="text/javascript">	
 	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require("dijit.form.NumberTextBox");
 	dojo.require('dijit.form.Form');	
 	dojo.require('dijit.form.Button');
 	dojo.require('dijit.form.FilteringSelect');
@@ -87,6 +88,11 @@ $countlang = count($this->lang);
 									<tr>
 										<td><label id="message" style="color: red;"></label>
 										<?php echo $frm->getElement('title_alias');?></td>
+									</tr>
+									<tr>
+										<td  class="bold"><?php echo $tr->translate('ORDERING')?></td></tr>
+									<tr>
+										<td><?php echo $frm->getElement('ordering');?></td>
 									</tr>
 									<tr>
 										<td  class="bold"><?php echo $tr->translate('CHOOSE_PARENT')?></td>

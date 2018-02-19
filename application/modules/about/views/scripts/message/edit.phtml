@@ -4,14 +4,15 @@ $this->headTitle($tr->translate('HOT_NEWS'));
 echo $this->headTitle();
 $frm = $this->frm;
 $countlang = count($this->lang);
-$db = new About_Model_DbTable_DbHotNew();
+$db = new About_Model_DbTable_Message();
 ?>
 <script type="text/javascript">	
 	dojo.require("dijit.form.ValidationTextBox");
 	dojo.require('dijit.form.Form');	
 	dojo.require('dijit.form.Button');
 	dojo.require('dijit.form.FilteringSelect');
-	require(["dijit/layout/TabContainer","dijit/layout/ContentPane"]);
+	dojo.require("dijit.Dialog");
+	require(["dijit/form/CheckBox","dijit/Dialog","dijit/layout/TabContainer"]);
 </script>
 <style>
 .choose_file{
@@ -42,6 +43,7 @@ $db = new About_Model_DbTable_DbHotNew();
 				loading();
 				return true;
 			}
+
 			return false;
 	</script>
 		
@@ -53,14 +55,19 @@ $db = new About_Model_DbTable_DbHotNew();
 			<td>
 					<table  width="100%">
 						<tr>
+							<td  class="bold"><?php echo $tr->translate('TITLE')?></td>
+							<td>
+								
+							</td>
+						</tr>
+						<tr>
 							<td align="left" valign="top" width="70%">	
+							<input type="text" dojoType="dijit.form.TextBox" required="required" name="title"  id="title" value="<?php echo $this->row['title'];?>" class="fullside" placeholder="" />
 							<?php if ($countlang>1){?>
-								<div id="mainTabContainer" style=" position:relative; width:800px; display:block; height: 200px;" dojoType="dijit.layout.TabContainer" region="center" >
+								<div id="mainTabContainer" style=" position:relative; width:800px; display:block; height: 600px;" dojoType="dijit.layout.TabContainer" region="center" >
 					      	<?php }?>		
 					      	<?php $alias=''; foreach($this->lang as $key=> $rs){ if ($key<1){ $alias = str_replace(' ','',$rs['title']);}
-					     		 $data =$db->getHotnewById($this->id,$rs['id']);
-					     		 $title = ($rs['title']=='English')?$data['title_en']:$data['title_kh'];
-					     		 $url   = ($rs['title']=='English')?$data['url_en']:$data['url_kh'];
+					     		 $data =$db->getHotnewById($rs['id'],$this->id);
 					      	?>
 					      			<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="<?php echo $tr->translate(strtoupper($rs['title']));?>" selected="true">
 										<table cellspacing="5" width="100%">
@@ -69,15 +76,7 @@ $db = new About_Model_DbTable_DbHotNew();
 											</tr>
 											<tr>
 												<td>
-													<input type="text" dojoType="dijit.form.TextBox" required="required" name="title_<?php echo $rs['title'];?>"  id="title_<?php echo $rs['title'];?>" value="<?php echo $title;?>" class="fullside" />
-												</td>
-											</tr>
-											<tr>
-												<td  class="bold" style="width:110px"><?php echo $tr->translate('URL_LINK').$tr->translate(strtoupper($rs['title']));?>	</td>
-											</tr>
-											<tr>
-												<td>
-													<input type="text" dojoType="dijit.form.TextBox" required="required" name="url_<?php echo $rs['title'];?>"  id="url_<?php echo $rs['title'];?>" value="<?php echo $url;?>" class="fullside" />
+													<textarea class="ckeditor" height="400px" style="min-height:60px;" id="description<?php echo str_replace(' ','',$rs['title']);?>" name="description<?php echo str_replace(' ','',$rs['title']);?>"><?php echo $data['description'];?></textarea>
 												</td>
 											</tr>
 										</table>
@@ -121,7 +120,6 @@ dojo.ready(function(){
 		  return false;
 		}
 	  });
-	  dijit.byId("status").attr("value",'<?php echo $this->row['status'];?>');
 });
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";

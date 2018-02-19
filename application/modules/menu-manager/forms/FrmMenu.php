@@ -78,7 +78,19 @@ Class MenuManager_Form_FrmMenu extends Zend_Dojo_Form {
 				'required'=>'true',
 				'placeholder'=>$this->tr->translate("TITLE")
 		));
-		$_title->setValue($request->getParam("title"));
+		
+		$ordering = new Zend_Dojo_Form_Element_NumberTextBox('ordering');
+		$ordering->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required'=>'true',
+		));
+		
+		$url_link = new Zend_Dojo_Form_Element_TextBox('url_link');
+		$url_link->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
 		
 		$_title_alias = new Zend_Dojo_Form_Element_ValidationTextBox('title_alias');
 		$_title_alias->setAttribs(array(
@@ -241,6 +253,7 @@ Class MenuManager_Form_FrmMenu extends Zend_Dojo_Form {
 			$_target_type->setValue($data['target_type']);
 			$_menu_type->setValue($data['menu_type_id']);
 // 			$_menu_manager->setValue($data['menu_manager_id']);
+			$ordering->setValue($data['ordering']);
 			$_fax->setValue($data['fax']);
 			$_phone->setValue($data['tel']);
 			$_address->setValue($data['address']);
@@ -250,7 +263,7 @@ Class MenuManager_Form_FrmMenu extends Zend_Dojo_Form {
 			$_category->setValue($data['category_id']);
 		}
 		
-		$this->addElements(array($_title,$_status,$_parent,$_title_alias,$_menu_type,$_target_type,
+		$this->addElements(array($url_link,$ordering,$_title,$_status,$_parent,$_title_alias,$_menu_type,$_target_type,
 // 				$_menu_manager,
 				$_fax,$_phone,$_address,$email,$_article,$_category,$map,$_status_search,$advance_search
 				));

@@ -19,7 +19,7 @@ class MenuManager_Model_DbTable_DbMenuItems extends Zend_Db_Table_Abstract
 			$cate_tree_array = array();
 		$sql="SELECT m.`id`,
 			(SELECT md.title FROM `mini_menu_detail` AS md WHERE md.menu_id = m.`id` AND md.languageId=$lang LIMIT 1) AS name,
-			m.`parent`
+			m.ordering,m.`parent`
 			 FROM `mini_menu` AS m WHERE m.`status`>-1 AND m.`parent` = $parent ";
 		if ($search['status_search']!=''){
 			$sql.=" AND m.`status`=".$search['status_search'];
@@ -33,7 +33,7 @@ class MenuManager_Model_DbTable_DbMenuItems extends Zend_Db_Table_Abstract
 			$s_where[] = " (SELECT md.title FROM `mini_menu_detail` AS md WHERE md.menu_id = m.`id` AND md.languageId=$lang LIMIT 1) LIKE '%{$s_search}%'";
 			$sql .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		$sql.=" ORDER BY m.id DESC";
+		$sql.=" ORDER BY m.ordering ASC";
 		$query = $db->fetchAll($sql);
 		$stmt = $db->query($sql);
 		$rowCount = count($query);
@@ -59,7 +59,8 @@ class MenuManager_Model_DbTable_DbMenuItems extends Zend_Db_Table_Abstract
     		}
 	    	$arr = array(
 	    			//'menu_manager_id'=>$data['menu_manager'],
-// 	    			'menu_manager_id'=>1,
+	    	        'ordering'=>$data['ordering'],
+	    			'menu_manager_id'=>1,
 	    			'parent'=>$data['parent'],
 	    			'alias_menu'=>$alias,
 	    			'menu_type_id'=>$data['menu_type'],
@@ -98,6 +99,7 @@ class MenuManager_Model_DbTable_DbMenuItems extends Zend_Db_Table_Abstract
 		    						'menu_id'=>$menuid,
 		    						'title'=>$data['title'.$title],
 		    						'languageId'=>$row['id'],
+		    						'url'=>$data['url_'.$title],
 		    				);
 		    				$this->_name="mini_menu_detail";
 		    				$wheredetail=" menu_id=".$data['id']." AND id=".$data['iddetail'.$title];
@@ -107,6 +109,7 @@ class MenuManager_Model_DbTable_DbMenuItems extends Zend_Db_Table_Abstract
 			    					'menu_id'=>$menuid,
 			    					'title'=>$data['title'.$title],
 			    					'languageId'=>$row['id'],
+			    					'url'=>$data['url_'.$title],
 			    			);
 			    			$this->_name="mini_menu_detail";
 			    			$this->insert($arr_menudetail);
@@ -123,6 +126,7 @@ class MenuManager_Model_DbTable_DbMenuItems extends Zend_Db_Table_Abstract
 	    			$arr_menudetail = array(
 	    					'menu_id'=>$menuid,
 	    					'title'=>$data['title'.$title],
+	    					'url'=>$data['url_'.$title],
 	    					'languageId'=>$row['id'],
 	    			);
 	    			$this->_name="mini_menu_detail";

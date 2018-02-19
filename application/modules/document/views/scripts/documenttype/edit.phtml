@@ -8,6 +8,7 @@
 <script>
 dojo.require("dojo.data.ItemFileWriteStore");  
 dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.NumberTextBox");
 dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.layout.TabContainer");
@@ -47,22 +48,29 @@ dojo.require("dijit.form.Textarea");
 									</td>
 								</tr>
 								<tr>
-									<td><?php echo $tr->translate("ឈ្មោះឯកសារខ្មែរ")?></td>
+									<td><?php echo $tr->translate("NAME_KHMER")?></td>
 									<td><input value="<?php echo $this->rs['title'];?>" dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_typekh" id="document_typekh" type="text">
 										<input value="<?php echo $this->rs['id'];?>" dojoType="dijit.form.TextBox" class="fullside" name="id" id="id" type="hidden">
 									</td>
 								</tr>
 								<tr>
-									<td><?php echo $tr->translate("ឈ្មោះឯកសារអង់គ្គេស")?></td>
+									<td><?php echo $tr->translate("NAME_ENG")?></td>
 									<td><input value="<?php echo $this->rs['title_en'];?>" dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_typeen" id="document_typeen" type="text"></td>
 								</tr>
 								<tr>
-									<td><?php echo $tr->translate("ស្ថានការណ៍")?></td>
+								<tr>
+									<td><?php echo $tr->translate("ORDERING")?></td>
+									<td><input dojoType="dijit.form.NumberTextBox" required="1" class="fullside" name="ordering" id="ordering" value="<?php echo $this->rs['ordering'];?>" type="text"></td>
+								</tr>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("STATUS")?></td>
 									<td>
-											<select name="status" id="status" dojoType="dijit.form.FilteringSelect" required="true" class="fullside" autoComplete="false"​​ queryExpr="*${0}*">
-											    <option value="1" <?php if($this->rs['status']==1){echo"selected";} ?>>ដំណើរការណ៍</option>
-											    <option value="0" <?php if($this->rs['status']==0){echo"selected";} ?>>ផ្អាកដំណើរការណ៍</option>
-											</select></td>
+										<select name="status" id="status" dojoType="dijit.form.FilteringSelect" required="true" class="fullside" autoComplete="false"​​ queryExpr="*${0}*">
+										    <option value="1" <?php if($this->rs['status']==1){echo"selected";} ?>>ដំណើរការណ៍</option>
+										    <option value="0" <?php if($this->rs['status']==0){echo"selected";} ?>>ផ្អាកដំណើរការណ៍</option>
+										</select>
+									</td>
 								</tr>
 								<tr>
 									<td></td>

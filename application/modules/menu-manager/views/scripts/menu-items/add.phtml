@@ -10,6 +10,8 @@ $countlang = count($this->lang);
 	dojo.require("dijit.form.ValidationTextBox");
 	dojo.require('dijit.form.Form');	
 	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.NumberTextBox');
+	
 	dojo.require('dijit.form.FilteringSelect');
 	dojo.require("dijit.Dialog");
 	dojo.require("dijit.form.Textarea");
@@ -43,7 +45,7 @@ $countlang = count($this->lang);
 										<tr>
 											<td >
 											<?php if ($countlang>1){?>
-												<div id="mainTabContainer" style=" position:relative; width:750px; display:block; height: 90px;" dojoType="dijit.layout.TabContainer" region="center" >
+												<div id="mainTabContainer" style=" position:relative; width:750px; display:block; height: 150px;" dojoType="dijit.layout.TabContainer" region="center" >
 									      	<?php }?>		
 									      	<?php $alias=''; foreach($this->lang as $key=> $rs){ if ($key<1){ $alias = str_replace(' ','',$rs['title']);}?>
 									      			<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="<?php echo $tr->translate(strtoupper($rs['title']));?>" selected="true">
@@ -53,6 +55,12 @@ $countlang = count($this->lang);
 																<td>
 																	<input type="text" onChange="generateAlias('<?php echo $alias;?>');" dojoType="dijit.form.TextBox" required="required" name="title<?php echo str_replace(' ','',$rs['title']);?>"  id="title<?php echo str_replace(' ','',$rs['title']);?>" value="" class="fullside" placeholder="<?php echo $tr->translate("TITLE_IN_".strtoupper($rs['title']));?>" />
 																	<input type="hidden" dojoType="dijit.form.TextBox" name="iddetail<?php echo str_replace(' ','',$rs['title']);?>"  id="iddetail<?php echo str_replace(' ','',$rs['title']);?>" value="" class="fullside" />
+																</td>
+															</tr>
+															<tr>
+																<td class="bold"><?php echo $tr->translate('URL_LINK')." ".$rs['title']?></td>
+																<td>
+																	<input type="text" dojoType="dijit.form.TextBox" name="url_<?php echo str_replace(' ','',$rs['title']);?>"  id="url_<?php echo str_replace(' ','',$rs['title']);?>" class="fullside"  />
 																</td>
 															</tr>
 														</table>
@@ -130,6 +138,11 @@ $countlang = count($this->lang);
 										<td>
 										<label id="message" style="color: red;"></label>
 										<?php echo $frm->getElement('title_alias');?></td>
+									</tr>
+									<tr>
+										<td class="bold"><?php echo $tr->translate('ORDERING')?></td></tr>
+									<tr>
+										<td><?php echo $frm->getElement('ordering');?></td>
 									</tr>
 									<!-- <tr>
 										<td class="bold"><?php //echo $tr->translate('MENU')?></td>
@@ -211,7 +224,6 @@ var alias_require=0;
 			 dijit.byId('address').set('required',false);
 			 dijit.byId('phone').set('required',false); 
 			 dijit.byId('email').set('required',false);
-			 
 		 }
 	}
 

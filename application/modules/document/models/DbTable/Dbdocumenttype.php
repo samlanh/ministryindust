@@ -9,7 +9,7 @@ class Document_Model_DbTable_Dbdocumenttype extends Zend_Db_Table_Abstract
     }
     public function getAllDocumentType($data){
     	$db=$this->getAdapter();
-    	$sql="SELECT id,title,title_en,
+    	$sql="SELECT id,title,title_en,ordering,
     			(SELECT title FROM `mini_document_type` WHERE parent_id=dt.id LIMIT 1) AS parrent_name,
     			create_date,
     			(SELECT first_name FROM `rms_users` WHERE id=user_id) AS user_name,status 
@@ -26,7 +26,7 @@ class Document_Model_DbTable_Dbdocumenttype extends Zend_Db_Table_Abstract
 //     	if ($data['document_type']>0){
 //     		$sql.=" AND d.`document_type`=".$data['document_type'];
 //     	}
-//     	$sql.=" ORDER BY d.id DESC";
+    	$sql.=" ORDER BY dt.ordering ASC";
     	return $db->fetchAll($sql);
     }
     function getDocumentById($id){
@@ -41,6 +41,7 @@ class Document_Model_DbTable_Dbdocumenttype extends Zend_Db_Table_Abstract
 	    	$arr = array(
 	    			'title'=>$data['document_typekh'],
 	    			'title_en'=>$data['document_typeen'],
+	    			'ordering'=>$data['ordering'],
 					'parent_id'=>$data["document_type"],
 	    			'create_date'=>date("Y-m-d"),
 	    			'user_id'=>$this->getUserId(),
@@ -77,6 +78,7 @@ class Document_Model_DbTable_Dbdocumenttype extends Zend_Db_Table_Abstract
 				$arr = array(
 						'title'=>$data['document_typekh'],
 						'title_en'=>$data['document_typeen'],
+						'ordering'=>$data['ordering'],
 						'parent_id'=>$data["document_type"],
 						'create_date'=>date("Y-m-d"),
 						'user_id'=>$this->getUserId(),

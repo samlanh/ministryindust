@@ -11,9 +11,9 @@ dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.NumberTextBox");
 </script>
 <style>
-
 </style>
 <form id='company' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
 <script type="dojo/method" event="onSubmit">			
@@ -46,16 +46,19 @@ dojo.require("dijit.form.Textarea");
 								</td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("ឈ្មោះឯកសារ")?></td>
+								<td><?php echo $tr->translate("NAME_KHMER")?></td>
 								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_typekh" id="document_typekh" type="text"></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("ឈ្មោះឯកសារ")?></td>
+								<td><?php echo $tr->translate("NAME_ENG")?></td>
 								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" name="document_typeen" id="document_typeen" type="text"></td>
 							</tr>
-							
 							<tr>
-								<td><?php echo $tr->translate("កាលបរិឆ្ឆេទ")?></td>
+								<td><?php echo $tr->translate("ORDERING")?></td>
+								<td><input dojoType="dijit.form.NumberTextBox" required="1" class="fullside" name="ordering" id="ordering" type="text"></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("DATE")?></td>
 								<td><input dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd/MM/yyyy'}" class="fullside" name="date_register" id="date_register" value="<?php echo date("Y-m-d");?>" type="text"></td>
 							</tr>
 							<tr>

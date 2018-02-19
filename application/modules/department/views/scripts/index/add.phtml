@@ -39,7 +39,7 @@ $countlang = count($this->lang);
 <form action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">				
 			if(this.validate()) {
-				if(alias_require==0){ alert("Please check your title alias again.");return false;}
+				//if(alias_require==0){ alert("Please check your title alias again.");return false;}
 				loading();
 				return true;
 			}
@@ -219,7 +219,7 @@ var specialcharalias = [" ",",",".","?",";","/","{","}","|","[","]","~","!","@",
 			title_alias = title_alias.split(specialcharalias[i]).join('');
 		}
 		dijit.byId("title_alias").attr('value',title_alias.toLowerCase());
-		checkTitle();
+		//checkTitle();
 	}
 	
 	 function checkSpcialChar(event){
